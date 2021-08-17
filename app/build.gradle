@@ -41,6 +41,7 @@ dependencies {
 
     //google
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
 
     //hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
