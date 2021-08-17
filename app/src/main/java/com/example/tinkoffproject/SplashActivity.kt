@@ -15,16 +15,4 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun scheduleSplashScreen() {
-        val splashScreenDuration = getSplashScreenDuration()
-        Handler().postDelayed(
-            {
-
-            },
-            splashScreenDuration
-        )
-    }
-
-    private fun getSplashScreenDuration() = 2000L
-
 }
