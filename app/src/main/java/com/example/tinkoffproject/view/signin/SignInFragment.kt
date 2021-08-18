@@ -2,6 +2,7 @@ package com.example.tinkoffproject.view.signin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -39,6 +40,7 @@ class SignInFragment : Fragment(R.layout.fragment_signin), ActivityResultCaller 
     private fun updateUI(state: State<GoogleSignInAccount>) {
         when (state) {
             is State.ErrorState -> {
+                Log.d("kek", "${state.exception?.stackTraceToString()}")
                 Toast.makeText(context, getString(R.string.cant_sign_in), Toast.LENGTH_LONG).show()
             }
             is State.DataState -> {

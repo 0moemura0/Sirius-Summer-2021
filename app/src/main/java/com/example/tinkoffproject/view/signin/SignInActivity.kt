@@ -9,9 +9,9 @@ class SignInActivity : AppCompatActivity(R.layout.activity_signin) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.login_fragment_container, SignInFragment())
-            .commit()
+        if (savedInstanceState == null)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.login_fragment_container, SignInFragment())
+                .commit()
     }
 }
