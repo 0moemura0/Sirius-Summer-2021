@@ -16,4 +16,6 @@
     <string name="percents">Капитализация</string>
     <string name="salary">Зарплата</string>
     <string name="tools_groceries">Супермаркет</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
 </resources>

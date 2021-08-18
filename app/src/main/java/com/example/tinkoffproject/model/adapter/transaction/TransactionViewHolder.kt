@@ -38,7 +38,7 @@ class TransactionViewHolder(private val root: View) : RecyclerView.ViewHolder(ro
             }
             TransactionType.INCOME -> {
                 backgroundId = R.drawable.indicator_dot_red
-                typeTextId = R.string.expenses
+                typeTextId = R.string.income
             }
         }
         type.text = root.context.getString(typeTextId)
