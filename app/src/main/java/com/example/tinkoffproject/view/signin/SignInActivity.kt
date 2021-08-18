@@ -11,7 +11,7 @@ class SignInActivity : AppCompatActivity(R.layout.activity_signin) {
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.login_fragment_container, SignInFragment.newInstance())
+            .replace(R.id.login_fragment_container, SignInFragment())
             .commit()
     }
 }

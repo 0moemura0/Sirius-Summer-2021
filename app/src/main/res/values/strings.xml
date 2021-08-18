@@ -7,5 +7,6 @@
     <string name="has_no_notes">У вас пока нет записей</string>
     <string name="consumption">Расход</string>
     <string name="income">Доход</string>
-    <string name="added">Добавленo</string>
+    <string name="added">Добавлено</string>
+    <string name="cant_sign_in">Не получилось войти</string>
 </resources>

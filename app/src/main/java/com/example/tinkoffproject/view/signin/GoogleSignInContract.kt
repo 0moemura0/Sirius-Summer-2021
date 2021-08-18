@@ -9,7 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.tasks.Task
 
 class GoogleSignInContract :
-    ActivityResultContract<GoogleSignInClient, Task<GoogleSignInAccount>?>() {
+    ActivityResultContract<GoogleSignInClient, Task<GoogleSignInAccount>>() {
     override fun parseResult(resultCode: Int, intent: Intent?): Task<GoogleSignInAccount> =
         GoogleSignIn.getSignedInAccountFromIntent(intent)
 
