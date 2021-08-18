@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onBackPressed() {
         if (!Timer.isRunning()) {
             Timer.start()
-            Toast.makeText(this, "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.touch_again_for_exit), Toast.LENGTH_SHORT).show()
         } else {
             super.onBackPressed()
         }
