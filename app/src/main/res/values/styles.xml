@@ -6,7 +6,6 @@
     </style>
 
     <style name="TextAppearance.Description" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/view_text_normal</item>
         <item name="android:textColor">@color/black</item>
     </style>
@@ -17,6 +16,27 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="ElementCashType">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="EmptyView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray_light</item>
+    </style>
+
+    <style name="MainDescription">
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="MainCounter">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 
 </resources>

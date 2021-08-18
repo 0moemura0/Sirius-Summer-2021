@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TinkoffProject">
         <activity
-            android:name=".SplashActivity"
+            android:name=".view.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -19,7 +19,10 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".MainActivity"></activity>
+
+        <activity android:name=".view.carddetails.MainActivity" />
+
+        <activity android:name=".view.signin.SignInActivity" />
 
     </application>
 
