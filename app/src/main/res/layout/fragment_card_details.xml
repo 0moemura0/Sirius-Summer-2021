@@ -8,10 +8,10 @@
     tools:context=".view.carddetails.CardDetailsFragment">
 
     <LinearLayout
-        android:layout_marginHorizontal="@dimen/view_dimen_normal"
         android:id="@+id/section_cash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/view_dimen_normal"
         android:layout_marginBottom="@dimen/view_dimen_normal"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/rcv_transaction"

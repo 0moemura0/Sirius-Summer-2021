@@ -19,17 +19,17 @@
     </style>
 
     <style name="ElementCashType">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/view_text_like_small</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="EmptyView">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/view_text_like_small</item>
         <item name="android:textColor">@color/gray_light</item>
     </style>
 
     <style name="MainDescription">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/view_text_like_small</item>
         <item name="android:letterSpacing">0.02</item>
         <item name="android:textColor">@color/gray</item>
     </style>

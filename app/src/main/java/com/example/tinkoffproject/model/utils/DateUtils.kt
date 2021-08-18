@@ -23,7 +23,7 @@ fun isYesterday(date: Long, now: Calendar = Calendar.getInstance()): Boolean {
 fun isToday(date: Long): Boolean = DateUtils.isToday(date)
 
 
-fun isOneDay(date1: Long, date2: Long):Boolean {
+fun isOneDay(date1: Long, date2: Long): Boolean {
     val calendar1 = Calendar.getInstance().apply {
         timeInMillis = date1
     }

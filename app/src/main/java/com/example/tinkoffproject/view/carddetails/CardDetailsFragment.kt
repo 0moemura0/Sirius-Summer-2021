@@ -8,11 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.adapter.transaction.TransactionAdapter
-import com.example.tinkoffproject.model.adapter.transaction.TransactionDecorator
+import com.example.tinkoffproject.model.adapter.transaction.TransactionItemDecorator
+import com.example.tinkoffproject.model.adapter.transaction.TransactionTouchHelperCallback
 import com.example.tinkoffproject.model.dto.Transaction
 import com.example.tinkoffproject.model.dto.TransactionCategory
 import com.example.tinkoffproject.model.dto.TransactionType
@@ -52,19 +54,22 @@ private val data = listOf(
         type = TransactionType.INCOME,
         category = TransactionCategory.INCOME_PART_TIME_JOB,
         amount = 11000,
-    ),Transaction(
+    ),
+    Transaction(
         id = 7,
         date = 1629224699479,
         type = TransactionType.INCOME,
         category = TransactionCategory.INCOME_PART_TIME_JOB,
         amount = 11001,
-    ),Transaction(
+    ),
+    Transaction(
         id = 6,
         date = 1629224699479,
         type = TransactionType.INCOME,
         category = TransactionCategory.INCOME_PART_TIME_JOB,
         amount = 11010,
-    ),Transaction(
+    ),
+    Transaction(
         id = 5,
         date = 1629138299480,
         type = TransactionType.INCOME,
@@ -99,7 +104,6 @@ private val data = listOf(
         category = TransactionCategory.INCOME_PART_TIME_JOB,
         amount = 11245,
     ),
-
 )
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
@@ -135,12 +139,11 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private fun setupRecyclerView(view: View) {
         val transactionAdapter = TransactionAdapter().apply {
             //setHasStableIds(true)
-
         }
         val recycler: RecyclerView = view.findViewById(R.id.rcv_transaction)
 
         val offsetNormal = resources.getDimension(R.dimen.view_dimen_normal).toInt()
-        val decorator = TransactionDecorator(offsetNormal)
+        val decorator = TransactionItemDecorator(offsetNormal)
         recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = transactionAdapter
@@ -150,8 +153,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             transactionAdapter.setData(data)
         }, 3000)
 
-        /*val itemTouchHelper = ItemTouchHelper(SampleTouchCallback(sampleAdapter))
-        itemTouchHelper.attachToRecyclerView(recycler)*/
+        val itemTouchHelper = ItemTouchHelper(TransactionTouchHelperCallback())
+        itemTouchHelper.attachToRecyclerView(recycler)
 
 
     }

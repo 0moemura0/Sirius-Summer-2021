@@ -1,6 +1,5 @@
 package com.example.tinkoffproject.model.adapter.transaction
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.model.dto.Transaction
@@ -18,7 +17,6 @@ class TransactionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         val oldSize = itemCount
         data.clear()
         data.addAll(new)
-        Log.d("kek", "$data")
         notifyItemRangeRemoved(0, oldSize)
         notifyItemRangeInserted(0, new.size)
     }

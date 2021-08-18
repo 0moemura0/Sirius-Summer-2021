@@ -8,22 +8,28 @@
     <!--TODO разделить иконку и бекграунт-->
     <ImageView
         android:id="@+id/iv_transaction_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="@dimen/item_transaction_icon_side"
+        android:layout_height="@dimen/item_transaction_icon_side"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_expenses" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/br_icon_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:barrierMargin="@dimen/item_transaction_text_offset"
+        app:constraint_referenced_ids="iv_transaction_icon" />
 
     <TextView
         android:id="@+id/tv_transaction_category"
         style="@style/ItemOperationTextMain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         app:layout_constraintEnd_toStartOf="@id/tv_transaction_amount"
-        app:layout_constraintStart_toEndOf="@+id/iv_transaction_icon"
+        app:layout_constraintStart_toEndOf="@+id/br_icon_barrier"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/tools_groceries" />
 
@@ -32,9 +38,8 @@
         style="@style/ItemOperationTextAddition"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         app:layout_constraintEnd_toStartOf="@id/tv_transaction_date"
-        app:layout_constraintStart_toEndOf="@+id/iv_transaction_icon"
+        app:layout_constraintStart_toEndOf="@+id/br_icon_barrier"
         app:layout_constraintTop_toBottomOf="@id/tv_transaction_category"
         tools:text="@string/expenses" />
 
