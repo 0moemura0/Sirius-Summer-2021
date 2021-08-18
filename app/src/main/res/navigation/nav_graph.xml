@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/cardDetailsFragment">
+
+    <fragment
+        android:id="@+id/cardDetailsFragment"
+        android:name="com.example.tinkoffproject.view.carddetails.CardDetailsFragment"
+        android:label="fragment_card_details"
+        tools:layout="@layout/fragment_card_details">
+        <action
+            android:id="@+id/action_cardDetailsFragment_to_setCashFragment"
+            app:destination="@id/setCashFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setCashFragment"
+        android:name="com.example.tinkoffproject.view.operation_add.SetCashFragment"
+        android:label="SetCashFragment">
+        <action
+            android:id="@+id/action_setCashFragment_to_chooseTypeFragment"
+            app:destination="@id/chooseTypeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseTypeFragment"
+        android:name="com.example.tinkoffproject.view.operation_add.ChooseTypeFragment"
+        android:label="ChooseTypeFragment">
+        <action
+            android:id="@+id/action_chooseTypeFragment_to_chooseCategoryFragment"
+            app:destination="@id/chooseCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseCategoryFragment"
+        android:name="com.example.tinkoffproject.view.operation_add.ChooseCategoryFragment"
+        android:label="ChooseCategoryFragment">
+        <action
+            android:id="@+id/action_chooseCategoryFragment_to_newOperationFragment"
+            app:destination="@id/newOperationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newOperationFragment"
+        android:name="com.example.tinkoffproject.view.operation_add.NewOperationFragment"
+        android:label="NewOperationFragment" />
+</navigation>

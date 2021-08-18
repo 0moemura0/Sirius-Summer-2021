@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
@@ -32,7 +32,14 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             findViewById<TextView>(R.id.tv_cash).text = "12 000 ₽"
         }
         btn.setOnClickListener {
-            Toast.makeText(view.context, getString(R.string.added), Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.action_cardDetailsFragment_to_setCashFragment)
         }
+
+        updateToolbar()
+    }
+
+    private fun updateToolbar() {
+        activity?.findViewById<TextView>(R.id.title)?.text = ""
+        activity?.findViewById<ImageView>(R.id.iv_settings)?.visibility= View.VISIBLE
     }
 }

@@ -14,4 +14,6 @@
     <color name="blue_main">#5833EE</color>
     <color name="red_main">#F52222</color>
     <color name="green_main">#00B92D</color>
+    <color name="black_alpha">#1F000000</color>
+    <color name="black_alpha_light">#99000000</color>
 </resources>
