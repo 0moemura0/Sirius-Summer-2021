@@ -46,7 +46,8 @@ class SignInViewModel :
     fun initActivityLauncher(caller: ActivityResultCaller) {
         activityLauncher =
             caller.registerForActivityResult(GoogleSignInContract()) { result: Task<GoogleSignInAccount> ->
-                _signInState.value = State.DataState(result.result)
+                if(result.isSuccessful) _signInState.value = State.DataState(result.result)
+                else _signInState.value = State.ErrorState(result.exception)
             }
     }
 

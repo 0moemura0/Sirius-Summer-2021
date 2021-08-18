@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         } else {
             super.onBackPressed()
         }
-
-
     }
 
     object Timer : CountDownTimer(3000, 100) {
