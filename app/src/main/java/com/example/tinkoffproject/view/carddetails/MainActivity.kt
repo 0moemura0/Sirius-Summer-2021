@@ -10,6 +10,8 @@ import androidx.appcompat.widget.Toolbar
 import com.example.tinkoffproject.R
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+    private val timer = Timer()
+
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
 
@@ -32,15 +34,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onBackPressed() {
-        if (!Timer.isRunning()) {
-            Timer.start()
+        if (!timer.isRunning()) {
+            timer.start()
             Toast.makeText(this, getString(R.string.touch_again_for_exit), Toast.LENGTH_SHORT).show()
         } else {
             super.onBackPressed()
         }
     }
 
-    object Timer : CountDownTimer(3000, 100) {
+    class Timer : CountDownTimer(3000, 100) {
         private var isBackAvailable = false
         override fun onTick(millisUntilFinished: Long) {
             isBackAvailable = true
