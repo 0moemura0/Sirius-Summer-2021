@@ -43,8 +43,8 @@ class SignInFragment : Fragment(R.layout.fragment_signin), ActivityResultCaller 
             }
             is State.DataState -> {
                 val intent = Intent(requireContext(), MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
                 startActivity(intent)
+                activity?.finish()
             }
             is State.LoadingState -> {
             }
