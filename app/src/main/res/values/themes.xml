@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TinkoffProject" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.TinkoffProject" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -14,10 +14,11 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="ElementCashType">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/teal_200</item>
+        <item name="colorAccent">@color/black</item>
+        <item name="android:statusBarColor">@color/black</item>
     </style>
-
-
 </resources>

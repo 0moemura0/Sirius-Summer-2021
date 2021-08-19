@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".view.carddetails.CardDetailsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/section_cash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/view_dimen_normal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/tv_empty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside">
+
+            <TextView
+                android:id="@+id/tv_cash_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_dimen_normal"
+                android:layout_marginBottom="@dimen/view_dimen_not_so_small"
+                android:gravity="top"
+                android:textAppearance="@style/MainDescription"
+                tools:text="Кошелек 1" />
+
+            <TextView
+                android:id="@+id/tv_cash_sum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_dimen_not_so_small"
+                android:layout_marginBottom="@dimen/view_dimen_normal"
+                android:gravity="top"
+                android:textAppearance="@style/MainCounter"
+                android:textStyle="bold"
+                tools:text="0 ₽" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include
+                    android:id="@+id/income"
+                    layout="@layout/element_cash_delta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/view_dimen_not_so_small"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/consumption"
+                    layout="@layout/element_cash_delta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/view_dimen_not_so_small"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|top"
+            android:text="@string/has_no_notes"
+            android:textAppearance="@style/EmptyView"
+            app:layout_constraintBottom_toTopOf="@id/tv_add"
+            app:layout_constraintEnd_toEndOf="@id/section_cash"
+            app:layout_constraintStart_toStartOf="@id/section_cash"
+            app:layout_constraintTop_toBottomOf="@id/section_cash" />
+
+        <TextView
+            android:id="@+id/tv_add"
+            style="@style/LoginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_dimen_normal"
+            android:text="@string/operation_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_empty"
+            app:layout_constraintStart_toStartOf="@id/tv_empty"
+            app:layout_constraintTop_toBottomOf="@id/tv_empty" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

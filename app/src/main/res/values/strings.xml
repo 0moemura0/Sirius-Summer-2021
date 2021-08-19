@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Tinkoff Project</string>
+    <string name="control_res">Тут вы сможете контролировать свои доходы и расходы</string>
+    <string name="sign_in_google">Войти с помощью Google</string>
+    <string name="welcome">Добро пожаловать \nв КошелОК</string>
     <string name="operation_add">Добавить операцию</string>
+    <string name="has_no_notes">У вас пока нет записей</string>
+    <string name="consumption">Расход</string>
+    <string name="income">Доход</string>
+    <string name="added">Добавлено</string>
+    <string name="cant_sign_in">Не получилось войти</string>
+    <string name="touch_again_for_exit">Нажмите ещё раз для выхода</string>
 </resources>
