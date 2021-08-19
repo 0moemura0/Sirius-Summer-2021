@@ -19,12 +19,12 @@
     </style>
 
     <style name="ElementCashType">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/view_text_like_small</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="EmptyView">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/view_text_like_small</item>
         <item name="android:textColor">@color/gray_light</item>
     </style>
 
@@ -35,12 +35,30 @@
 
     <style name="Element">
         <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/view_text_like_small</item>
+        <item name="android:letterSpacing">0.02</item>
         <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="MainCounter">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">@dimen/view_text_extra_big</item>
         <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="ItemOperationTextMain">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="lineHeight">@dimen/text_line_height_normal</item>
+        <item name="android:textSize">@dimen/view_text_normal</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ItemOperationTextAddition">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="lineHeight">@dimen/text_line_height_small</item>
+        <item name="android:textSize">@dimen/view_text_small</item>
+        <item name="android:textColor">@color/gray_light</item>
     </style>
 
 </resources>

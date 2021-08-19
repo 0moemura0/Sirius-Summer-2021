@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         navHostFragment?.findNavController()
     }
 
+
     private val btnSetting by lazy {
         findViewById<View>(R.id.iv_settings)
     }
@@ -44,12 +45,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
             Timer.start()
             Toast.makeText(this, getString(R.string.touch_again_for_exit), Toast.LENGTH_SHORT)
                 .show()
+
         } else {
             super.onBackPressed()
         }
     }
 
-    object Timer : CountDownTimer(3000, 100) {
+    class Timer : CountDownTimer(3000, 100) {
         private var isBackAvailable = false
         override fun onTick(millisUntilFinished: Long) {
             isBackAvailable = true

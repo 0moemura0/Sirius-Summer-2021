@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--TODO разделить иконку и бекграунт-->
+    <ImageView
+        android:id="@+id/iv_transaction_icon"
+        android:layout_width="@dimen/item_transaction_icon_side"
+        android:layout_height="@dimen/item_transaction_icon_side"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_expenses" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/br_icon_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:barrierMargin="@dimen/item_transaction_text_offset"
+        app:constraint_referenced_ids="iv_transaction_icon" />
+
+    <TextView
+        android:id="@+id/tv_transaction_category"
+        style="@style/ItemOperationTextMain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/tv_transaction_amount"
+        app:layout_constraintStart_toEndOf="@+id/br_icon_barrier"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/tools_groceries" />
+
+    <TextView
+        android:id="@+id/tv_transaction_type"
+        style="@style/ItemOperationTextAddition"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/tv_transaction_date"
+        app:layout_constraintStart_toEndOf="@+id/br_icon_barrier"
+        app:layout_constraintTop_toBottomOf="@id/tv_transaction_category"
+        tools:text="@string/expenses" />
+
+    <TextView
+        android:id="@+id/tv_transaction_amount"
+        style="@style/ItemOperationTextMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_transaction_category"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="12 000 P" />
+
+    <TextView
+        android:id="@+id/tv_transaction_date"
+        style="@style/ItemOperationTextAddition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_transaction_amount"
+        tools:text="15:00" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

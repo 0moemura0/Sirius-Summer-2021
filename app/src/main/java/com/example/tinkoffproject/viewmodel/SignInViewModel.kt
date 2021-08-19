@@ -29,15 +29,6 @@ class SignInViewModel :
             .build()
     }
 
-
-    fun getSignInClient(activity: Activity): GoogleSignInClient {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-
-        return GoogleSignIn.getClient(activity, gso)
-    }
-
     fun signIn(activity: Activity) {
         val client = GoogleSignIn.getClient(activity, gso)
         activityLauncher.launch(client)
@@ -46,7 +37,7 @@ class SignInViewModel :
     fun initActivityLauncher(caller: ActivityResultCaller) {
         activityLauncher =
             caller.registerForActivityResult(GoogleSignInContract()) { result: Task<GoogleSignInAccount> ->
-                if(result.isSuccessful) _signInState.value = State.DataState(result.result)
+                if (result.isSuccessful) _signInState.value = State.DataState(result.result)
                 else _signInState.value = State.ErrorState(result.exception)
             }
     }
@@ -56,6 +47,4 @@ class SignInViewModel :
         if (account != null)
             _signInState.value = State.DataState(account)
     }
-
-
 }
