@@ -28,7 +28,7 @@
             android:layout_margin="@dimen/view_dimen_small"
             android:lines="1"
             android:textAppearance="@style/Element"
-            android:textSize="20dp"
+            android:textSize="@dimen/text_toolbar_size"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_settings"

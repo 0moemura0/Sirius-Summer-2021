@@ -7,4 +7,8 @@
     <dimen name="view_text_normal">16sp</dimen>
     <dimen name="view_text_big">24sp</dimen>
     <dimen name="view_dimen_not_so_small">4dp</dimen>
+    <dimen name="view_dimen_not_so_normal">12dp</dimen>
+    <dimen name="text_toolbar_size">20sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+
 </resources>
