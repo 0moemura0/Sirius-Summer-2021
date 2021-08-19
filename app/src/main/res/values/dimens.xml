@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //view
+    <dimen name="view_dimen_extra_small">2dp</dimen>
+    <dimen name="view_dimen_not_so_small">4dp</dimen>
     <dimen name="view_dimen_small">8dp</dimen>
     <dimen name="view_dimen_normal">16dp</dimen>
     <dimen name="view_dimen_big">24dp</dimen>
-    <dimen name="view_dimen_extra_small">2dp</dimen>
+    <dimen name="view_dimen_extra_big">32dp</dimen>
+
+    //text
+    <dimen name="view_text_like_small">12sp</dimen>
+    <dimen name="view_text_small">13sp</dimen>
     <dimen name="view_text_normal">16sp</dimen>
     <dimen name="view_text_big">24sp</dimen>
-    <dimen name="view_dimen_not_so_small">4dp</dimen>
+    <dimen name="view_text_extra_big">32sp</dimen>
+
+    //text line height
+    <dimen name="text_line_height_small">16dp</dimen>
+    <dimen name="text_line_height_normal">20dp</dimen>
+
+    //my style of naming - check it out!
+    <dimen name="item_transaction_icon_side">40dp</dimen>
+    <dimen name="item_transaction_text_offset">16dp</dimen>
+
 </resources>

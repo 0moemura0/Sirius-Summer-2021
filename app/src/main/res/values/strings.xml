@@ -5,9 +5,17 @@
     <string name="welcome">Добро пожаловать \nв КошелОК</string>
     <string name="operation_add">Добавить операцию</string>
     <string name="has_no_notes">У вас пока нет записей</string>
-    <string name="consumption">Расход</string>
+    <string name="expenses">Расход</string>
     <string name="income">Доход</string>
     <string name="added">Добавлено</string>
     <string name="cant_sign_in">Не получилось войти</string>
     <string name="touch_again_for_exit">Нажмите ещё раз для выхода</string>
+
+    <string name="gift">Подарок</string>
+    <string name="part_time_job">Подработка</string>
+    <string name="percents">Капитализация</string>
+    <string name="salary">Зарплата</string>
+    <string name="tools_groceries">Супермаркет</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
 </resources>
