@@ -2,7 +2,6 @@ package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -10,6 +9,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.formatDate
+import com.example.tinkoffproject.view.carddetails.MainActivity
+import com.example.tinkoffproject.view.carddetails.ToolbarType
+import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 import java.util.*
 
@@ -42,15 +44,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
                     .show()
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        updateToolbar()
-    }
-
-    private fun updateToolbar() {
-        activity?.findViewById<TextView>(R.id.title)?.text = getString(R.string.operation_new)
-        activity?.findViewById<ImageView>(R.id.iv_settings)?.visibility = View.INVISIBLE
+        val update: UpdatableToolBar = (activity as MainActivity)
+        update.updateToolbar(getString(R.string.operation_new), ToolbarType.ADD_OPERATION)
     }
 }

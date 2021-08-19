@@ -2,13 +2,15 @@ package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.view.carddetails.MainActivity
+import com.example.tinkoffproject.view.carddetails.ToolbarType
+import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
 class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
@@ -36,7 +38,7 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
         val cons: TextView = view.findViewById(R.id.tv_consumption)
         val btn: TextView = view.findViewById(R.id.btn)
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             selectedType = savedInstanceState.getSerializable(KEY_SELECTED_TYPE) as CategoryType?
         }
         var isNextAvailable = selectedType != null
@@ -68,19 +70,13 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
                 viewModel._type.value = getString(selectedType?.catNameId!!)
                 findNavController().navigate(R.id.action_chooseTypeFragment_to_chooseCategoryFragment)
             } else {
-                Toast.makeText(view.context, getString(R.string.enter_value), Toast.LENGTH_SHORT).show()
+                Toast.makeText(view.context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
-        updateToolbar()
-    }
-
-    private fun updateToolbar() {
-        activity?.findViewById<TextView>(R.id.title)?.text = getString(R.string.operation_choose_type)
-        activity?.findViewById<ImageView>(R.id.iv_settings)?.visibility = View.INVISIBLE
+        val update: UpdatableToolBar = (activity as MainActivity)
+        update.updateToolbar(getString(R.string.operation_choose_type), ToolbarType.ADD_OPERATION)
     }
 
     private fun select(selected: View, unselected: View) {

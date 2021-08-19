@@ -17,7 +17,6 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         val laouyt1: View = view.findViewById(R.id.income)
         val laouyt2: View = view.findViewById(R.id.consumption)
         val btn: TextView = view.findViewById(R.id.tv_add)
-
         cashSum.text = "0 ₽"
         cashName.text = "Кошелек 1"
 
@@ -34,12 +33,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         btn.setOnClickListener {
             findNavController().navigate(R.id.action_cardDetailsFragment_to_setCashFragment)
         }
-
-        updateToolbar()
+        val update: UpdatableToolBar = (activity as MainActivity)
+        update.updateToolbar("")
     }
 
-    private fun updateToolbar() {
-        activity?.findViewById<TextView>(R.id.title)?.text = ""
-        activity?.findViewById<ImageView>(R.id.iv_settings)?.visibility= View.VISIBLE
-    }
 }

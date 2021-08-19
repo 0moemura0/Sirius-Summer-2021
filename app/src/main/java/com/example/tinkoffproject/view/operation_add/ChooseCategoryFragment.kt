@@ -13,6 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.view.carddetails.MainActivity
+import com.example.tinkoffproject.view.carddetails.ToolbarType
+import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
 class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
@@ -29,13 +32,6 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
 
     private val categoryAdapter = CategoryAdapter()
 
-    private val keysIncome = listOf(
-        IncomeObject(IncomeType.GIFT),
-        IncomeObject(IncomeType.PART_TIME),
-        IncomeObject(IncomeType.PERSENTS),
-        IncomeObject(IncomeType.SALARY)
-    )
-
     companion object {
         fun isSelectedDefault(selected: Int) = selected == INT_DEFAULT
         private const val INT_DEFAULT = -1
@@ -50,6 +46,13 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val keysIncome = listOf(
+            IncomeObject(IncomeType.GIFT),
+            IncomeObject(IncomeType.PART_TIME),
+            IncomeObject(IncomeType.PERSENTS),
+            IncomeObject(IncomeType.SALARY)
+        )
+
         val recycler: RecyclerView = view.findViewById(R.id.rv_category)
         var isNextAvailable: Boolean
 
@@ -57,8 +60,6 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
             ?.getInt(KEY_CURRENT_SELECTED) ?: INT_DEFAULT
         if (!isSelectedDefault(oldSelected))
             keysIncome[oldSelected].isChecked = true
-        isNextAvailable = !isSelectedDefault(categoryAdapter.currentSelected)
-
 
         categoryAdapter.apply {
             setData(keysIncome)
@@ -69,6 +70,8 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
                 }
             })
         }
+
+        isNextAvailable = !isSelectedDefault(categoryAdapter.currentSelected)
 
         recycler.apply {
             layoutManager = LinearLayoutManager(view.context)
@@ -87,17 +90,9 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
                     .show()
             }
         }
-    }
 
-
-    override fun onStart() {
-        super.onStart()
-        updateToolbar()
-    }
-
-    private fun updateToolbar() {
-        activity?.findViewById<TextView>(R.id.title)?.text = getString(R.string.choose_category)
-        activity?.findViewById<ImageView>(R.id.iv_settings)?.visibility = View.INVISIBLE
+        val update: UpdatableToolBar = (activity as MainActivity)
+        update.updateToolbar(getString(R.string.choose_category), ToolbarType.ADD_OPERATION)
     }
 
     interface OnItemSelectListener {
@@ -125,6 +120,7 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
         }
 
         fun setData(_data: List<IncomeObject>) {
+            data.clear()
             data.addAll(_data)
             notifyDataSetChanged()
         }
