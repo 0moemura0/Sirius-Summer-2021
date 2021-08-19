@@ -15,6 +15,23 @@
     <string name="part_time_job">Подработка</string>
     <string name="percents">Капитализация</string>
     <string name="salary">Зарплата</string>
+
+
+    <string name="amount">Сумма</string>
+    <string name="type">Тип</string>
+    <string name="main">Основные</string>
+    <string name="category">Категория</string>
+    <string name="settings_additional">Дополнительные настройки</string>
+    <string name="date">Дата операции</string>
+
+    <string name="date_format_default">dd MMM</string>
+    <string name="operation_new">Новая операция</string>
+    <string name="enter_value">Введите значение</string>
+    <string name="enter_count">Введите сумму</string>
+    <string name="operation_choose_type">Выберите тип операции</string>
+    <string name="choose_category">Выберите категорию</string>
+    <string name="done">Готово</string>
+    <string name="operation_sum">Сумма операции</string>
     <string name="tools_groceries">Супермаркет</string>
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>

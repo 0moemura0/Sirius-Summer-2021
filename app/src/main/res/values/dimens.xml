@@ -9,10 +9,12 @@
     <dimen name="view_dimen_extra_big">32dp</dimen>
 
     //text
+    <dimen name="view_dimen_not_so_normal">12dp</dimen>
     <dimen name="view_text_like_small">12sp</dimen>
     <dimen name="view_text_small">13sp</dimen>
     <dimen name="view_text_normal">16sp</dimen>
     <dimen name="view_text_big">24sp</dimen>
+    <dimen name="text_toolbar_size">20sp</dimen>
     <dimen name="view_text_extra_big">32sp</dimen>
 
     //text line height

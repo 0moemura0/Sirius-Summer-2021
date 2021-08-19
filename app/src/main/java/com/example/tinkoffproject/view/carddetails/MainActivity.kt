@@ -1,30 +1,35 @@
 package com.example.tinkoffproject.view.carddetails
 
-import android.os.Bundle
+import android.annotation.SuppressLint
 import android.os.CountDownTimer
-import android.os.PersistableBundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    private val timer = Timer()
+class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar {
+    private val navHostFragment by lazy {
+        supportFragmentManager.findFragmentById(R.id.main_fragment_container)
+    }
+    private val navController by lazy {
+        navHostFragment?.findNavController()
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_container, CardDetailsFragment())
-            .commit()
+    private val btnSetting by lazy {
+        findViewById<View>(R.id.iv_settings)
+    }
+    private val btnBack by lazy {
+        findViewById<View>(R.id.iv_back)
+    }
+    private val toolbatTitle by lazy {
+        findViewById<TextView>(R.id.title)
+    }
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar_main)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val btnSetting: View = toolbar.findViewById(R.id.iv_settings)
-        val btnBack: View = toolbar.findViewById(R.id.iv_back)
+    override fun onStart() {
+        super.onStart()
         btnSetting.setOnClickListener {
             Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
         }
@@ -33,10 +38,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onBackPressed() {
-        if (!timer.isRunning()) {
-            timer.start()
-            Toast.makeText(this, getString(R.string.touch_again_for_exit), Toast.LENGTH_SHORT).show()
+        val isMainPage = navController?.currentDestination?.id == R.id.cardDetailsFragment
+        if (!Timer.isRunning() && isMainPage) {
+            Timer.start()
+            Toast.makeText(this, getString(R.string.touch_again_for_exit), Toast.LENGTH_SHORT)
+                .show()
+
         } else {
             super.onBackPressed()
         }
@@ -53,6 +62,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         fun isRunning() = isBackAvailable
+    }
+
+    override fun updateToolbar(title: String, type: ToolbarType) {
+        toolbatTitle.text = title
+        toolbatTitle.visibility = if (type.isTitelVisible) View.VISIBLE else View.INVISIBLE
+        btnSetting.visibility = if (type.isSettingsVisible) View.VISIBLE else View.INVISIBLE
+        btnBack.visibility = if (type.isBackVisible) View.VISIBLE else View.INVISIBLE
     }
 
 }
