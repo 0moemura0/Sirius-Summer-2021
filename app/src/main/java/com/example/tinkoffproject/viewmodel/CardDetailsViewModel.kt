@@ -15,9 +15,9 @@ class CardDetailsViewModel : ViewModel() {
     private val _wallet = MutableLiveData<State<Wallet>>(
         State.DataState(
             Wallet(
-                id = 0, name = "Кошелёк 1", incomeAmount = 1000099564, expensesAmount = 10234,
+                id = 0, name = "Кошелёк 1", incomeAmount = 10000964, expensesAmount = 10,
                 currency = Currency("RUB", 10F),
-                limit = null
+                limit = 11
 
             )
         )

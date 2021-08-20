@@ -14,29 +14,38 @@
 
         <ImageView
             android:id="@+id/iv_dot"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
+            android:layout_width="@dimen/view_dimen_small"
+            android:layout_height="@dimen/view_dimen_small"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/view_dimen_small"
             android:src="@drawable/indicator_dot_green" />
 
         <TextView
             android:id="@+id/tv_type"
+            style="@style/ElementCashType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.6"
-            android:gravity="top"
-            android:textAppearance="@style/ElementCashType"
             tools:text="Доход" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_cash"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_dimen_normal"
-        android:gravity="top"
-        android:textAppearance="@style/ElementCashType"
-        android:textSize="@dimen/view_text_normal"
-        tools:text="12 000 ₽" />
+        android:layout_margin="@dimen/view_dimen_normal">
+
+        <TextView
+            android:id="@+id/tv_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/ElementCashAmount"
+            tools:text="12 000 ₽" />
+
+        <TextView
+            android:id="@+id/tv_cash_limit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ElementCashLimit"
+            tools:text="/12 000 ₽" />
+    </LinearLayout>
+
 </LinearLayout>

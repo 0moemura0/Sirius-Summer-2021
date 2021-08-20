@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.dto.Wallet
 import com.example.tinkoffproject.model.utils.State
@@ -118,8 +120,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var layoutExpenses: View
     private lateinit var layoutExpensesCash: TextView
     private lateinit var walletName: TextView
-
-    private lateinit var updateActivity: UpdatableToolBar
+    private lateinit var walletLimit: TextView
 
     private val transactionAdapter: TransactionAdapter by lazy {
         TransactionAdapter()
@@ -145,8 +146,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         layoutExpenses = requireView().findViewById(R.id.consumption)
         layoutExpensesCash = layoutExpenses.findViewById(R.id.tv_cash)
         walletName = requireView().findViewById(R.id.tv_cash_name)
+        walletLimit = layoutExpenses.findViewById(R.id.tv_cash_limit)
 
-        updateActivity = activity as MainActivity
     }
 
     private fun setupDataObservers() {
@@ -172,6 +173,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     }
 
     private fun setupToolbar() {
+        val updateActivity = activity as MainActivity
         updateActivity.updateToolbar("")
     }
 
@@ -190,9 +192,33 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 layoutIncomeCash.text = formatMoney(wallet.incomeAmount, wallet.currency)
                 layoutExpensesCash.text = formatMoney(wallet.expensesAmount, wallet.currency)
 
+                updateLimitInfo(wallet.limit, wallet.expensesAmount, wallet.currency)
             }
-
         }
+    }
+
+    private fun updateLimitInfo(limit: Int?, expenses: Int, currency: Currency) {
+        val colorId: Int
+        val alpha: Float
+        val text: String
+        if (limit == null) {
+            text = ""
+            colorId = R.color.white
+            alpha = 1f
+        } else {
+            text = " / ${formatMoney(limit, currency)}"
+            if (limit > expenses) {
+                colorId = R.color.red_main
+                alpha = 1f
+            } else {
+                colorId = R.color.white
+                alpha =  0.6f
+            }
+        }
+
+        walletLimit.alpha = alpha
+        walletLimit.text = text
+        walletLimit.setTextColor(ContextCompat.getColor(walletLimit.context, colorId))
     }
 
     private fun updateTransaction(state: State<List<Transaction>>) {
