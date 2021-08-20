@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.data.SelectableCategory
 
-class CategoryViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
+class CategoryViewHolder(root: View) : RecyclerView.ViewHolder(root) {
 
     private val icon: ImageView = root.findViewById(R.id.iv_category_icon)
     private val textView: TextView = root.findViewById(R.id.tv_category_name)

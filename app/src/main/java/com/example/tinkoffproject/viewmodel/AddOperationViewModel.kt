@@ -36,7 +36,10 @@ class AddOperationViewModel : ViewModel() {
         }
 
     fun setCategory(position: Int) {
-        category.value = categoriesIncome.value?.get(position)
+        when (type.value) {
+            CategoryType.INCOME -> categoriesIncome.value?.get(position)
+            CategoryType.EXPENSE -> categoriesExpenses.value?.get(position)
+        }
     }
 
     fun prepareNext() {

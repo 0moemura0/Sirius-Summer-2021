@@ -1,7 +1,7 @@
 package com.example.tinkoffproject.model.utils
 
+import android.util.Log
 import com.example.tinkoffproject.model.data.dto.Currency
-import java.text.DecimalFormat
 import java.util.*
 
 fun formatMoney(amount: Int, currency: Currency): String {
@@ -10,10 +10,19 @@ fun formatMoney(amount: Int, currency: Currency): String {
     return "${formatMoney(amount)} $currencySymbol"
 }
 
-// :'(
-//TODO normal format or set max value
-//
-private val moneyFormat = DecimalFormat("### ".repeat(10))
-
-fun formatMoney(amount: Int): String =
-    amount.toString().format(moneyFormat)
+private const val SPACE = ' '
+fun formatMoney(amount: Int): String {
+    val builder = StringBuilder()
+    builder.append(amount)
+    var numberCount = 0
+    var myIndex = builder.length - 1
+    for (i in builder.length - 1 downTo 0) {
+        if (numberCount == 2) {
+            builder.insert(myIndex, SPACE)
+            myIndex++
+            numberCount = 0
+        } else numberCount++
+        myIndex--
+    }
+    return builder.toString()
+}
