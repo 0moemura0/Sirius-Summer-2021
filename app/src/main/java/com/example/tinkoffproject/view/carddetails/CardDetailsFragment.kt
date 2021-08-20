@@ -187,8 +187,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 walletAmount.text =
                     formatMoney(wallet.incomeAmount - wallet.expensesAmount, wallet.currency)
 
-                layoutIncomeCash.text = formatMoney(wallet.incomeAmount)
-                layoutExpensesCash.text = formatMoney(wallet.expensesAmount)
+                layoutIncomeCash.text = formatMoney(wallet.incomeAmount, wallet.currency)
+                layoutExpensesCash.text = formatMoney(wallet.expensesAmount, wallet.currency)
 
             }
 
