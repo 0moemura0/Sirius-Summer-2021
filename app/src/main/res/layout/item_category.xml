@@ -7,15 +7,11 @@
     android:layout_marginHorizontal="@dimen/view_dimen_normal"
     android:layout_marginVertical="@dimen/view_dimen_small">
 
-    <ImageView
-        android:id="@+id/iv_category_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/indicator_dot_green"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_card"
+    <include
+        layout="@layout/category_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

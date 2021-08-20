@@ -12,8 +12,10 @@ import com.example.tinkoffproject.model.utils.formatMoney
 fun getResId(categoryIconId: Int): Int {
     return when (categoryIconId) {
         //TODO delete this icons and download all others
-        0 -> R.drawable.ic_expenses
+        // TODO есть проблема, а как мы будет ставить соответсвие кастомным в рантайме?
+        0 -> R.drawable.ic_shop
         1 -> R.drawable.ic_income
+        2 -> R.drawable.ic_sport
         //TODO add error drawable
         else -> R.drawable.ic_income
     }

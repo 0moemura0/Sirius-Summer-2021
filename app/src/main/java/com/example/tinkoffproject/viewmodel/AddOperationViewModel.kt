@@ -10,19 +10,21 @@ import com.example.tinkoffproject.model.data.network.ApiService
 import com.example.tinkoffproject.model.data.network.dto.CategoryNetwork
 import com.example.tinkoffproject.view.data.CategoryType
 import com.example.tinkoffproject.view.data.SelectableCategory
+import java.util.*
 
 class AddOperationViewModel : ViewModel() {
     private lateinit var apiService: ApiService
 
-    val isIncome = MutableLiveData<CategoryType>()
+    val type = MutableLiveData<CategoryType>()
     val category = MutableLiveData<Category>()
     val amount = MutableLiveData<Int>()
+
+    val date = MutableLiveData<Date>(Date())
 
     private val categoriesIncome: MutableLiveData<List<Category>> = MutableLiveData()
     private val categoriesExpenses: MutableLiveData<List<Category>> = MutableLiveData()
 
     val isNextAvailable: MutableLiveData<Boolean> = MutableLiveData(false)
-
 
     val selectableCategoriesIncome: LiveData<List<SelectableCategory>> =
         Transformations.map(categoriesIncome) { categories ->
@@ -41,17 +43,33 @@ class AddOperationViewModel : ViewModel() {
         isNextAvailable.value = false
     }
 
-    fun loadIncomeCategories() {
-        if (categoriesIncome.value == null) {
-            categoriesIncome.value =
-                listOf(CategoryNetwork("Супермаркет", 0, "#F52222").toCategory())
+    fun loadCategories() {
+        when (type.value) {
+            CategoryType.INCOME -> loadIncomeCategories()
+            CategoryType.EXPENSE -> loadExpensesCategories()
         }
     }
 
-    fun loadExpensesCategories() {
+    private fun loadIncomeCategories() {
+        if (categoriesIncome.value == null) {
+            categoriesIncome.value =
+                listOf(
+                    CategoryNetwork("Зарплата", 1, "#00B92D").toCategory(),
+                )
+        }
+    }
+
+    private fun loadExpensesCategories() {
         if (categoriesExpenses.value == null) {
             categoriesExpenses.value =
-                listOf(CategoryNetwork("Зарплата", 1, "#00B92D").toCategory())
+                listOf(
+                    CategoryNetwork("Супермаркеты", 0, "#339FEE").toCategory(),
+                    CategoryNetwork("Спортзал", 2, "#994747").toCategory(),
+                )
         }
+    }
+
+    fun addTransaction() {
+        // TODO нельзя использовать Transaction, но использовать TransactionNetwork неправильно
     }
 }

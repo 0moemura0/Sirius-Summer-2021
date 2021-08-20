@@ -6,14 +6,13 @@
     android:layout_height="wrap_content">
 
     <!--TODO разделить иконку и бекграунт-->
-    <ImageView
-        android:id="@+id/iv_transaction_icon"
-        android:layout_width="@dimen/item_transaction_icon_side"
-        android:layout_height="@dimen/item_transaction_icon_side"
+    <include
+        layout="@layout/category_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_expenses" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/br_icon_barrier"
@@ -21,7 +20,7 @@
         android:layout_height="wrap_content"
         app:barrierDirection="end"
         app:barrierMargin="@dimen/item_transaction_text_offset"
-        app:constraint_referenced_ids="iv_transaction_icon" />
+        app:constraint_referenced_ids="iv_category_icon" />
 
     <TextView
         android:id="@+id/tv_transaction_category"

@@ -14,6 +14,7 @@ import com.example.tinkoffproject.view.adapter.category.CategoryAdapter
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.view.data.CategoryType
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
@@ -24,10 +25,7 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadIncomeCategories()
-        viewModel.category.observe(viewLifecycleOwner, {
-            viewModel.isNextAvailable.value = true
-        })
+        viewModel.loadCategories()
         setupRecyclerView()
         setupNextButton()
         setupToolbar()
@@ -48,7 +46,11 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     private fun setupRecyclerView() {
         val recycler: RecyclerView = requireView().findViewById(R.id.rv_category)
         categoryAdapter.apply {
-            viewModel.selectableCategoriesIncome.observe(viewLifecycleOwner, { setData(it) })
+            when (viewModel.type.value) {
+                CategoryType.INCOME -> viewModel.selectableCategoriesIncome
+                CategoryType.EXPENSE -> viewModel.selectableCategoriesExpenses
+                else -> viewModel.selectableCategoriesIncome
+            }.observe(viewLifecycleOwner, { setData(it) })
             setOnItemClickListener(object : OnItemSelectListener {
                 override fun onItemSelect(position: Int) {
                     viewModel.setCategory(position)

@@ -1,15 +1,17 @@
 package com.example.tinkoffproject.view.adapter.category
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.data.SelectableCategory
 
-class CategoryViewHolder(root: View) : RecyclerView.ViewHolder(root) {
+class CategoryViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
 
     private val icon: ImageView = root.findViewById(R.id.iv_category_icon)
     private val textView: TextView = root.findViewById(R.id.tv_category_name)
@@ -17,6 +19,8 @@ class CategoryViewHolder(root: View) : RecyclerView.ViewHolder(root) {
 
     fun bind(i: SelectableCategory) {
         icon.setImageResource(i.category.resIconId)
+        icon.backgroundTintList = ColorStateList.valueOf(i.category.color)
+
         textView.text = i.category.name
         checked.visibility = if (i.isChecked) View.VISIBLE else View.INVISIBLE
     }

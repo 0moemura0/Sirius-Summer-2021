@@ -22,7 +22,8 @@
     <dimen name="text_line_height_normal">20dp</dimen>
 
     //my style of naming - check it out!
-    <dimen name="item_transaction_icon_side">40dp</dimen>
+    <dimen name="category_icon_side">40dp</dimen>
+    <dimen name="indicator_side">8dp</dimen>
     <dimen name="item_transaction_text_offset">16dp</dimen>
 
 </resources>

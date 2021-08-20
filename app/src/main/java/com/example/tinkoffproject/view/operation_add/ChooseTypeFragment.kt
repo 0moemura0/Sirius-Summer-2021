@@ -26,7 +26,7 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
 
         initViews()
 
-        viewModel.isIncome.observe(viewLifecycleOwner, {
+        viewModel.type.observe(viewLifecycleOwner, {
             when (it) {
                 CategoryType.INCOME -> switchSelection(income, cons)
                 CategoryType.EXPENSE -> switchSelection(cons, income)
@@ -46,10 +46,10 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
 
     private fun setupSelectors() {
         income.setOnClickListener {
-            viewModel.isIncome.value = CategoryType.INCOME
+            viewModel.type.value = CategoryType.INCOME
         }
         cons.setOnClickListener {
-            viewModel.isIncome.value = CategoryType.EXPENSE
+            viewModel.type.value = CategoryType.EXPENSE
         }
     }
 

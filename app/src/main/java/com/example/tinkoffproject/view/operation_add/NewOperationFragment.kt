@@ -14,7 +14,6 @@ import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
-import java.util.*
 
 class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private val viewModel: AddOperationViewModel by activityViewModels()
@@ -36,13 +35,18 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         val date: TextView = requireView().findViewById(R.id.tv_date)
 
         // TODO replace on formatMoney(viewModel._sum.value, currency)
-        sum.text = "${viewModel.amount.value.toString()} ₽"
-
-        type.text =
-            requireContext().getString(viewModel.isIncome.value?.nameResId ?: R.string.didnt_chosen)
-        category.text =
-            viewModel.category.value?.name ?: requireContext().getString(R.string.didnt_chosen)
-        date.text = formatDate(requireView().context, Date(), R.string.date_format_default)
+        viewModel.amount.observe(viewLifecycleOwner, {
+            sum.text = "$it ₽"
+        })
+        viewModel.type.observe(viewLifecycleOwner, {
+            type.text = requireContext().getString(it.nameResId)
+        })
+        viewModel.category.observe(viewLifecycleOwner, {
+            category.text = it.name
+        })
+        viewModel.date.observe(viewLifecycleOwner, {
+            formatDate(requireView().context, it, R.string.date_format_default)
+        })
     }
 
     private fun setupNextButton() {
