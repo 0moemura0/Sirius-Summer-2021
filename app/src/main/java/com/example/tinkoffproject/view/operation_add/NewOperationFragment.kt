@@ -2,6 +2,7 @@ package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -19,15 +20,20 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private val viewModel: AddOperationViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-        val sum: TextView = view.findViewById(R.id.tv_sum)
-        val type: TextView = view.findViewById(R.id.tv_type)
-        val category: TextView = view.findViewById(R.id.tv_category)
-        val date: TextView = view.findViewById(R.id.tv_date)
 
-        val curDate = Date()
+        setData()
+        setupNextButton()
+        setupToolbar()
+        setupNavigation()
+        viewModel.isNextAvailable.value = true
+    }
 
+    private fun setData() {
+        val sum: TextView = requireView().findViewById(R.id.tv_sum)
+        val type: TextView = requireView().findViewById(R.id.tv_type)
+        val category: TextView = requireView().findViewById(R.id.tv_category)
+        val date: TextView = requireView().findViewById(R.id.tv_date)
 
         // TODO replace on formatMoney(viewModel._sum.value, currency)
         sum.text = "${viewModel.amount.value.toString()} ₽"
@@ -36,21 +42,44 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
             requireContext().getString(viewModel.isIncome.value?.nameResId ?: R.string.didnt_chosen)
         category.text =
             viewModel.category.value?.name ?: requireContext().getString(R.string.didnt_chosen)
-        date.text = formatDate(view.context, curDate, R.string.date_format_default)
+        date.text = formatDate(requireView().context, Date(), R.string.date_format_default)
+    }
 
-
-        viewModel.isNextAvailable.value = true
-
-        val btn: TextView = view.findViewById(R.id.btn)
-        btn.setOnClickListener {
+    private fun setupNextButton() {
+        requireView().findViewById<TextView>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
                 viewModel.prepareNext()
                 findNavController().popBackStack(R.id.cardDetailsFragment, false)
             } else {
-                Toast.makeText(view.context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
+                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
             }
         }
+    }
+
+    private fun setupNavigation() {
+        val amountView: LinearLayout = requireView().findViewById(R.id.ll_amount_container)
+        val typeView: LinearLayout = requireView().findViewById(R.id.ll_type_container)
+        val categoryView: LinearLayout = requireView().findViewById(R.id.ll_category_container)
+        val dateView: LinearLayout = requireView().findViewById(R.id.ll_date_container)
+
+        amountView.setOnClickListener {
+            findNavController().navigate(R.id.action_newOperationFragment_to_setCashFragment)
+        }
+
+        typeView.setOnClickListener {
+            findNavController().navigate(R.id.action_newOperationFragment_to_chooseTypeFragment)
+        }
+        categoryView.setOnClickListener {
+            findNavController().navigate(R.id.action_newOperationFragment_to_chooseCategoryFragment)
+        }
+
+        dateView.setOnClickListener {
+            //TODO
+        }
+    }
+
+    private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)
         update.updateToolbar(getString(R.string.operation_new), ToolbarType.ADD_OPERATION)
     }
