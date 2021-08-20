@@ -31,6 +31,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/ll_amount_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal">
@@ -63,6 +64,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_type_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal">
@@ -94,6 +96,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_category_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal">
@@ -133,6 +136,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/ll_date_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal">

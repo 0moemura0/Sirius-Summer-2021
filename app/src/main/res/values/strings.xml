@@ -33,8 +33,12 @@
     <string name="choose_category">Выберите категорию</string>
     <string name="done">Готово</string>
     <string name="operation_sum">Сумма операции</string>
+    <string name="didnt_chosen">Не выбрано</string>
+    <string name="wrong_input">Некорректное значение</string>
     <string name="tools_groceries">Супермаркет</string>
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>
     <string name="date_format_only_time">hh:mm</string>
+
+    <string name="selected">Выбрано</string>
 </resources>

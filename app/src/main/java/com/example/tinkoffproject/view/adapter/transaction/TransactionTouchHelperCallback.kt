@@ -30,7 +30,7 @@ class TransactionTouchHelperCallback :
         actionState: Int,
         isCurrentlyActive: Boolean
     ) {
-        if(viewHolder.itemViewType == TransactionAdapter.TYPE_NO_TRANSACTION) return
+        if (viewHolder.itemViewType == TransactionAdapter.TYPE_NO_TRANSACTION) return
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 

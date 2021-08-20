@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
-import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
-import com.example.tinkoffproject.view.adapter.transaction.TransactionTouchHelperCallback
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.dto.Wallet
 import com.example.tinkoffproject.model.utils.State
 import com.example.tinkoffproject.model.utils.formatMoney
+import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
+import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
+import com.example.tinkoffproject.view.adapter.transaction.TransactionTouchHelperCallback
 import com.example.tinkoffproject.viewmodel.CardDetailsViewModel
 
 private val data: List<Transaction> = emptyList()/*listOf(

@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -15,11 +14,13 @@ import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
+import com.google.android.material.textfield.TextInputLayout
 
 class SetCashFragment : Fragment(R.layout.operation_set_cash) {
 
     private val viewModel: AddOperationViewModel by activityViewModels()
     private lateinit var inputEditText: EditText
+    private lateinit var inputTextLayout: TextInputLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,17 +29,21 @@ class SetCashFragment : Fragment(R.layout.operation_set_cash) {
         setupNextButton()
         setupInputText()
         setupToolbar()
-
     }
 
     private fun setupInputText() {
         inputEditText.doAfterTextChanged {
-            viewModel.isNextAvailable.value = !it.isNullOrEmpty()
+            val isNullOrEmpty = it.isNullOrEmpty()
+            if (isNullOrEmpty) inputTextLayout.error =
+                requireContext().getString(R.string.wrong_input)
+            viewModel.isNextAvailable.value = !isNullOrEmpty
         }
     }
 
     private fun initViews() {
         inputEditText = requireView().findViewById(R.id.et_sum)
+        inputTextLayout = requireView().findViewById(R.id.input_sum)
+
     }
 
     private fun setupNextButton() {

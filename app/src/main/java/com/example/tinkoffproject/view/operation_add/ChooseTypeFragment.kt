@@ -2,6 +2,8 @@ package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,8 +18,8 @@ import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
 class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private val viewModel: AddOperationViewModel by activityViewModels()
-    private lateinit var income: TextView
-    private lateinit var cons: TextView
+    private lateinit var income: LinearLayout
+    private lateinit var cons: LinearLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,9 +28,10 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
 
         viewModel.isIncome.observe(viewLifecycleOwner, {
             when (it) {
-                CategoryType.INCOME -> select(income, cons)
-                CategoryType.EXPENSE -> select(cons, income)
+                CategoryType.INCOME -> switchSelection(income, cons)
+                CategoryType.EXPENSE -> switchSelection(cons, income)
             }
+            viewModel.isNextAvailable.value = true
         })
 
         setupSelectors()
@@ -37,18 +40,16 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     }
 
     private fun initViews() {
-        income = requireView().findViewById(R.id.tv_income)
-        cons = requireView().findViewById(R.id.tv_consumption)
+        income = requireView().findViewById(R.id.ll_section_type_income)
+        cons = requireView().findViewById(R.id.ll_section_type_expenses)
     }
 
     private fun setupSelectors() {
         income.setOnClickListener {
             viewModel.isIncome.value = CategoryType.INCOME
-            viewModel.isNextAvailable.value = true
         }
         cons.setOnClickListener {
             viewModel.isIncome.value = CategoryType.EXPENSE
-            viewModel.isNextAvailable.value = true
         }
     }
 
@@ -69,8 +70,8 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
         }
     }
 
-    private fun select(selected: View, unselected: View) {
-        selected.setBackgroundResource(R.color.gray_light)
-        unselected.background = null
+    private fun switchSelection(selected: View, unselected: View) {
+        selected.findViewById<ImageView>(R.id.iv_checked).visibility = View.VISIBLE
+        unselected.findViewById<ImageView>(R.id.iv_checked).visibility = View.INVISIBLE
     }
 }

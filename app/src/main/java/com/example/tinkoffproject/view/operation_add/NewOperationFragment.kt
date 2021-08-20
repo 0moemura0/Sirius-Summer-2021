@@ -28,18 +28,23 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
 
         val curDate = Date()
 
+
         // TODO replace on formatMoney(viewModel._sum.value, currency)
         sum.text = "${viewModel.amount.value.toString()} ₽"
 
-        type.text = viewModel.isIncome.value.toString()
-        category.text = viewModel.category.value.toString()
+        type.text =
+            requireContext().getString(viewModel.isIncome.value?.nameResId ?: R.string.didnt_chosen)
+        category.text =
+            viewModel.category.value?.name ?: requireContext().getString(R.string.didnt_chosen)
         date.text = formatDate(view.context, curDate, R.string.date_format_default)
 
-        val isNextAvailable = true
+
+        viewModel.isNextAvailable.value = true
 
         val btn: TextView = view.findViewById(R.id.btn)
         btn.setOnClickListener {
-            if (isNextAvailable) {
+            if (viewModel.isNextAvailable.value == true) {
+                viewModel.prepareNext()
                 findNavController().popBackStack(R.id.cardDetailsFragment, false)
             } else {
                 Toast.makeText(view.context, getString(R.string.enter_value), Toast.LENGTH_SHORT)

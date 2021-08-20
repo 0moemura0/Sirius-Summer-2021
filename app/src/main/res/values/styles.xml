@@ -34,8 +34,7 @@
     </style>
 
     <style name="Element">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textSize">@dimen/view_text_like_small</item>
+        <item name="android:textSize">@dimen/view_text_normal</item>
         <item name="android:letterSpacing">0.02</item>
         <item name="android:textColor">@color/gray</item>
     </style>

@@ -25,6 +25,9 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loadIncomeCategories()
+        viewModel.category.observe(viewLifecycleOwner, {
+            viewModel.isNextAvailable.value = true
+        })
         setupRecyclerView()
         setupNextButton()
         setupToolbar()
@@ -48,7 +51,6 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
             viewModel.selectableCategoriesIncome.observe(viewLifecycleOwner, { setData(it) })
             setOnItemClickListener(object : OnItemSelectListener {
                 override fun onItemSelect(position: Int) {
-                    viewModel.isNextAvailable.value = true
                     viewModel.setCategory(position)
                 }
             })
