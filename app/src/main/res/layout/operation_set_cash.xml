@@ -32,7 +32,7 @@
             android:textColor="@color/gray"
             android:textColorHint="@color/black_alpha_light"
             android:textCursorDrawable="@color/blue_main"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/view_text_normal"
             app:textInputLayoutFocusedRectEnabled="true" />
     </com.google.android.material.textfield.TextInputLayout>
 

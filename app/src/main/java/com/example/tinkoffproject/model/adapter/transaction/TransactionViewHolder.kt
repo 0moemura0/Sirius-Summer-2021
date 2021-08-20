@@ -7,9 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.dto.Transaction
-import com.example.tinkoffproject.model.dto.TransactionCategory
-import com.example.tinkoffproject.model.dto.TransactionType
+import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.utils.getDate
 
 class TransactionViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
@@ -20,31 +18,13 @@ class TransactionViewHolder(private val root: View) : RecyclerView.ViewHolder(ro
     private val date: TextView = root.findViewById(R.id.tv_transaction_date)
 
     fun bind(data: Transaction) {
-        val categoryTextId = when (data.category) {
-            TransactionCategory.INCOME_GIFT -> R.string.gift
-            TransactionCategory.INCOME_PERCENTS -> R.string.percents
-            TransactionCategory.INCOME_SALARY -> R.string.salary
-            TransactionCategory.INCOME_PART_TIME_JOB -> R.string.part_time_job
-            TransactionCategory.EXPENSES_SUPERMARKET -> R.string.tools_groceries
-        }
-        category.text = root.context.getString(categoryTextId)
+        category.text = data.category.name
 
-        val backgroundId: Int
-        val typeTextId: Int
-        when (data.type) {
-            TransactionType.EXPENSES -> {
-                backgroundId = R.drawable.indicator_dot_green
-                typeTextId = R.string.expenses
-            }
-            TransactionType.INCOME -> {
-                backgroundId = R.drawable.indicator_dot_red
-                typeTextId = R.string.income
-            }
-        }
+        val typeTextId = if (data.isIncome) R.string.income else R.string.expenses
         type.text = root.context.getString(typeTextId)
-        icon.setBackgroundResource(backgroundId)
+        icon.setBackgroundResource(data.category.resIconId)
 
-        amount.text = data.amount.toString()
+        amount.text = data.amount
         date.text = getDate(data.date, "hh:mm")
     }
 

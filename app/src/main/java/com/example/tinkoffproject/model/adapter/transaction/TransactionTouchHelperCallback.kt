@@ -4,7 +4,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 class TransactionTouchHelperCallback :
-    ItemTouchHelper.SimpleCallback(ItemTouchHelper.ACTION_STATE_IDLE, ItemTouchHelper.START) {
+    ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.ACTION_STATE_IDLE,
+        ItemTouchHelper.START or ItemTouchHelper.END
+    ) {
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,

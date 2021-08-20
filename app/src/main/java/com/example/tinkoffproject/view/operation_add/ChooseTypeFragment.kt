@@ -17,7 +17,7 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private val viewModel: AddOperationViewModel by activityViewModels()
 
     enum class CategoryType(val catNameId: Int) {
-        INCOME(R.string.income), EXPENSE(R.string.consumption)
+        INCOME(R.string.income), EXPENSE(R.string.expenses)
     }
 
     var selectedType: CategoryType? = null

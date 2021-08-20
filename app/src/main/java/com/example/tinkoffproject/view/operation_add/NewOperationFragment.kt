@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.formatDate
+import com.example.tinkoffproject.model.utils.formatDate
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar

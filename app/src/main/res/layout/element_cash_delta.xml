@@ -37,6 +37,6 @@
         android:layout_margin="@dimen/view_dimen_normal"
         android:gravity="top"
         android:textAppearance="@style/ElementCashType"
-        android:textSize="@dimen/text_size_normal"
+        android:textSize="@dimen/view_text_normal"
         tools:text="12 000 ₽" />
 </LinearLayout>

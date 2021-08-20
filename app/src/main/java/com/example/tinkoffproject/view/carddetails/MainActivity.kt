@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         navHostFragment?.findNavController()
     }
 
+    private val timer: Timer by lazy { Timer() }
 
     private val btnSetting by lazy {
         findViewById<View>(R.id.iv_settings)
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
     private val btnBack by lazy {
         findViewById<View>(R.id.iv_back)
     }
-    private val toolbatTitle by lazy {
+    private val toolbarTitle by lazy {
         findViewById<TextView>(R.id.title)
     }
 
@@ -41,8 +42,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
     @SuppressLint("RestrictedApi")
     override fun onBackPressed() {
         val isMainPage = navController?.currentDestination?.id == R.id.cardDetailsFragment
-        if (!Timer.isRunning() && isMainPage) {
-            Timer.start()
+        if (!timer.isRunning() && isMainPage) {
+            timer.start()
             Toast.makeText(this, getString(R.string.touch_again_for_exit), Toast.LENGTH_SHORT)
                 .show()
 
@@ -65,8 +66,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
     }
 
     override fun updateToolbar(title: String, type: ToolbarType) {
-        toolbatTitle.text = title
-        toolbatTitle.visibility = if (type.isTitelVisible) View.VISIBLE else View.INVISIBLE
+        toolbarTitle.text = title
+        toolbarTitle.visibility = if (type.isTitleVisible) View.VISIBLE else View.INVISIBLE
         btnSetting.visibility = if (type.isSettingsVisible) View.VISIBLE else View.INVISIBLE
         btnBack.visibility = if (type.isBackVisible) View.VISIBLE else View.INVISIBLE
     }

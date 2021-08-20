@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,37 +16,39 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.model.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.model.adapter.transaction.TransactionTouchHelperCallback
-import com.example.tinkoffproject.model.dto.Transaction
-import com.example.tinkoffproject.model.dto.TransactionCategory
-import com.example.tinkoffproject.model.dto.TransactionType
+import com.example.tinkoffproject.model.data.dto.Transaction
+import com.example.tinkoffproject.model.data.dto.Wallet
+import com.example.tinkoffproject.model.utils.State
+import com.example.tinkoffproject.model.utils.formatMoney
+import com.example.tinkoffproject.viewmodel.CardDetailsViewModel
 
-private val data = listOf(
+private val data: List<Transaction> = emptyList()/*listOf(
     Transaction(
         id = 35,
         date = 1629294379553,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
+        isIncome = true,
+        category = CategoryNetwork("Супермаркет", 0, "F52222"),
         amount = 10000,
     ),
     Transaction(
         id = 22,
         date = 1629294379553,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
+        isIncome = true,
+        category = CategoryNetwork = ("Супермаркет", 0, "F52222",
         amount = 10001,
     ),
     Transaction(
         id = 10,
         date = 1629294379553,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
+        isIncome = true,
+        category = CategoryNetwork("Супермаркет", 0, "F52222"),
         amount = 10010,
     ),
     Transaction(
         id = 9,
         date = 1629294379553,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
+        isIncome = true,
+        category = CategoryNetwork("Супермаркет", 0, "F52222"),
         amount = 10100,
     ),
     Transaction(
@@ -104,39 +107,96 @@ private val data = listOf(
         category = TransactionCategory.INCOME_PART_TIME_JOB,
         amount = 11245,
     ),
-)
+)*/
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
+    private val viewModel: CardDetailsViewModel by viewModels()
+
+    private val walletAmount: TextView by lazy { requireView().findViewById(R.id.tv_cash_sum) }
+    private val layoutIncome: View by lazy { requireView().findViewById(R.id.income) }
+    private val layoutExpenses: View by lazy { requireView().findViewById(R.id.consumption) }
+    private val btnAddTransaction: TextView by lazy { requireView().findViewById(R.id.tv_add) }
+    private val walletName: TextView by lazy { requireView().findViewById(R.id.tv_cash_name) }
+
+    private val updateActivity: UpdatableToolBar by lazy { (activity as MainActivity) }
+
+    private val transactionAdapter: TransactionAdapter by lazy { TransactionAdapter() }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val cashName: TextView = view.findViewById(R.id.tv_cash_name)
-        val cashSum: TextView = view.findViewById(R.id.tv_cash_sum)
-        val layoutIncome: View = view.findViewById(R.id.income)
-        val layoutExpenses: View = view.findViewById(R.id.consumption)
-        val btn: TextView = view.findViewById(R.id.tv_add)
-        cashSum.text = "0 ₽"
-        cashName.text = "Кошелек 1"
 
-        layoutIncome.apply {
-            findViewById<TextView>(R.id.tv_type).text = context.getString(R.string.income)
-            findViewById<ImageView>(R.id.iv_dot).setImageResource(R.drawable.indicator_dot_green)
-            findViewById<TextView>(R.id.tv_cash).text = "0 ₽"
-        }
-        layoutExpenses.apply {
-            findViewById<TextView>(R.id.tv_type).text = context.getString(R.string.consumption)
-
-            findViewById<ImageView>(R.id.iv_dot).setImageResource(R.drawable.indicator_dot_red)
-            findViewById<TextView>(R.id.tv_cash).text = "12 000 ₽"
-        }
-        btn.setOnClickListener {
-            findNavController().navigate(R.id.action_cardDetailsFragment_to_setCashFragment)
-        }
-        val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar("")
+        setupExpensesIncomeLayout()
+        setupNavigation()
+        setupToolbar()
 
         setupRecyclerView(view)
     }
+
+    private fun setupDataListeners() {
+        viewModel.wallet.observe(viewLifecycleOwner, ::updateWalletInfo)
+        viewModel.transaction.observe(viewLifecycleOwner, ::updateTransaction)
+    }
+
+    private fun setupExpensesIncomeLayout() {
+        layoutIncome.apply {
+            findViewById<TextView>(R.id.tv_type).text = context.getString(R.string.income)
+            findViewById<ImageView>(R.id.iv_dot).setImageResource(R.drawable.indicator_dot_green)
+        }
+        layoutExpenses.apply {
+            findViewById<TextView>(R.id.tv_type).text = context.getString(R.string.expenses)
+            findViewById<ImageView>(R.id.iv_dot).setImageResource(R.drawable.indicator_dot_red)
+        }
+    }
+
+    private fun setupNavigation() {
+        btnAddTransaction.setOnClickListener {
+            findNavController().navigate(R.id.action_cardDetailsFragment_to_setCashFragment)
+        }
+    }
+
+    private fun setupToolbar() {
+        updateActivity.updateToolbar("")
+    }
+
+    private fun updateWalletInfo(state: State<Wallet>) {
+        when (state) {
+            is State.ErrorState -> onError(state.exception)
+            is State.LoadingState -> {
+                //TODO анимация либо на кнопке, либо свайп энд рефреш
+            }
+            is State.DataState -> {
+                val wallet = state.data
+                walletName.text = wallet.name
+                walletAmount.text =
+                    formatMoney(wallet.incomeAmount - wallet.expensesAmount, wallet.currency)
+
+                layoutIncome.findViewById<TextView>(R.id.tv_cash).text =
+                    formatMoney(wallet.incomeAmount)
+                layoutExpenses.findViewById<TextView>(R.id.tv_cash).text =
+                    formatMoney(wallet.expensesAmount)
+
+            }
+
+        }
+    }
+
+    private fun updateTransaction(state: State<List<Transaction>>) {
+        when (state) {
+            is State.LoadingState -> {
+            }
+            is State.ErrorState -> onError(state.exception)
+            is State.DataState -> {
+                transactionAdapter.setData(state.data)
+            }
+        }
+    }
+
+    private fun onError(e: Throwable?) {
+        //TODO интерфейс активити, который бы воказывал сообщение об ошибке
+
+    }
+
 
     private fun setupRecyclerView(view: View) {
         val transactionAdapter = TransactionAdapter().apply {
@@ -160,5 +220,6 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
 
     }
+
 
 }

@@ -2,10 +2,11 @@ package com.example.tinkoffproject.model.adapter.transaction
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tinkoffproject.model.dto.Transaction
+import com.example.tinkoffproject.model.data.dto.Transaction
 
-class TransactionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-    TransactionAdapterCallback {
+
+//TODO Подключить diffutils
+class TransactionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val data = mutableListOf<Transaction>()
 
     companion object {
@@ -50,23 +51,4 @@ class TransactionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     }
 
     override fun getItemCount() = if (data.size == 0) 1 else data.size
-
-    override fun removed(from: Int) {
-        data.removeAt(from)
-        notifyItemRemoved(from)
-    }
-
-    override fun added(to: Int, new: Transaction) {
-        TODO("Not yet implemented")
-    }
-
-    override fun rangeRemoved(from: Int, to: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun rangeAdded(to: Int, new: List<Transaction>) {
-        data.addAll(to, new)
-        notifyItemRangeChanged(to, new.size)
-    }
-
 }
