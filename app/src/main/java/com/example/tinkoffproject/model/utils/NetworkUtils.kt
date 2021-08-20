@@ -24,7 +24,7 @@ fun Retrofit.Builder.setClient(apiKey: Pair<String, String>) = apply {
 
 }
 
-class ApiKeyInterceptor(val apiKey: Pair<String, String>) : Interceptor {
+class ApiKeyInterceptor(private val apiKey: Pair<String, String>) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
         request.addHeader(apiKey.first, apiKey.second)

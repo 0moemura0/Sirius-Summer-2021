@@ -11,72 +11,62 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.view.data.CategoryType
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
 class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private val viewModel: AddOperationViewModel by activityViewModels()
-
-    enum class CategoryType(val catNameId: Int) {
-        INCOME(R.string.income), EXPENSE(R.string.expenses)
-    }
-
-    var selectedType: CategoryType? = null
-
-    companion object {
-        private const val KEY_SELECTED_TYPE = "SELECTED_TYPE"
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putSerializable(KEY_SELECTED_TYPE, selectedType)
-    }
+    private lateinit var income: TextView
+    private lateinit var cons: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val income: TextView = view.findViewById(R.id.tv_income)
-        val cons: TextView = view.findViewById(R.id.tv_consumption)
-        val btn: TextView = view.findViewById(R.id.btn)
+        initViews()
 
-        if (savedInstanceState != null) {
-            selectedType = savedInstanceState.getSerializable(KEY_SELECTED_TYPE) as CategoryType?
-        }
-        var isNextAvailable = selectedType != null
-        if (selectedType != null) {
-            when (selectedType) {
-                CategoryType.EXPENSE -> {
-                    select(cons, income)
-                }
-                CategoryType.INCOME -> {
-                    select(income, cons)
-                }
+        viewModel.isIncome.observe(viewLifecycleOwner, {
+            when (it) {
+                CategoryType.INCOME -> select(income, cons)
+                CategoryType.EXPENSE -> select(cons, income)
             }
-        }
+        })
 
+        setupSelectors()
+        setupNextButton()
+        setupToolBar()
+    }
+
+    private fun initViews() {
+        income = requireView().findViewById(R.id.tv_income)
+        cons = requireView().findViewById(R.id.tv_consumption)
+    }
+
+    private fun setupSelectors() {
         income.setOnClickListener {
-            selectedType = CategoryType.INCOME
-            isNextAvailable = true
-            select(it, cons)
+            viewModel.isIncome.value = CategoryType.INCOME
+            viewModel.isNextAvailable.value = true
         }
-
         cons.setOnClickListener {
-            selectedType = CategoryType.EXPENSE
-            isNextAvailable = true
-            select(it, income)
+            viewModel.isIncome.value = CategoryType.EXPENSE
+            viewModel.isNextAvailable.value = true
         }
+    }
 
-        btn.setOnClickListener {
-            if (isNextAvailable) {
-                viewModel._type.value = getString(selectedType?.catNameId!!)
+    private fun setupToolBar() {
+        val update: UpdatableToolBar = (activity as MainActivity)
+        update.updateToolbar(getString(R.string.operation_choose_type), ToolbarType.ADD_OPERATION)
+    }
+
+    private fun setupNextButton() {
+        requireView().findViewById<TextView>(R.id.btn).setOnClickListener {
+            if (viewModel.isNextAvailable.value == true) {
+                viewModel.prepareNext()
                 findNavController().navigate(R.id.action_chooseTypeFragment_to_chooseCategoryFragment)
             } else {
-                Toast.makeText(view.context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
+                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
             }
         }
-
-        val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar(getString(R.string.operation_choose_type), ToolbarType.ADD_OPERATION)
     }
 
     private fun select(selected: View, unselected: View) {

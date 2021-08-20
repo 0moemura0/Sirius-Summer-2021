@@ -28,9 +28,11 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
 
         val curDate = Date()
 
-        sum.text = "${viewModel._sum.value.toString()} ₽"
-        type.text = viewModel._type.value.toString()
-        category.text = viewModel._category.value.toString()
+        // TODO replace on formatMoney(viewModel._sum.value, currency)
+        sum.text = "${viewModel.amount.value.toString()} ₽"
+
+        type.text = viewModel.isIncome.value.toString()
+        category.text = viewModel.category.value.toString()
         date.text = formatDate(view.context, curDate, R.string.date_format_default)
 
         val isNextAvailable = true

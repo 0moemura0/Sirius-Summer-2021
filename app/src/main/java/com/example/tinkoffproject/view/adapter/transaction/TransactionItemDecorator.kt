@@ -1,11 +1,10 @@
-package com.example.tinkoffproject.model.adapter.transaction
+package com.example.tinkoffproject.view.adapter.transaction
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
-import android.util.Log
 import android.view.View
 import androidx.annotation.Px
 import androidx.core.view.children
@@ -91,7 +90,6 @@ class TransactionItemDecorator(
         }
 
         parent.children.iterator().forEach { view ->
-            Log.d("kek", "")
             val position = parent.getChildAdapterPosition(view)
             val viewType = adapter.getItemViewType(position)
 
@@ -103,7 +101,7 @@ class TransactionItemDecorator(
                 val text: String = when {
                     isToday(itemDate) -> parent.context.getString(R.string.today)
                     isYesterday(itemDate) -> parent.context.getString(R.string.yesterday)
-                    else -> formatDate(parent.context, itemDate, R.string.date_format_default)
+                    else -> formatDate(parent.context, itemDate, R.string.date_format_month_full)
                 }
 
                 val bounds = Rect()

@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.model.adapter.transaction
+package com.example.tinkoffproject.view.adapter.transaction
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

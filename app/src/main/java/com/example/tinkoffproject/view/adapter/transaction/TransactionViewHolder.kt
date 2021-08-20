@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.model.adapter.transaction
+package com.example.tinkoffproject.view.adapter.transaction
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.data.dto.Transaction
-import com.example.tinkoffproject.model.utils.getDate
+import com.example.tinkoffproject.model.utils.formatDate
 
 class TransactionViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
     private val amount: TextView = root.findViewById(R.id.tv_transaction_amount)
@@ -25,7 +25,8 @@ class TransactionViewHolder(private val root: View) : RecyclerView.ViewHolder(ro
         icon.setBackgroundResource(data.category.resIconId)
 
         amount.text = data.amount
-        date.text = getDate(data.date, "hh:mm")
+
+        date.text = formatDate(root.context, data.date, R.string.date_format_only_time)
     }
 
     companion object {

@@ -25,6 +25,7 @@
     <string name="date">Дата операции</string>
 
     <string name="date_format_default">dd MMM</string>
+    <string name="date_format_month_full">dd MMMM</string>
     <string name="operation_new">Новая операция</string>
     <string name="enter_value">Введите значение</string>
     <string name="enter_count">Введите сумму</string>
@@ -35,4 +36,5 @@
     <string name="tools_groceries">Супермаркет</string>
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>
+    <string name="date_format_only_time">hh:mm</string>
 </resources>

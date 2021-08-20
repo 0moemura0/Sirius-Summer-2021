@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.adapter.transaction.TransactionAdapter
-import com.example.tinkoffproject.model.adapter.transaction.TransactionItemDecorator
-import com.example.tinkoffproject.model.adapter.transaction.TransactionTouchHelperCallback
+import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
+import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
+import com.example.tinkoffproject.view.adapter.transaction.TransactionTouchHelperCallback
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.dto.Wallet
 import com.example.tinkoffproject.model.utils.State
@@ -112,28 +112,44 @@ private val data: List<Transaction> = emptyList()/*listOf(
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private val viewModel: CardDetailsViewModel by viewModels()
 
-    private val walletAmount: TextView by lazy { requireView().findViewById(R.id.tv_cash_sum) }
-    private val layoutIncome: View by lazy { requireView().findViewById(R.id.income) }
-    private val layoutExpenses: View by lazy { requireView().findViewById(R.id.consumption) }
-    private val btnAddTransaction: TextView by lazy { requireView().findViewById(R.id.tv_add) }
-    private val walletName: TextView by lazy { requireView().findViewById(R.id.tv_cash_name) }
+    private lateinit var walletAmount: TextView
+    private lateinit var layoutIncome: View
+    private lateinit var layoutIncomeCash: TextView
+    private lateinit var layoutExpenses: View
+    private lateinit var layoutExpensesCash: TextView
+    private lateinit var walletName: TextView
 
-    private val updateActivity: UpdatableToolBar by lazy { (activity as MainActivity) }
+    private lateinit var updateActivity: UpdatableToolBar
 
-    private val transactionAdapter: TransactionAdapter by lazy { TransactionAdapter() }
-
+    private val transactionAdapter: TransactionAdapter by lazy {
+        TransactionAdapter()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViews()
+
         setupExpensesIncomeLayout()
         setupNavigation()
         setupToolbar()
+        setupDataObservers()
 
         setupRecyclerView(view)
     }
 
-    private fun setupDataListeners() {
+    private fun initViews() {
+        walletAmount = requireView().findViewById(R.id.tv_cash_sum)
+        layoutIncome = requireView().findViewById(R.id.income)
+        layoutIncomeCash = layoutIncome.findViewById(R.id.tv_cash)
+        layoutExpenses = requireView().findViewById(R.id.consumption)
+        layoutExpensesCash = layoutExpenses.findViewById(R.id.tv_cash)
+        walletName = requireView().findViewById(R.id.tv_cash_name)
+
+        updateActivity = activity as MainActivity
+    }
+
+    private fun setupDataObservers() {
         viewModel.wallet.observe(viewLifecycleOwner, ::updateWalletInfo)
         viewModel.transaction.observe(viewLifecycleOwner, ::updateTransaction)
     }
@@ -150,7 +166,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     }
 
     private fun setupNavigation() {
-        btnAddTransaction.setOnClickListener {
+        requireView().findViewById<View>(R.id.tv_add).setOnClickListener {
             findNavController().navigate(R.id.action_cardDetailsFragment_to_setCashFragment)
         }
     }
@@ -171,10 +187,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 walletAmount.text =
                     formatMoney(wallet.incomeAmount - wallet.expensesAmount, wallet.currency)
 
-                layoutIncome.findViewById<TextView>(R.id.tv_cash).text =
-                    formatMoney(wallet.incomeAmount)
-                layoutExpenses.findViewById<TextView>(R.id.tv_cash).text =
-                    formatMoney(wallet.expensesAmount)
+                layoutIncomeCash.text = formatMoney(wallet.incomeAmount)
+                layoutExpensesCash.text = formatMoney(wallet.expensesAmount)
 
             }
 
@@ -194,12 +208,11 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
     private fun onError(e: Throwable?) {
         //TODO интерфейс активити, который бы воказывал сообщение об ошибке
-
     }
 
 
     private fun setupRecyclerView(view: View) {
-        val transactionAdapter = TransactionAdapter().apply {
+        transactionAdapter.apply {
             //setHasStableIds(true)
         }
         val recycler: RecyclerView = view.findViewById(R.id.rcv_transaction)
@@ -217,9 +230,5 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
         val itemTouchHelper = ItemTouchHelper(TransactionTouchHelperCallback())
         itemTouchHelper.attachToRecyclerView(recycler)
-
-
     }
-
-
 }
