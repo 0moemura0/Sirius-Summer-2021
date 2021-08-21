@@ -17,7 +17,8 @@
     <fragment
         android:id="@+id/setCashFragment"
         android:name="com.example.tinkoffproject.view.operation_add.SetCashFragment"
-        android:label="SetCashFragment">
+        android:label="SetCashFragment"
+        tools:layout="@layout/operation_set_cash">
         <action
             android:id="@+id/action_setCashFragment_to_chooseTypeFragment"
             app:destination="@id/chooseTypeFragment" />
@@ -25,7 +26,8 @@
     <fragment
         android:id="@+id/chooseTypeFragment"
         android:name="com.example.tinkoffproject.view.operation_add.ChooseTypeFragment"
-        android:label="ChooseTypeFragment">
+        android:label="ChooseTypeFragment"
+        tools:layout="@layout/operation_choose_category">
         <action
             android:id="@+id/action_chooseTypeFragment_to_chooseCategoryFragment"
             app:destination="@id/chooseCategoryFragment" />
@@ -33,15 +35,54 @@
     <fragment
         android:id="@+id/chooseCategoryFragment"
         android:name="com.example.tinkoffproject.view.operation_add.ChooseCategoryFragment"
-        android:label="ChooseCategoryFragment">
+        android:label="ChooseCategoryFragment"
+        tools:layout="@layout/operation_choose_type">
         <action
             android:id="@+id/action_chooseCategoryFragment_to_newOperationFragment"
             app:destination="@id/newOperationFragment" />
+        <action
+            android:id="@+id/action_chooseCategoryFragment_to_newCategoryFragment"
+            app:destination="@id/newCategoryFragment"
+            app:launchSingleTop="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/newCategoryFragment"
+        android:name="com.example.tinkoffproject.view.operation_add.category_add.NewCategoryFragment"
+        android:label="NewCategoryFragment">
+        <action
+            android:id="@+id/action_newCategoryFragment_to_setCategoryNameFragment"
+            app:destination="@id/setCategoryNameFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_newCategoryFragment_to_chooseNewCategoryTypeFragment"
+            app:destination="@id/chooseNewCategoryTypeFragment"
+            app:launchSingleTop="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/setCategoryNameFragment"
+        tools:layout="@layout/operation_set_cash"
+        android:name="com.example.tinkoffproject.view.operation_add.category_add.SetCategoryNameFragment"
+        android:label="SetCategoryNameFragment">
+        <action
+            android:id="@+id/action_setCategoryNameFragment_to_chooseNewCategoryTypeFragment"
+            app:destination="@id/chooseNewCategoryTypeFragment"
+            app:launchSingleTop="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseNewCategoryTypeFragment"
+        android:name="com.example.tinkoffproject.view.operation_add.category_add.ChooseCategoryTypeFragment"
+        tools:layout="@layout/operation_choose_type"
+        android:label="ChooseNewCategoryTypeFragment">
+        <action
+            android:id="@+id/action_chooseNewCategoryTypeFragment_to_newCategoryFragment"
+            app:destination="@id/newCategoryFragment"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/newOperationFragment"
         android:name="com.example.tinkoffproject.view.operation_add.NewOperationFragment"
-        android:label="NewOperationFragment">
+        android:label="NewOperationFragment"
+        tools:layout="@layout/operation_new_operation">
         <action
             android:id="@+id/action_newOperationFragment_to_setCashFragment"
             app:destination="@id/setCashFragment"

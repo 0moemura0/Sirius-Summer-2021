@@ -9,10 +9,32 @@ import com.example.tinkoffproject.model.data.network.dto.CategoryNetwork
 import com.example.tinkoffproject.model.data.network.dto.TransactionNetwork
 import com.example.tinkoffproject.model.utils.formatMoney
 
+enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
+    SHOP(0, R.drawable.ic_shop),
+    INCOME(1, R.drawable.ic_income),
+    SPORT(2, R.drawable.ic_sport),
+    DEFAULT(-1, R.drawable.ic_income);
+
+    companion object {
+        private val mapLocal = values().associateBy(CategoryEnum::localIconId)
+        private val mapRemote = values().associateBy(CategoryEnum::remoteIconId)
+        fun fromLocalId(id: Int) = mapLocal[id] ?: DEFAULT
+        fun fromRemoteId(id: Int) = mapRemote[id] ?: DEFAULT
+    }
+}
+
+fun Category.toNetwork() = CategoryNetwork(
+    name = name,
+    iconId = CategoryEnum.fromLocalId(resIconId).remoteIconId,
+    color = colorToStr(color),
+    isIncome = isIncome
+)
+
+fun colorToStr(color: Int) = String.format("#%06X", 0xFFFFFF and color)
+
+
 fun getResId(categoryIconId: Int): Int {
     return when (categoryIconId) {
-        //TODO delete this icons and download all others
-        // TODO есть проблема, а как мы будет ставить соответсвие кастомным в рантайме?
         0 -> R.drawable.ic_shop
         1 -> R.drawable.ic_income
         2 -> R.drawable.ic_sport
@@ -24,7 +46,8 @@ fun getResId(categoryIconId: Int): Int {
 fun CategoryNetwork.toCategory() = Category(
     name = name,
     resIconId = getResId(iconId),
-    color = Color.parseColor(color)
+    color = Color.parseColor(color),
+    isIncome = isIncome
 )
 
 
