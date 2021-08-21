@@ -12,9 +12,11 @@
     <color name="gray">#333333</color>
     <color name="gray_light">#9299A2</color>
     <color name="blue_main">#5833EE</color>
+    <color name="blue_dark">#2E0EAE</color>
     <color name="red_main">#F52222</color>
     <color name="red_main_background">#17F52222</color>
     <color name="green_main">#00B92D</color>
     <color name="black_alpha">#1F000000</color>
     <color name="black_alpha_light">#99000000</color>
+    <color name="stab">#299C9C9C</color>
 </resources>

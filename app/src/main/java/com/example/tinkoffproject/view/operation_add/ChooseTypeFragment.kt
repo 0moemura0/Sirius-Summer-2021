@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
@@ -59,7 +59,7 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     }
 
     private fun setupNextButton() {
-        requireView().findViewById<TextView>(R.id.btn).setOnClickListener {
+        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
                 viewModel.prepareNext()
                 findNavController().navigate(R.id.action_chooseTypeFragment_to_chooseCategoryFragment)

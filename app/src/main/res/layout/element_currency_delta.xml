@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.6"
+        android:textAppearance="@style/Element"
+        tools:text="USD" />
+
+
+    <TextView
+        android:id="@+id/tv_delta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/view_dimen_not_so_small"
+        android:textAppearance="@style/Element"
+        tools:text="72,65" />
+
+    <ImageView
+        android:id="@+id/uv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/view_dimen_extra_small"
+        android:src="@drawable/ic_arrow_down" />
+</LinearLayout>
