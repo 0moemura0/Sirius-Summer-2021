@@ -123,9 +123,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var walletName: TextView
     private lateinit var walletLimit: TextView
 
-    private val transactionAdapter: TransactionAdapter by lazy {
-        TransactionAdapter()
-    }
+    private var transactionAdapter: TransactionAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -193,6 +191,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 layoutIncomeCash.text = formatMoney(wallet.incomeAmount, wallet.currency)
                 layoutExpensesCash.text = formatMoney(wallet.expensesAmount, wallet.currency)
 
+                transactionAdapter?.currency = wallet.currency
+
                 updateLimitInfo(wallet.limit, wallet.expensesAmount, wallet.currency)
             }
         }
@@ -228,7 +228,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                transactionAdapter.setData(state.data)
+                transactionAdapter?.setData(state.data)
             }
         }
     }
@@ -239,6 +239,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
 
     private fun setupRecyclerView(view: View) {
+        transactionAdapter = TransactionAdapter()
+
         transactionAdapter.apply {
             //setHasStableIds(true)
         }
@@ -252,7 +254,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             addItemDecoration(decorator)
         }
         Handler(Looper.getMainLooper()).postDelayed({
-            transactionAdapter.setData(data)
+            transactionAdapter?.setData(data)
         }, 3000)
 
         val itemTouchHelper = ItemTouchHelper(TransactionTouchHelperCallback())
