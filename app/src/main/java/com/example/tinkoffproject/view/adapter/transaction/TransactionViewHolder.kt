@@ -30,7 +30,7 @@ class TransactionViewHolder(private val root: View, private val currency: Curren
         icon.setImageResource(data.category.resIconId)
         icon.backgroundTintList = ColorStateList.valueOf(data.category.color)
 
-        amount.text = formatMoney(data.amount, currency)
+        amount.text = data.amountFormatted
 
         date.text = formatDate(root.context, data.date, R.string.date_format_only_time)
     }

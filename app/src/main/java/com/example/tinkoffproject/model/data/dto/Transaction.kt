@@ -6,4 +6,5 @@ data class Transaction(
     val isIncome: Boolean,
     val category: Category,
     val amount: Int,
+    val amountFormatted: String,
 )

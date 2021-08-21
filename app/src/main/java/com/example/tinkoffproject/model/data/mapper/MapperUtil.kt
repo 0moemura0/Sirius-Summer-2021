@@ -3,34 +3,51 @@ package com.example.tinkoffproject.model.data.mapper
 import android.graphics.Color
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.data.dto.Category
+import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.network.dto.CategoryNetwork
 import com.example.tinkoffproject.model.data.network.dto.TransactionNetwork
+import com.example.tinkoffproject.model.utils.formatMoney
 
-fun getResId(categoryIconId: Int): Int {
-    return when (categoryIconId) {
-        //TODO delete this icons and download all others
-        // TODO есть проблема, а как мы будет ставить соответсвие кастомным в рантайме?
-        0 -> R.drawable.ic_shop
-        1 -> R.drawable.ic_income
-        2 -> R.drawable.ic_sport
-        //TODO add error drawable
-        else -> R.drawable.ic_income
+enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
+    SHOP(0, R.drawable.ic_shop),
+    INCOME(1, R.drawable.ic_income),
+    SPORT(2, R.drawable.ic_sport),
+    DEFAULT(-1, R.drawable.ic_income);
+
+    companion object {
+        private val mapLocal = CategoryEnum.values().associateBy(CategoryEnum::localIconId)
+        private val mapRemote = CategoryEnum.values().associateBy(CategoryEnum::remoteIconId)
+        fun fromLocalId(id: Int) = mapLocal[id] ?: DEFAULT
+        fun fromRemoteId(id: Int) = mapRemote[id] ?: DEFAULT
     }
 }
 
+fun Category.toNetwork() = CategoryNetwork(
+    name = name,
+    iconId = CategoryEnum.fromLocalId(resIconId).remoteIconId,
+    color = String.format("#%06X", 0xFFFFFF and color)
+)
+
 fun CategoryNetwork.toCategory() = Category(
     name = name,
-    resIconId = getResId(iconId),
+    resIconId = CategoryEnum.fromRemoteId(iconId).localIconId,
     color = Color.parseColor(color)
 )
 
-
-//мне не нравится, что amount превращается в стринг
-fun TransactionNetwork.toTransaction() = Transaction(
+fun TransactionNetwork.toTransaction(currency: Currency) = Transaction(
     id = id,
     date = date,
     isIncome = isIncome,
     category = category.toCategory(),
+    amount = amount,
+    amountFormatted = formatMoney(amount, currency)
+)
+
+fun Transaction.toNetwork() = TransactionNetwork(
+    id = id,
+    date = date,
+    isIncome = isIncome,
+    category = category.toNetwork(),
     amount = amount
 )
