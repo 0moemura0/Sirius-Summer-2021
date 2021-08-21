@@ -6,32 +6,56 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/section_type"
+        android:id="@+id/ll_section_type_income"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/btn"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/view_dimen_normal"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread_inside">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_income"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/view_dimen_normal"
+            android:layout_weight="1"
+            android:paddingVertical="@dimen/view_dimen_normal"
             android:text="@string/income"
             android:textAppearance="@style/Element" />
 
+        <include
+            layout="@layout/element_is_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_section_type_expenses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/view_dimen_normal"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_section_type_income">
+
         <TextView
             android:id="@+id/tv_consumption"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/view_dimen_normal"
-            android:text="@string/consumption"
+            android:layout_weight="1"
+            android:paddingVertical="@dimen/view_dimen_normal"
+            android:text="@string/expenses"
             android:textAppearance="@style/Element" />
+
+        <include
+            layout="@layout/element_is_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/btn"
@@ -41,7 +65,6 @@
         android:layout_margin="@dimen/view_dimen_normal"
         android:text="@string/done"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/section_type"
-        app:layout_constraintStart_toStartOf="@id/section_type"
-        app:layout_constraintTop_toBottomOf="@id/section_type" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

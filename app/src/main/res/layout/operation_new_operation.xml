@@ -3,9 +3,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:fillViewport="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,6 +31,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/ll_amount_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal">
@@ -42,7 +43,7 @@
                     android:layout_weight="2"
                     android:text="@string/amount"
                     android:textAppearance="@style/Element"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/view_text_normal" />
 
                 <TextView
                     android:id="@+id/tv_sum"
@@ -51,7 +52,7 @@
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="@dimen/view_dimen_not_so_small"
                     android:textAppearance="@style/EmptyView"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/view_text_normal"
                     tools:text="130 000 ₽" />
 
                 <ImageView
@@ -63,6 +64,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_type_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal">
@@ -74,7 +76,7 @@
                     android:layout_weight="2"
                     android:text="@string/type"
                     android:textAppearance="@style/Element"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/view_text_normal" />
 
                 <TextView
                     android:id="@+id/tv_type"
@@ -83,8 +85,8 @@
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="@dimen/view_dimen_not_so_normal"
                     android:textAppearance="@style/EmptyView"
-                    android:textSize="@dimen/text_size_normal"
-                    tools:text="Доход" />
+                    android:textSize="@dimen/view_text_normal"
+                    tools:text="@string/income" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -94,6 +96,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_category_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal">
@@ -105,7 +108,7 @@
                     android:layout_weight="2"
                     android:text="@string/category"
                     android:textAppearance="@style/Element"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/view_text_normal" />
 
                 <TextView
                     android:id="@+id/tv_category"
@@ -114,7 +117,7 @@
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="@dimen/view_dimen_not_so_normal"
                     android:textAppearance="@style/EmptyView"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/view_text_normal"
                     tools:text="Зарплата" />
 
                 <ImageView
@@ -133,6 +136,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/ll_date_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal">
@@ -144,7 +148,7 @@
                     android:layout_weight="2"
                     android:text="@string/date"
                     android:textAppearance="@style/Element"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/view_text_normal" />
 
                 <TextView
                     android:id="@+id/tv_date"
@@ -153,7 +157,7 @@
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="@dimen/view_dimen_not_so_normal"
                     android:textAppearance="@style/EmptyView"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/view_text_normal"
                     tools:text="21 июля" />
 
                 <ImageView

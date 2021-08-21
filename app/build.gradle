@@ -52,6 +52,22 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+
+    //serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinx_serial_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serial_version"
+
+    //java rx
+    implementation "io.reactivex.rxjava3:rxandroid:$javarx_version"
+    implementation "io.reactivex.rxjava3:rxjava:$javarx_version"
+    implementation "io.reactivex.rxjava3:rxkotlin:$javarx_version"
+//    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
+
     //test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

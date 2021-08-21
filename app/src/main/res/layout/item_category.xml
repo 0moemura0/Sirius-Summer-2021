@@ -7,15 +7,11 @@
     android:layout_marginHorizontal="@dimen/view_dimen_normal"
     android:layout_marginVertical="@dimen/view_dimen_small">
 
-    <ImageView
-        android:id="@+id/iv_category_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/indicator_dot_green"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_card"
+    <include
+        layout="@layout/category_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,17 +23,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_category_icon"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Зарплата" />
+        tools:text="@string/salary" />
 
-    <ImageView
-        android:id="@+id/iv_checked"
-        android:visibility="invisible"
+    <include
+        layout="@layout/element_is_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_checked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="@id/tv_category_name"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,24 +1,23 @@
 package com.example.tinkoffproject.model.repository
 
-import com.example.tinkoffproject.model.dto.Transaction
-import com.example.tinkoffproject.model.dto.TransactionCategory
-import com.example.tinkoffproject.model.dto.TransactionType
+import com.example.tinkoffproject.model.data.network.dto.CategoryNetwork
+import com.example.tinkoffproject.model.data.network.dto.TransactionNetwork
 
 class TransactionRepository {
-    fun getTransaction(date: Long): List<Transaction> {
+    fun getTransaction(): List<TransactionNetwork> {
         return listOf(
-            Transaction(
+            TransactionNetwork(
                 id = 10,
                 date = 1629294379553,
-                type = TransactionType.INCOME,
-                category = TransactionCategory.INCOME_PART_TIME_JOB,
+                isIncome = true,
+                category = CategoryNetwork("Супермаркет", 0, "F52222"),
                 amount = 10000,
             ),
-            Transaction(
+            TransactionNetwork(
                 id = 10,
                 date = 1629208049321,
-                type = TransactionType.EXPENSES,
-                category = TransactionCategory.INCOME_PART_TIME_JOB,
+                isIncome = false,
+                category = CategoryNetwork("Зарплата", 1, "00B92D"),
                 amount = 10000,
             )
         )

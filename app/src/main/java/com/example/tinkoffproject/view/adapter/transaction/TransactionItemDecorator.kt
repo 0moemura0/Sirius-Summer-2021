@@ -1,21 +1,20 @@
-package com.example.tinkoffproject.model.adapter.transaction
+package com.example.tinkoffproject.view.adapter.transaction
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
-import android.util.Log
 import android.view.View
 import androidx.annotation.Px
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.dto.Transaction
+import com.example.tinkoffproject.model.data.dto.Transaction
+import com.example.tinkoffproject.model.utils.formatDate
 import com.example.tinkoffproject.model.utils.isOneDay
 import com.example.tinkoffproject.model.utils.isToday
 import com.example.tinkoffproject.model.utils.isYesterday
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -26,9 +25,6 @@ class TransactionItemDecorator(
     @Px private val marginHorizontal: Int = offsetBetween,
 ) : RecyclerView.ItemDecoration() {
 
-    private val dateFormatter: SimpleDateFormat by lazy {
-        SimpleDateFormat("d MMMM", Locale("ru", "RU"))
-    }
     private val paintItemHeader: Paint by lazy {
         Paint()
     }
@@ -94,7 +90,6 @@ class TransactionItemDecorator(
         }
 
         parent.children.iterator().forEach { view ->
-            Log.d("kek", "")
             val position = parent.getChildAdapterPosition(view)
             val viewType = adapter.getItemViewType(position)
 
@@ -106,7 +101,7 @@ class TransactionItemDecorator(
                 val text: String = when {
                     isToday(itemDate) -> parent.context.getString(R.string.today)
                     isYesterday(itemDate) -> parent.context.getString(R.string.yesterday)
-                    else -> dateFormatter.format(itemDate)
+                    else -> formatDate(parent.context, itemDate, R.string.date_format_month_full)
                 }
 
                 val bounds = Rect()

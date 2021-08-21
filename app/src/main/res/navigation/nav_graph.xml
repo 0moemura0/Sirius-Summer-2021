@@ -41,5 +41,18 @@
     <fragment
         android:id="@+id/newOperationFragment"
         android:name="com.example.tinkoffproject.view.operation_add.NewOperationFragment"
-        android:label="NewOperationFragment" />
+        android:label="NewOperationFragment">
+        <action
+            android:id="@+id/action_newOperationFragment_to_setCashFragment"
+            app:destination="@id/setCashFragment"
+            app:popUpTo="@id/setCashFragment" />
+        <action
+            android:id="@+id/action_newOperationFragment_to_chooseTypeFragment"
+            app:destination="@id/chooseTypeFragment"
+            app:popUpTo="@id/chooseTypeFragment" />
+        <action
+            android:id="@+id/action_newOperationFragment_to_chooseCategoryFragment"
+            app:destination="@id/chooseCategoryFragment"
+            app:popUpTo="@id/chooseCategoryFragment" />
+    </fragment>
 </navigation>
