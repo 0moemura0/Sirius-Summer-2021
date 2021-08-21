@@ -212,7 +212,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 alpha = 1f
             } else {
                 colorId = R.color.white
-                alpha =  0.6f
+                alpha = 0.6f
             }
         }
 

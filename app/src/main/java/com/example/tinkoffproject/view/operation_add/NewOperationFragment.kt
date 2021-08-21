@@ -45,14 +45,13 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
             category.text = it.name
         })
         viewModel.date.observe(viewLifecycleOwner, {
-            formatDate(requireView().context, it, R.string.date_format_default)
+            date.text = formatDate(requireView().context, it, R.string.date_format_default)
         })
     }
 
     private fun setupNextButton() {
         requireView().findViewById<TextView>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
-                viewModel.prepareNext()
                 findNavController().popBackStack(R.id.cardDetailsFragment, false)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)

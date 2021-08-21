@@ -1,6 +1,7 @@
 package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -26,19 +27,46 @@ class SetCashFragment : Fragment(R.layout.operation_set_cash) {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+
+        setupData()
         setupNextButton()
         setupInputText()
         setupToolbar()
     }
 
+    private fun setupData() {
+        viewModel.amount.value?.let{
+            inputEditText.setText(it.toString())
+        }
+        viewModel.amount.observe(viewLifecycleOwner, {
+            Log.d("kek", "${it}")
+            if (it != 0) {
+                viewModel.isNextAvailable.value = true
+                hideError()
+            }
+        })
+    }
+
+
     private fun setupInputText() {
         inputEditText.doAfterTextChanged {
-            val isNullOrEmpty = it.isNullOrEmpty()
-            if (isNullOrEmpty) inputTextLayout.error =
-                requireContext().getString(R.string.wrong_input)
-            viewModel.isNextAvailable.value = !isNullOrEmpty
+            if (!it.isNullOrEmpty()) {
+                Log.d("kek", "${it.toString().toInt()}")
+                viewModel.amount.value = it.toString().toInt()
+            }
         }
     }
+
+    private fun setDefaultError() {
+        val text = requireContext().getString(R.string.wrong_input)
+        setError(text)
+    }
+
+    private fun setError(text: String?) {
+        inputTextLayout.error = text
+    }
+
+    private fun hideError() = setError(null)
 
     private fun initViews() {
         inputEditText = requireView().findViewById(R.id.et_sum)
@@ -49,9 +77,9 @@ class SetCashFragment : Fragment(R.layout.operation_set_cash) {
     private fun setupNextButton() {
         requireView().findViewById<TextView>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
-                viewModel.amount.value = inputEditText.text.toString().toInt()
                 findNavController().navigate(R.id.action_setCashFragment_to_chooseTypeFragment)
             } else {
+                setDefaultError()
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
             }

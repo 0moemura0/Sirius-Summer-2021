@@ -36,14 +36,14 @@ class AddOperationViewModel : ViewModel() {
         }
 
     fun setCategory(position: Int) {
-        when (type.value) {
+        val newCategory: Category? = when (type.value) {
             CategoryType.INCOME -> categoriesIncome.value?.get(position)
             CategoryType.EXPENSE -> categoriesExpenses.value?.get(position)
+            else -> null
         }
-    }
 
-    fun prepareNext() {
-        isNextAvailable.value = false
+        if (newCategory != null)
+            category.value = newCategory
     }
 
     fun loadCategories() {
@@ -70,6 +70,9 @@ class AddOperationViewModel : ViewModel() {
                     CategoryNetwork("Спортзал", 2, "#994747").toCategory(),
                 )
         }
+    }
+
+    fun newTransaction(){
     }
 
     fun addTransaction() {

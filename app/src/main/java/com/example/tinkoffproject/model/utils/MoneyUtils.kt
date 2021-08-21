@@ -10,18 +10,22 @@ fun formatMoney(amount: Int, currency: Currency): String {
         javaCurr.getSymbol(Locale.getDefault())
     //TODO рус не отображается, надо хранить где-то
     Log.d("kek", "$currencySymbol - ${javaCurr.displayName} - ${javaCurr.symbol}")
-    Log.d("kek", "$currencySymbol - ${java.util.Currency.getInstance("USD").symbol} - ${javaCurr.symbol}")
+    Log.d(
+        "kek",
+        "$currencySymbol - ${java.util.Currency.getInstance("USD").symbol} - ${javaCurr.symbol}"
+    )
 
     return "${formatMoney(amount)} $currencySymbol"
 }
 
 private const val SPACE = ' '
 fun formatMoney(amount: Int): String {
+    val putSpaceEveryNSymbols = 2
     val builder = StringBuilder()
     builder.append(amount)
     var numberCount = 0
     for (i in builder.length - 1 downTo 0) {
-        if (numberCount == 2) {
+        if (numberCount == putSpaceEveryNSymbols) {
             builder.insert(i, SPACE)
             numberCount = 0
         } else numberCount++
