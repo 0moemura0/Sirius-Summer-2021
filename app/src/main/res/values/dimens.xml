@@ -26,5 +26,6 @@
     <dimen name="category_icon_side">40dp</dimen>
     <dimen name="indicator_side">8dp</dimen>
     <dimen name="item_transaction_text_offset">16dp</dimen>
+    <dimen name="view_dimen_14dp">14dp</dimen>
 
 </resources>

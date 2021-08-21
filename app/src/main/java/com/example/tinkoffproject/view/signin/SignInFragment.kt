@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCaller
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.utils.State
+import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.viewmodel.SignInViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -32,7 +32,7 @@ class SignInFragment : Fragment(R.layout.fragment_signin), ActivityResultCaller 
 
         viewModel.initActivityLauncher(this)
 
-        view.findViewById<TextView>(R.id.btn_login).setOnClickListener {
+        view.findViewById<NextCustomButton>(R.id.btn_login).setOnClickListener {
             viewModel.signIn(requireActivity())
         }
     }

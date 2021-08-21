@@ -45,4 +45,5 @@
     <string name="imaging_name">Придумайте название</string>
     <string name="category_name_default">Новая категория</string>
 
+    <string name="balance_overall">Общий баланс</string>
 </resources>

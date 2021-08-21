@@ -3,13 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rect_blue_rounded_8dp"
-    android:orientation="vertical">
+    android:clickable="true"
+    android:background="@drawable/background_cash_delta"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:padding="@dimen/view_dimen_normal"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_dimen_normal"
+        android:layout_margin="@dimen/view_dimen_small"
         android:orientation="horizontal">
 
         <ImageView
@@ -17,7 +21,7 @@
             android:layout_width="@dimen/view_dimen_small"
             android:layout_height="@dimen/view_dimen_small"
             android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/view_dimen_small"
+            android:layout_marginEnd="@dimen/view_dimen_not_so_small"
             android:src="@drawable/indicator_dot_green" />
 
         <TextView
@@ -25,13 +29,14 @@
             style="@style/ElementCashType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_dimen_not_so_small"
             tools:text="Доход" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_dimen_normal">
+        android:layout_marginTop="@dimen/view_dimen_small">
 
         <TextView
             android:id="@+id/tv_cash"
@@ -42,9 +47,9 @@
 
         <TextView
             android:id="@+id/tv_cash_limit"
+            style="@style/ElementCashLimit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ElementCashLimit"
             tools:text="/12 000 ₽" />
     </LinearLayout>
 
