@@ -39,7 +39,6 @@ class SetCashFragment : Fragment(R.layout.operation_set_cash) {
             inputEditText.setText(it.toString())
         }
         viewModel.amount.observe(viewLifecycleOwner, {
-            Log.d("kek", "${it}")
             if (it != 0) {
                 viewModel.isNextAvailable.value = true
                 hideError()
@@ -51,7 +50,6 @@ class SetCashFragment : Fragment(R.layout.operation_set_cash) {
     private fun setupInputText() {
         inputEditText.doAfterTextChanged {
             if (!it.isNullOrEmpty()) {
-                Log.d("kek", "${it.toString().toInt()}")
                 viewModel.amount.value = it.toString().toInt()
             }
         }
