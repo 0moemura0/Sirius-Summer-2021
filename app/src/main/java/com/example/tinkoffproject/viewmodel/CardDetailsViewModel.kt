@@ -16,7 +16,7 @@ class CardDetailsViewModel : ViewModel() {
         State.DataState(
             Wallet(
                 id = 0, name = "Кошелёк 1", incomeAmount = 10000964, expensesAmount = 10,
-                currency = Currency("RUB", 10F),
+                currency = Currency("USD", 10F),
                 limit = 11
 
             )
