@@ -8,10 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.utils.formatDate
+import com.example.tinkoffproject.model.utils.formatMoney
 
-class TransactionViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
+class TransactionViewHolder(private val root: View, private val currency: Currency) :
+    RecyclerView.ViewHolder(root) {
     private val amount: TextView = root.findViewById(R.id.tv_transaction_amount)
     private val category: TextView = root.findViewById(R.id.tv_transaction_category)
     private val type: TextView = root.findViewById(R.id.tv_transaction_type)
@@ -27,16 +30,16 @@ class TransactionViewHolder(private val root: View) : RecyclerView.ViewHolder(ro
         icon.setImageResource(data.category.resIconId)
         icon.backgroundTintList = ColorStateList.valueOf(data.category.color)
 
-        amount.text = data.amount
+        amount.text = formatMoney(data.amount, currency)
 
         date.text = formatDate(root.context, data.date, R.string.date_format_only_time)
     }
 
     companion object {
-        fun from(parent: ViewGroup): TransactionViewHolder {
+        fun from(parent: ViewGroup, currency: Currency): TransactionViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val view = layoutInflater.inflate(R.layout.item_transaction, parent, false)
-            return TransactionViewHolder(view)
+            return TransactionViewHolder(view, currency)
         }
     }
 }
