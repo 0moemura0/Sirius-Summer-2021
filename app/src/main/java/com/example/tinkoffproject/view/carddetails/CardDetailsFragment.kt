@@ -19,6 +19,7 @@ import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.dto.Wallet
 import com.example.tinkoffproject.model.utils.State
 import com.example.tinkoffproject.model.utils.formatMoney
+import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.view.adapter.transaction.TransactionTouchHelperCallback
@@ -167,7 +168,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     }
 
     private fun setupNavigation() {
-        requireView().findViewById<View>(R.id.tv_add).setOnClickListener {
+        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             findNavController().navigate(R.id.action_cardDetailsFragment_to_setCashFragment)
         }
     }
@@ -212,7 +213,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 alpha = 1f
             } else {
                 colorId = R.color.white
-                alpha =  0.6f
+                alpha = 0.6f
             }
         }
 

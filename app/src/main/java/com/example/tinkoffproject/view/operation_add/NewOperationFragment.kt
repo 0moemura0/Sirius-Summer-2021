@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.utils.formatDate
+import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
@@ -50,7 +51,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     }
 
     private fun setupNextButton() {
-        requireView().findViewById<TextView>(R.id.btn).setOnClickListener {
+        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
                 viewModel.prepareNext()
                 findNavController().popBackStack(R.id.cardDetailsFragment, false)

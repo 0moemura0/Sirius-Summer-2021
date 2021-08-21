@@ -57,14 +57,15 @@
     </LinearLayout>
 
 
-    <TextView
+    <com.example.tinkoffproject.view.NextCustomButton
         android:id="@+id/btn"
-        style="@style/LoginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/view_dimen_normal"
-        android:text="@string/done"
+        app:text="@string/done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_section_type_expenses"
+        app:layout_constraintVertical_bias="1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
