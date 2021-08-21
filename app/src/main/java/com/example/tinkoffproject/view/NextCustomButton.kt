@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.TextViewCompat
 import com.example.tinkoffproject.R
 
 class NextCustomButton @JvmOverloads constructor(
@@ -61,7 +62,7 @@ class NextCustomButton @JvmOverloads constructor(
         isClickable = state.isClickable
         progress.visibility = if (state.isProgressVisible) View.VISIBLE else View.GONE
         title.visibility = if (state.isTitleVisible) View.VISIBLE else View.GONE
-        title.setTextAppearance(context, state.titleStyle)
+        TextViewCompat.setTextAppearance(title, state.titleStyle)
     }
 
     enum class State(
