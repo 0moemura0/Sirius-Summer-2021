@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/cardDetailsFragment">
+    app:startDestination="@id/walletsListFragment">
 
     <fragment
         android:id="@+id/cardDetailsFragment"
@@ -55,4 +55,27 @@
             app:destination="@id/chooseCategoryFragment"
             app:popUpTo="@id/chooseCategoryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/walletsListFragment"
+        android:name="com.example.tinkoffproject.view.wallet_add.WalletsListFragment"
+        android:label="WalletsListFragment" >
+        <action
+            android:id="@+id/action_walletsListFragment_to_cardDetailsFragment"
+            app:destination="@id/cardDetailsFragment" />
+        <action
+            android:id="@+id/action_walletsListFragment_to_setNameFragment"
+            app:destination="@id/setNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setNameFragment"
+        android:name="com.example.tinkoffproject.view.wallet_add.SetNameFragment"
+        android:label="SetNameFragment" >
+        <action
+            android:id="@+id/action_setNameFragment_to_newWalletFragment"
+            app:destination="@id/newWalletFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newWalletFragment"
+        android:name="com.example.tinkoffproject.view.wallet_add.NewWalletFragment"
+        android:label="NewWalletFragment" />
 </navigation>

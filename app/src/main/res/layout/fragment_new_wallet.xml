@@ -21,50 +21,26 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/view_dimen_normal"
-                android:text="@string/main"
-                android:textAppearance="@style/Element"
-                android:textStyle="bold" />
-
             <include
-                android:id="@+id/ll_sum_container"
+                android:id="@+id/ll_name_container"
                 layout="@layout/element_text_arrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal" />
 
             <include
-                android:id="@+id/ll_type_container"
+                android:id="@+id/ll_currency_container"
                 layout="@layout/element_text_arrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal" />
 
             <include
-                android:id="@+id/ll_category_container"
+                android:id="@+id/ll_limit_container"
                 layout="@layout/element_text_arrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/view_dimen_normal"
-                android:text="@string/settings_additional"
-                android:textAppearance="@style/Element"
-                android:textStyle="bold" />
-
-            <include
-                android:id="@+id/ll_date_container"
-                layout="@layout/element_text_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/view_dimen_normal" />
-
         </LinearLayout>
 
         <com.example.tinkoffproject.view.NextCustomButton
@@ -76,6 +52,6 @@
             app:layout_constraintEnd_toEndOf="@id/section_type"
             app:layout_constraintStart_toStartOf="@id/section_type"
             app:layout_constraintTop_toBottomOf="@id/section_type"
-            app:text="@string/done" />
+            app:text="@string/wallet_add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

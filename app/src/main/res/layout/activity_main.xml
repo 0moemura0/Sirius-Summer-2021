@@ -27,6 +27,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="@dimen/view_dimen_normal"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_close"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/iv_back"
+                app:layout_constraintEnd_toEndOf="@id/iv_back"
+                app:layout_constraintStart_toStartOf="@id/iv_back"
+                app:layout_constraintTop_toTopOf="@id/iv_back" />
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="0dp"

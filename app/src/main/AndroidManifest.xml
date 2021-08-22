@@ -21,7 +21,9 @@
 
         </activity>
 
-        <activity android:name=".view.carddetails.MainActivity" />
+        <activity
+            android:name=".view.carddetails.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".view.signin.SignInActivity" />
 

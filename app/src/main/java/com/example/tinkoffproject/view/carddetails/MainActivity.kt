@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
     private val btnBack by lazy {
         findViewById<View>(R.id.iv_back)
     }
+    private val btnClose by lazy {
+        findViewById<View>(R.id.iv_close)
+    }
     private val toolbarTitle by lazy {
         findViewById<TextView>(R.id.title)
     }
@@ -70,6 +73,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         toolbarTitle.visibility = if (type.isTitleVisible) View.VISIBLE else View.INVISIBLE
         btnSetting.visibility = if (type.isSettingsVisible) View.VISIBLE else View.INVISIBLE
         btnBack.visibility = if (type.isBackVisible) View.VISIBLE else View.INVISIBLE
+        btnClose.visibility = if (type.isCloseVisible) View.VISIBLE else View.INVISIBLE
     }
 
 }
