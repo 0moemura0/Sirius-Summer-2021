@@ -41,6 +41,10 @@
     <string name="date_format_only_time">hh:mm</string>
 
     <string name="selected">Выбрано</string>
+    <string name="category_name">Названия категории</string>
+    <string name="imaging_name">Придумайте название</string>
+    <string name="category_name_default">Новая категория</string>
+
     <string name="balance_overall">Общий баланс</string>
 
     <string name="wallet_add">Создать кошелек</string>
