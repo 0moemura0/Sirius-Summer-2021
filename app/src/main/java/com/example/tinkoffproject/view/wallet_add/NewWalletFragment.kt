@@ -16,14 +16,39 @@ import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
 class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
-    private val nameLayout: View by lazy { requireView().findViewById(R.id.ll_name_container) }
-    private val currencyLayout: View by lazy { requireView().findViewById(R.id.ll_currency_container) }
-    private val limitLayout: View by lazy { requireView().findViewById(R.id.ll_limit_container) }
-
     private val viewModel: AddWalletViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val nameLayout: View = requireView().findViewById(R.id.ll_name_container)
+        val currencyLayout: View = requireView().findViewById(R.id.ll_currency_container)
+        val limitLayout: View = requireView().findViewById(R.id.ll_limit_container)
+
+        nameLayout.setOnClickListener {
+            findNavController().popBackStack(R.id.setNameFragment, false)
+        }
+        currencyLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWalletFragment_to_setCurrencyFragment)
+        }
+        limitLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWalletFragment_to_setLimitFragment)
+        }
+        val name: TextView = nameLayout.findViewById(R.id.tv_value)
+        val currency: TextView = currencyLayout.findViewById(R.id.tv_value)
+        val limit: TextView = limitLayout.findViewById(R.id.tv_value)
+
+        val nameTitle: TextView = nameLayout.findViewById(R.id.tv_title)
+        val currencyTitle: TextView = currencyLayout.findViewById(R.id.tv_title)
+        val limitTitle: TextView = limitLayout.findViewById(R.id.tv_title)
+
+        nameTitle.setText(R.string.name)
+        currencyTitle.setText(R.string.currency)
+        limitTitle.setText(R.string.limit)
+
+        name.text = "Кошелек 1"
+        currency.text = "Российский рубль"
+        limit.text = "Не установлен"
 
         setData()
         setupNextButton()
@@ -33,7 +58,7 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     }
 
     private fun setupNavigation() {
-        TODO("Not yet implemented")
+
     }
 
     private fun setupToolbar() {
@@ -54,16 +79,6 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     }
 
     private fun setData() {
-        val name: TextView = nameLayout.findViewById(R.id.tv_value)
-        val currency: TextView = currencyLayout.findViewById(R.id.tv_value)
-        val limit: TextView = limitLayout.findViewById(R.id.tv_value)
 
-        val nameTitle: TextView = nameLayout.findViewById(R.id.tv_title)
-        val currencyTitle: TextView = currencyLayout.findViewById(R.id.tv_title)
-        val limitTitle: TextView = limitLayout.findViewById(R.id.tv_title)
-
-        nameTitle.setText(R.string.name)
-        currencyTitle.setText(R.string.currency)
-        limitTitle.setText(R.string.limit)
     }
 }

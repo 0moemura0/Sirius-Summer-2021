@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.view.adapter.category
+package com.example.tinkoffproject.view.adapter.category_custom
 
 import android.graphics.Color
 import android.view.ViewGroup

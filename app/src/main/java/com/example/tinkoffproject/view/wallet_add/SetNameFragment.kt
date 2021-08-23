@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
@@ -24,11 +25,10 @@ class SetNameFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupNavigation() {
-        TODO("Not yet implemented")
     }
 
     private fun setupNextButton() {
-        TODO("Not yet implemented")
+        findNavController().navigate(R.id.action_setNameFragment_to_newWalletFragment)
     }
 
     private fun setData() {

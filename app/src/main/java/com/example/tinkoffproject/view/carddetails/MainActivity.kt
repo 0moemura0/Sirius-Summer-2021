@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         btnBack.setOnClickListener {
             onBackPressed()
         }
+        btnClose.setOnClickListener {
+            navController?.popBackStack()
+        }
     }
 
     @SuppressLint("RestrictedApi")

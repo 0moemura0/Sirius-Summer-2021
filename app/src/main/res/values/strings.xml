@@ -59,4 +59,6 @@
     <string name="category_name">Название категории</string>
     <string name="next">Далее</string>
     <string name="wallet_create">Создать кошелек</string>
+    <string name="turn">Свернуть</string>
+    <string name="show_more">Показать больше</string>
 </resources>

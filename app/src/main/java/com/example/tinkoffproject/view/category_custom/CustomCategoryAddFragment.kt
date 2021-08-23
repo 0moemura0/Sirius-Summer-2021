@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.NextCustomButton
-import com.example.tinkoffproject.view.adapter.category.CustomCategoryAdapter
+import com.example.tinkoffproject.view.adapter.category_custom.CustomCategoryAdapter
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar

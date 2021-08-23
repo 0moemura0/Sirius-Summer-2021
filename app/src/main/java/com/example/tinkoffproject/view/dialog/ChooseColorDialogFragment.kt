@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.view.adapter.category.CustomColorAdapter
+import com.example.tinkoffproject.view.adapter.category_custom.CustomColorAdapter
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 
 class ChooseColorDialogFragment() : DialogFragment() {
@@ -40,7 +40,6 @@ class ChooseColorDialogFragment() : DialogFragment() {
         )
         val recycler: RecyclerView = view.findViewById(R.id.rv_color)
 
-        // create FruitsAdapter and pass as parameters the fruits and the FruitItemListener
         val adapter = CustomColorAdapter()
         adapter.setData(colors)
         adapter.setOnItemClickListener(

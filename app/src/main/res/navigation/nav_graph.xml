@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/cardDetailsFragment">
+    app:startDestination="@id/walletsListFragment">
 
     <fragment
         android:id="@+id/cardDetailsFragment"
@@ -80,7 +80,14 @@
     <fragment
         android:id="@+id/newWalletFragment"
         android:name="com.example.tinkoffproject.view.wallet_add.NewWalletFragment"
-        android:label="NewWalletFragment" />
+        android:label="NewWalletFragment">
+        <action
+            android:id="@+id/action_newWalletFragment_to_setCurrencyFragment"
+            app:destination="@id/setCurrencyFragment" />
+        <action
+            android:id="@+id/action_newWalletFragment_to_setLimitFragment"
+            app:destination="@id/setLimitFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoryAddFragment"
         android:name="com.example.tinkoffproject.view.category_custom.CustomCategoryAddFragment"
@@ -97,4 +104,12 @@
         android:id="@+id/categoryChooseName"
         android:name="com.example.tinkoffproject.view.category_custom.CustomCategoryChooseName"
         android:label="CategoryChooseName" />
+    <fragment
+        android:id="@+id/setCurrencyFragment"
+        android:name="com.example.tinkoffproject.view.wallet_add.SetCurrencyFragment"
+        android:label="SetCurrencyFragment" />
+    <fragment
+        android:id="@+id/setLimitFragment"
+        android:name="com.example.tinkoffproject.view.wallet_add.SetLimitFragment"
+        android:label="SetLimitFragment" />
 </navigation>
