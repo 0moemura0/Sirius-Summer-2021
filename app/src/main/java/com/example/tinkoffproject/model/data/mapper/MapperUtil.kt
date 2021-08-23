@@ -40,22 +40,37 @@ fun getResId(categoryIconId: Int): Int {
         2 -> R.drawable.ic_sport
         //TODO add error drawable
         else -> R.drawable.ic_income
+
     }
 }
+
+fun Category.toNetwork() = CategoryNetwork(
+    name = name,
+    iconId = CategoryEnum.fromLocalId(resIconId).remoteIconId,
+    color = String.format("#%06X", 0xFFFFFF and color)
+)
 
 fun CategoryNetwork.toCategory() = Category(
     name = name,
     resIconId = getResId(iconId),
     color = Color.parseColor(color),
     isIncome = isIncome
+
 )
 
-
-//мне не нравится, что amount превращается в стринг
 fun TransactionNetwork.toTransaction(currency: Currency) = Transaction(
     id = id,
     date = date,
     isIncome = isIncome,
     category = category.toCategory(),
-    amount = formatMoney(amount, currency)
+    amount = amount,
+    amountFormatted = formatMoney(amount, currency)
+)
+
+fun Transaction.toNetwork() = TransactionNetwork(
+    id = id,
+    date = date,
+    isIncome = isIncome,
+    category = category.toNetwork(),
+    amount = amount
 )

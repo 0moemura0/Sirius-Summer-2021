@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.model.data.dto.Category
+import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.mapper.toCategory
+import com.example.tinkoffproject.model.data.mapper.toNetwork
 import com.example.tinkoffproject.model.data.network.ApiService
 import com.example.tinkoffproject.model.data.network.dto.CategoryNetwork
+import com.example.tinkoffproject.model.utils.formatMoney
 import com.example.tinkoffproject.view.data.CategoryType
 import com.example.tinkoffproject.view.data.SelectableCategory
 import java.util.*
@@ -36,14 +39,14 @@ class AddOperationViewModel : ViewModel() {
         }
 
     fun setCategory(position: Int) {
-        when (type.value) {
+        val newCategory: Category? = when (type.value) {
             CategoryType.INCOME -> categoriesIncome.value?.get(position)
             CategoryType.EXPENSE -> categoriesExpenses.value?.get(position)
+            else -> null
         }
-    }
 
-    fun prepareNext() {
-        isNextAvailable.value = false
+        if (newCategory != null)
+            category.value = newCategory
     }
 
     fun loadCategories() {
@@ -72,7 +75,23 @@ class AddOperationViewModel : ViewModel() {
         }
     }
 
+    fun newTransaction(){
+    }
+
     fun addTransaction() {
-        // TODO нельзя использовать Transaction, но использовать TransactionNetwork неправильно
+        val amount = this.amount.value
+        val category = this.category.value
+        val type = this.type.value
+        val date = this.date.value
+
+        if (amount != null && category != null && type != null && date != null)
+            Transaction(
+                id = 0,
+                amount = amount,
+                category = category,
+                date = date.time,
+                isIncome = type == CategoryType.INCOME,
+                amountFormatted = formatMoney(amount)
+            ).toNetwork()
     }
 }

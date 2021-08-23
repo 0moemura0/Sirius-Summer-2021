@@ -15,6 +15,7 @@ import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.view.data.CategoryType
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
+import java.lang.IllegalStateException
 
 class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private val viewModel: AddOperationViewModel by activityViewModels()
@@ -26,17 +27,21 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
 
         initViews()
 
+        setupData()
+        setupSelectors()
+        setupNextButton()
+        setupToolBar()
+    }
+
+    private fun setupData() {
         viewModel.type.observe(viewLifecycleOwner, {
             when (it) {
                 CategoryType.INCOME -> switchSelection(income, cons)
                 CategoryType.EXPENSE -> switchSelection(cons, income)
+                else -> throw IllegalStateException("CategoryType don't have the value $it")
             }
             viewModel.isNextAvailable.value = true
         })
-
-        setupSelectors()
-        setupNextButton()
-        setupToolBar()
     }
 
     private fun initViews() {
@@ -61,7 +66,6 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
-                viewModel.prepareNext()
                 findNavController().navigate(R.id.action_chooseTypeFragment_to_chooseCategoryFragment)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
