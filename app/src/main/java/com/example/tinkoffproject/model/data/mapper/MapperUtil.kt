@@ -16,10 +16,31 @@ enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
     DEFAULT(-1, R.drawable.ic_income);
 
     companion object {
-        private val mapLocal = CategoryEnum.values().associateBy(CategoryEnum::localIconId)
-        private val mapRemote = CategoryEnum.values().associateBy(CategoryEnum::remoteIconId)
+        private val mapLocal = values().associateBy(CategoryEnum::localIconId)
+        private val mapRemote = values().associateBy(CategoryEnum::remoteIconId)
         fun fromLocalId(id: Int) = mapLocal[id] ?: DEFAULT
         fun fromRemoteId(id: Int) = mapRemote[id] ?: DEFAULT
+    }
+}
+
+fun Category.toNetwork() = CategoryNetwork(
+    name = name,
+    iconId = CategoryEnum.fromLocalId(resIconId).remoteIconId,
+    color = colorToStr(color),
+    isIncome = isIncome
+)
+
+fun colorToStr(color: Int) = String.format("#%06X", 0xFFFFFF and color)
+
+
+fun getResId(categoryIconId: Int): Int {
+    return when (categoryIconId) {
+        0 -> R.drawable.ic_shop
+        1 -> R.drawable.ic_income
+        2 -> R.drawable.ic_sport
+        //TODO add error drawable
+        else -> R.drawable.ic_income
+
     }
 }
 
@@ -31,8 +52,10 @@ fun Category.toNetwork() = CategoryNetwork(
 
 fun CategoryNetwork.toCategory() = Category(
     name = name,
-    resIconId = CategoryEnum.fromRemoteId(iconId).localIconId,
-    color = Color.parseColor(color)
+    resIconId = getResId(iconId),
+    color = Color.parseColor(color),
+    isIncome = isIncome
+
 )
 
 fun TransactionNetwork.toTransaction(currency: Currency) = Transaction(

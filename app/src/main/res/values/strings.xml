@@ -17,7 +17,7 @@
     <string name="salary">Зарплата</string>
 
 
-    <string name="amount">Сумма</string>
+    <string name="sum">Сумма</string>
     <string name="type">Тип</string>
     <string name="main">Основные</string>
     <string name="category">Категория</string>
@@ -41,5 +41,19 @@
     <string name="date_format_only_time">hh:mm</string>
 
     <string name="selected">Выбрано</string>
+    <string name="category_name">Названия категории</string>
+    <string name="imaging_name">Придумайте название</string>
+    <string name="category_name_default">Новая категория</string>
+
     <string name="balance_overall">Общий баланс</string>
+
+    <string name="wallet_add">Создать кошелек</string>
+    <string name="wallet_new">Новый кошелек</string>
+    <string name="name">Название</string>
+    <string name="currency">Валюта</string>
+    <string name="limit">Лимит</string>
+    <string name="choose_name">Придумайте название</string>
+    <string name="save">Сохранить</string>
+    <string name="limit_desc">Лимит на траты</string>
+    <string name="wallet_name">Название кошелька</string>
 </resources>

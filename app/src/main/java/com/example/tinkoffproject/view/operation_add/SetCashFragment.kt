@@ -17,7 +17,7 @@ import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 import com.google.android.material.textfield.TextInputLayout
 
-class SetCashFragment : Fragment(R.layout.operation_set_cash) {
+class SetCashFragment : Fragment(R.layout.layout_set_value) {
 
     private val viewModel: AddOperationViewModel by activityViewModels()
     private lateinit var inputEditText: EditText

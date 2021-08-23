@@ -22,7 +22,7 @@ class AddOperationViewModel : ViewModel() {
     val category = MutableLiveData<Category>()
     val amount = MutableLiveData<Int>()
 
-    val date = MutableLiveData<Date>(Date())
+    val date = MutableLiveData(Date())
 
     private val categoriesIncome: MutableLiveData<List<Category>> = MutableLiveData()
     private val categoriesExpenses: MutableLiveData<List<Category>> = MutableLiveData()
@@ -60,7 +60,7 @@ class AddOperationViewModel : ViewModel() {
         if (categoriesIncome.value == null) {
             categoriesIncome.value =
                 listOf(
-                    CategoryNetwork("Зарплата", 1, "#00B92D").toCategory(),
+                    CategoryNetwork("Зарплата", 1, "#00B92D", isIncome = true).toCategory(),
                 )
         }
     }
@@ -69,8 +69,8 @@ class AddOperationViewModel : ViewModel() {
         if (categoriesExpenses.value == null) {
             categoriesExpenses.value =
                 listOf(
-                    CategoryNetwork("Супермаркеты", 0, "#339FEE").toCategory(),
-                    CategoryNetwork("Спортзал", 2, "#994747").toCategory(),
+                    CategoryNetwork("Супермаркеты", 0, "#339FEE", isIncome = false).toCategory(),
+                    CategoryNetwork("Спортзал", 2, "#994747", isIncome = false).toCategory(),
                 )
         }
     }
