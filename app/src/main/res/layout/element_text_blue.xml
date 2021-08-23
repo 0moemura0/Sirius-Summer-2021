@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/view_dimen_normal">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:gravity="center|start"
+        android:singleLine="true"
+        android:textAppearance="@style/Element"
+        android:textSize="@dimen/view_text_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/barrier"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="sddfbksjdnявьсыжвдльсыдвьмдыльвмдылвмтдлcsdnsmnnknbf" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/view_dimen_small"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="tv_value" />
+
+    <TextView
+        android:id="@+id/tv_value"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/view_dimen_not_so_small"
+        android:ellipsize="end"
+        android:gravity="center|start"
+        android:singleLine="true"
+        android:textAppearance="@style/Element"
+        android:textColor="@color/blue_main"
+        android:textSize="@dimen/view_text_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/barrier"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Задать цвет" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

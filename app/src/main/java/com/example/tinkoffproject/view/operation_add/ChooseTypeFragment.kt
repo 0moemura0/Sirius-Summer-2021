@@ -62,7 +62,10 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
                 viewModel.prepareNext()
-                findNavController().navigate(R.id.action_chooseTypeFragment_to_chooseCategoryFragment)
+                if (findNavController().previousBackStackEntry?.destination?.id == R.id.categoryAddFragment) {
+                    findNavController().popBackStack()
+                } else
+                    findNavController().navigate(R.id.action_chooseTypeFragment_to_chooseCategoryFragment)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()

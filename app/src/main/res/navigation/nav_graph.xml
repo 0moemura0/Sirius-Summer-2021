@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/walletsListFragment">
+    app:startDestination="@id/cardDetailsFragment">
 
     <fragment
         android:id="@+id/cardDetailsFragment"
@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_chooseCategoryFragment_to_newOperationFragment"
             app:destination="@id/newOperationFragment" />
+        <action
+            android:id="@+id/action_chooseCategoryFragment_to_categoryAddFragment"
+            app:destination="@id/categoryAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/newOperationFragment"
@@ -58,7 +61,7 @@
     <fragment
         android:id="@+id/walletsListFragment"
         android:name="com.example.tinkoffproject.view.wallet_add.WalletsListFragment"
-        android:label="WalletsListFragment" >
+        android:label="WalletsListFragment">
         <action
             android:id="@+id/action_walletsListFragment_to_cardDetailsFragment"
             app:destination="@id/cardDetailsFragment" />
@@ -69,7 +72,7 @@
     <fragment
         android:id="@+id/setNameFragment"
         android:name="com.example.tinkoffproject.view.wallet_add.SetNameFragment"
-        android:label="SetNameFragment" >
+        android:label="SetNameFragment">
         <action
             android:id="@+id/action_setNameFragment_to_newWalletFragment"
             app:destination="@id/newWalletFragment" />
@@ -78,4 +81,20 @@
         android:id="@+id/newWalletFragment"
         android:name="com.example.tinkoffproject.view.wallet_add.NewWalletFragment"
         android:label="NewWalletFragment" />
+    <fragment
+        android:id="@+id/categoryAddFragment"
+        android:name="com.example.tinkoffproject.view.category_custom.CustomCategoryAddFragment"
+        android:label="fragment_categoty_add"
+        tools:layout="@layout/fragment_categoty_add">
+        <action
+            android:id="@+id/action_categoryAddFragment_to_categoryChooseName"
+            app:destination="@id/categoryChooseName" />
+        <action
+            android:id="@+id/action_categoryAddFragment_to_chooseTypeFragment"
+            app:destination="@id/chooseTypeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryChooseName"
+        android:name="com.example.tinkoffproject.view.category_custom.CustomCategoryChooseName"
+        android:label="CategoryChooseName" />
 </navigation>

@@ -23,7 +23,7 @@
             android:background="@color/blue_main"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/view_dimen_normal"
-            android:paddingTop="50dp"
+            android:paddingTop="64dp"
             app:layout_constraintBottom_toTopOf="@id/section_header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,20 +105,22 @@
                 app:layout_constraintTop_toTopOf="@id/l_currency_2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--        https://habr.com/ru/post/431718/-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_wallets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_dimen_normal"
+            android:padding="@dimen/view_dimen_normal"
             app:layout_constraintTop_toBottomOf="@id/l_currency" />
 
         <com.example.tinkoffproject.view.NextCustomButton
+            android:id="@+id/btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_dimen_normal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_wallets"
-            app:layout_constraintVertical_bias="1" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@string/wallet_create" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
