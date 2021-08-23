@@ -36,13 +36,10 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
 
     private fun setData() {
         val input: TextInputLayout = requireView().findViewById(R.id.input_sum)
-        val edit:TextInputEditText = requireView().findViewById(R.id.et_sum)
+        val edit: TextInputEditText = requireView().findViewById(R.id.et_sum)
         edit.setHint(R.string.limit_desc)
     }
 
-    private fun setupNextButton() {
-        
-    }
 
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)

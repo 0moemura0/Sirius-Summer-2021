@@ -46,7 +46,7 @@ class AddOperationViewModel : ViewModel() {
         }
 
         if (newCategory != null)
-            category.value = newCategory
+            category.value = newCategory!!
     }
 
     fun loadCategories() {

@@ -40,8 +40,9 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     private fun setupCreateCategory() {
         val createTextView: TextView = requireView().findViewById(R.id.tv_create)
         createTextView.setOnClickListener {
-            findNavController().navigate(R.id.action_chooseCategoryFragment_to_categoryAddFragment)
+            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)
         }
+    }
 
     private fun openChooseColor(){
         //TODO

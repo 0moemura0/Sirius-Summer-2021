@@ -66,7 +66,7 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
-                viewModel.prepareNext()
+                //viewModel.prepareNext()
                 if (findNavController().previousBackStackEntry?.destination?.id == R.id.categoryAddFragment) {
                     findNavController().popBackStack()
                 } else
