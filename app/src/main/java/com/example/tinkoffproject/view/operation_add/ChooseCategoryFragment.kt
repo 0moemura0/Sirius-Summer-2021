@@ -40,8 +40,8 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
 
     private fun setupNavigation(){
         /*requireView().findViewById<View>(R.id.dtn_add_category).setOnClickListener {
-            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)
-        }*/
+            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)*/
+        }
     private fun setupData() {
         viewModel.category.observe(viewLifecycleOwner, {
             viewModel.isNextAvailable.value = true

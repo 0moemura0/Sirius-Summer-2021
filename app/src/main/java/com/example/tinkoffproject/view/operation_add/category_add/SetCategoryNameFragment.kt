@@ -13,7 +13,7 @@ import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddCategoryViewModel
 import com.google.android.material.textfield.TextInputLayout
 
-class SetCategoryNameFragment: Fragment(R.layout.operation_set_cash) {
+class SetCategoryNameFragment: Fragment(R.layout.layout_set_value) {
     private val viewModel: AddCategoryViewModel by activityViewModels()
 
     private lateinit var inputEditText: EditText

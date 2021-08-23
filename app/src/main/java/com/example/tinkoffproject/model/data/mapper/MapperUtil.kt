@@ -33,26 +33,10 @@ fun Category.toNetwork() = CategoryNetwork(
 fun colorToStr(color: Int) = String.format("#%06X", 0xFFFFFF and color)
 
 
-fun getResId(categoryIconId: Int): Int {
-    return when (categoryIconId) {
-        0 -> R.drawable.ic_shop
-        1 -> R.drawable.ic_income
-        2 -> R.drawable.ic_sport
-        //TODO add error drawable
-        else -> R.drawable.ic_income
-
-    }
-}
-
-fun Category.toNetwork() = CategoryNetwork(
-    name = name,
-    iconId = CategoryEnum.fromLocalId(resIconId).remoteIconId,
-    color = String.format("#%06X", 0xFFFFFF and color)
-)
 
 fun CategoryNetwork.toCategory() = Category(
     name = name,
-    resIconId = getResId(iconId),
+    resIconId = CategoryEnum.fromRemoteId(iconId).localIconId,
     color = Color.parseColor(color),
     isIncome = isIncome
 
