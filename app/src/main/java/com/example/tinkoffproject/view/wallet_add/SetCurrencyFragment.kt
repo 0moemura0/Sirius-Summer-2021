@@ -22,9 +22,9 @@ import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
 class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
     private val viewModel: AddWalletViewModel by activityViewModels()
-
+    
     val DEFAULT_COUNT = 3
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

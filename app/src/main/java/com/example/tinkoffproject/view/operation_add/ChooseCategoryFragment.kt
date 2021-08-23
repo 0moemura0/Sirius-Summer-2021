@@ -27,23 +27,39 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loadCategories()
+
+        setupNavigation()
+        setupData()
         setupRecyclerView()
         setupCreateCategory()
         setupNextButton()
         setupToolbar()
     }
 
+
     private fun setupCreateCategory() {
         val createTextView: TextView = requireView().findViewById(R.id.tv_create)
         createTextView.setOnClickListener {
             findNavController().navigate(R.id.action_chooseCategoryFragment_to_categoryAddFragment)
         }
+
+    private fun openChooseColor(){
+        //TODO
+    }
+
+    private fun setupNavigation(){
+        /*requireView().findViewById<View>(R.id.dtn_add_category).setOnClickListener {
+            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)*/
+        }
+    private fun setupData() {
+        viewModel.category.observe(viewLifecycleOwner, {
+            viewModel.isNextAvailable.value = true
+        })
     }
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
-                viewModel.prepareNext()
                 findNavController().navigate(R.id.action_chooseCategoryFragment_to_newOperationFragment)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)

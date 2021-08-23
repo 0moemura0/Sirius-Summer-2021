@@ -1,24 +1,24 @@
-package com.example.tinkoffproject.view.operation_add
+package com.example.tinkoffproject.view.operation_add.category_add
 
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.view.data.CategoryType
-import com.example.tinkoffproject.viewmodel.AddOperationViewModel
-import java.lang.IllegalStateException
+import com.example.tinkoffproject.viewmodel.AddCategoryViewModel
 
-class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
-    private val viewModel: AddOperationViewModel by activityViewModels()
+class ChooseCategoryTypeFragment : Fragment(R.layout.operation_choose_type) {
+    private val viewModel: AddCategoryViewModel by activityViewModels()
+
     private lateinit var income: LinearLayout
     private lateinit var cons: LinearLayout
 
@@ -64,13 +64,9 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     }
 
     private fun setupNextButton() {
-        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
+        requireView().findViewById<TextView>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
-                viewModel.prepareNext()
-                if (findNavController().previousBackStackEntry?.destination?.id == R.id.categoryAddFragment) {
-                    findNavController().popBackStack()
-                } else
-                    findNavController().navigate(R.id.action_chooseTypeFragment_to_chooseCategoryFragment)
+                findNavController().navigate(R.id.action_chooseNewCategoryTypeFragment_to_newCategoryFragment)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()

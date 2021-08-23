@@ -28,6 +28,7 @@ class SetNameFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupNavigation() {
+
     }
 
     private fun setupNextButton() {

@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
     }
 
     override fun updateToolbar(title: String, type: ToolbarType) {
+
         if (type != ToolbarType.INVISIBLE) {
             toolbar.visibility = View.VISIBLE
             toolbarTitle.text = title

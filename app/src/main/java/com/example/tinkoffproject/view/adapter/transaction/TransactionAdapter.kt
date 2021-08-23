@@ -2,12 +2,15 @@ package com.example.tinkoffproject.view.adapter.transaction
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 
 
 //TODO Подключить diffutils
-class TransactionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TransactionAdapter() :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val data = mutableListOf<Transaction>()
+    lateinit var currency: Currency
 
     companion object {
         const val TYPE_TRANSACTION = 0
@@ -22,13 +25,14 @@ class TransactionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyItemRangeInserted(0, new.size)
     }
 
+
     override fun getItemId(position: Int): Long {
         return data.getOrNull(0)?.id ?: -1L
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_TRANSACTION -> TransactionViewHolder.from(parent)
+            TYPE_TRANSACTION -> TransactionViewHolder.from(parent, currency)
             TYPE_NO_TRANSACTION -> NoTransactionsViewHolder.from(parent)
             else -> throw IllegalStateException("view type didn't added to onCreateViewHolder")
         }
