@@ -18,19 +18,28 @@ import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private val viewModel: AddOperationViewModel by activityViewModels()
 
-    private val sumLayout: View by lazy { requireView().findViewById(R.id.ll_sum_container) }
-    private val typeLayout: View by lazy { requireView().findViewById(R.id.ll_type_container) }
-    private val categoryLayout: View by lazy { requireView().findViewById(R.id.ll_category_container) }
-    private val dateLayout: View by lazy { requireView().findViewById(R.id.ll_date_container) }
+    private lateinit var sumLayout: View
+    private lateinit var typeLayout: View
+    private lateinit var categoryLayout: View
+    private lateinit var dateLayout: View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initViews()
 
         setData()
         setupNextButton()
         setupToolbar()
         setupNavigation()
         viewModel.isNextAvailable.value = true
+    }
+
+    private fun initViews(){
+        sumLayout = requireView().findViewById(R.id.ll_sum_container)
+        typeLayout = requireView().findViewById(R.id.ll_type_container)
+        categoryLayout = requireView().findViewById(R.id.ll_category_container)
+        dateLayout = requireView().findViewById(R.id.ll_date_container)
     }
 
     private fun setData() {

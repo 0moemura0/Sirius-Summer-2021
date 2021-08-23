@@ -16,20 +16,28 @@ import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
 class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
-    private val nameLayout: View by lazy { requireView().findViewById(R.id.ll_name_container) }
-    private val currencyLayout: View by lazy { requireView().findViewById(R.id.ll_currency_container) }
-    private val limitLayout: View by lazy { requireView().findViewById(R.id.ll_limit_container) }
+    private lateinit var nameLayout: View
+    private lateinit var currencyLayout: View
+    private lateinit var limitLayout: View
 
     private val viewModel: AddWalletViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViews()
+
         setData()
         setupNextButton()
         setupToolbar()
         setupNavigation()
         //viewModel.isNextAvailable.value = true
+    }
+
+    private fun initViews(){
+        nameLayout = requireView().findViewById(R.id.ll_name_container)
+        currencyLayout = requireView().findViewById(R.id.ll_currency_container)
+        limitLayout = requireView().findViewById(R.id.ll_limit_container)
     }
 
     private fun setupNavigation() {
