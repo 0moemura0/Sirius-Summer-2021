@@ -27,12 +27,23 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
 
         initViews()
 
+        nameLayout.setOnClickListener {
+            findNavController().popBackStack(R.id.setNameFragment, false)
+        }
+        currencyLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWalletFragment_to_setCurrencyFragment)
+        }
+        limitLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWalletFragment_to_setLimitFragment)
+        }
+
         setData()
         setupNextButton()
         setupToolbar()
         setupNavigation()
         //viewModel.isNextAvailable.value = true
     }
+
 
     private fun initViews(){
         nameLayout = requireView().findViewById(R.id.ll_name_container)
@@ -41,7 +52,7 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     }
 
     private fun setupNavigation() {
-        TODO("Not yet implemented")
+        
     }
 
     private fun setupToolbar() {
@@ -73,5 +84,9 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         nameTitle.setText(R.string.name)
         currencyTitle.setText(R.string.currency)
         limitTitle.setText(R.string.limit)
+        
+        name.text = "Кошелек 1"
+        currency.text = "Российский рубль"
+        limit.text = "Не установлен"
     }
 }

@@ -10,6 +10,7 @@ import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 
 class SetLimitFragment : Fragment(R.layout.layout_set_value) {
@@ -25,16 +26,22 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupNavigation() {
-        TODO("Not yet implemented")
+
+
     }
 
     private fun setupNextButton() {
-        TODO("Not yet implemented")
+
     }
 
     private fun setData() {
-        val input:TextInputEditText = requireView().findViewById(R.id.et_sum)
-        input.setHint(R.string.limit_desc)
+        val input: TextInputLayout = requireView().findViewById(R.id.input_sum)
+        val edit:TextInputEditText = requireView().findViewById(R.id.et_sum)
+        edit.setHint(R.string.limit_desc)
+    }
+
+    private fun setupNextButton() {
+        
     }
 
     private fun setupToolbar() {

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/view_dimen_normal">
+    android:padding="@dimen/view_dimen_small">
 
     <TextView
         android:id="@+id/tv_name"

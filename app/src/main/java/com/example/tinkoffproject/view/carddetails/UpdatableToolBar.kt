@@ -1,14 +1,16 @@
 package com.example.tinkoffproject.view.carddetails
 
 enum class ToolbarType(
-    val isBackVisible: Boolean,
-    val isSettingsVisible: Boolean,
-    val isTitleVisible: Boolean,
+    val isBackVisible: Boolean = false,
+    val isSettingsVisible: Boolean = false,
+    val isTitleVisible: Boolean = false,
     val isCloseVisible: Boolean = false
 ) {
     DEFAULT(true, true, false),
     ADD_OPERATION(true, false, true),
-    ADD_VALUE(false, false, false)
+
+    ADD_VALUE(isCloseVisible = true),
+    INVISIBLE()
 }
 
 interface UpdatableToolBar {

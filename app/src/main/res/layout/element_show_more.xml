@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/view_dimen_normal">
+    android:paddingVertical="@dimen/view_dimen_normal">
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
