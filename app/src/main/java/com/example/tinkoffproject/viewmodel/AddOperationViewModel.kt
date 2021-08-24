@@ -9,7 +9,7 @@ import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.mapper.toCategory
 import com.example.tinkoffproject.model.data.mapper.toNetwork
 import com.example.tinkoffproject.model.data.network.ApiService
-import com.example.tinkoffproject.model.data.network.dto.CategoryNetwork
+import com.example.tinkoffproject.model.data.network.dto.response.CategoryNetwork
 import com.example.tinkoffproject.model.utils.formatMoney
 import com.example.tinkoffproject.view.data.CategoryType
 import com.example.tinkoffproject.view.data.SelectableCategory
@@ -50,7 +50,7 @@ class AddOperationViewModel : ViewModel() {
         }
 
         if (newCategory != null)
-            category.value = newCategory
+            category.value = newCategory!!
     }
 
     fun loadCategories() {

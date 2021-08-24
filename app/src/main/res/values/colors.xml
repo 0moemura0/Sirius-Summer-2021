@@ -20,4 +20,13 @@
     <color name="black_alpha_light">#99000000</color>
     <color name="stab">#299C9C9C</color>
 
+
+    <color name="purple">#7765C0</color>
+    <color name="blue">#339FEE</color>
+    <color name="brown">#994747</color>
+    <color name="pink">#EE33BA</color>
+    <color name="green">#16DC71</color>
+    <color name="orange">#EEA333</color>
+    <color name="purple_dark">#91397D</color>
+    <color name="yellow">#EEDB33</color>
 </resources>

@@ -27,6 +27,16 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
 
         initViews()
 
+        nameLayout.setOnClickListener {
+            findNavController().popBackStack(R.id.setNameFragment, false)
+        }
+        currencyLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWalletFragment_to_setCurrencyFragment)
+        }
+        limitLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWalletFragment_to_setLimitFragment)
+        }
+
         setData()
         setupNextButton()
         setupToolbar()
@@ -50,7 +60,6 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
             findNavController().navigate(R.id.action_newWallet_to_setWalletLimit)
         }
     }
-
 
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)

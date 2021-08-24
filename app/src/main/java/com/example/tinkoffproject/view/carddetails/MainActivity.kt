@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 
@@ -31,6 +32,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
     private val toolbarTitle by lazy {
         findViewById<TextView>(R.id.title)
     }
+    private val toolbar by lazy {
+        findViewById<Toolbar>(R.id.toolbar)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -40,11 +44,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         btnBack.setOnClickListener {
             onBackPressed()
         }
+        btnClose.setOnClickListener {
+            navController?.popBackStack()
+        }
     }
 
     @SuppressLint("RestrictedApi")
     override fun onBackPressed() {
-        val isMainPage = navController?.currentDestination?.id == R.id.cardDetails
+        val isMainPage = navController?.currentDestination?.id == R.id.walletsListFragment
         if (!timer.isRunning() && isMainPage) {
             timer.start()
             Toast.makeText(this, getString(R.string.touch_again_for_exit), Toast.LENGTH_SHORT)
@@ -69,11 +76,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
     }
 
     override fun updateToolbar(title: String, type: ToolbarType) {
-        toolbarTitle.text = title
-        toolbarTitle.visibility = if (type.isTitleVisible) View.VISIBLE else View.INVISIBLE
-        btnSetting.visibility = if (type.isSettingsVisible) View.VISIBLE else View.INVISIBLE
-        btnBack.visibility = if (type.isBackVisible) View.VISIBLE else View.INVISIBLE
-        btnClose.visibility = if (type.isCloseVisible) View.VISIBLE else View.INVISIBLE
+
+        if (type != ToolbarType.INVISIBLE) {
+            toolbar.visibility = View.VISIBLE
+            toolbarTitle.text = title
+            toolbarTitle.visibility = if (type.isTitleVisible) View.VISIBLE else View.INVISIBLE
+            btnSetting.visibility = if (type.isSettingsVisible) View.VISIBLE else View.INVISIBLE
+            btnBack.visibility = if (type.isBackVisible) View.VISIBLE else View.INVISIBLE
+            btnClose.visibility = if (type.isCloseVisible) View.VISIBLE else View.INVISIBLE
+        } else {
+            toolbar.visibility = View.GONE
+        }
     }
 
 }

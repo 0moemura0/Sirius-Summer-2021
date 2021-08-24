@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.model.data.dto.Category
 import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.dto.Wallet
@@ -22,95 +24,18 @@ import com.example.tinkoffproject.model.utils.formatMoney
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
-import com.example.tinkoffproject.view.adapter.transaction.TransactionTouchHelperCallback
 import com.example.tinkoffproject.viewmodel.CardDetailsViewModel
 
-private val data: List<Transaction> = emptyList()/*listOf(
-    Transaction(
-        id = 35,
-        date = 1629294379553,
-        isIncome = true,
-        category = CategoryNetwork("Супермаркет", 0, "F52222"),
-        amount = 10000,
-    ),
-    Transaction(
-        id = 22,
-        date = 1629294379553,
-        isIncome = true,
-        category = CategoryNetwork = ("Супермаркет", 0, "F52222",
-        amount = 10001,
-    ),
-    Transaction(
-        id = 10,
-        date = 1629294379553,
-        isIncome = true,
-        category = CategoryNetwork("Супермаркет", 0, "F52222"),
-        amount = 10010,
-    ),
-    Transaction(
-        id = 9,
-        date = 1629294379553,
-        isIncome = true,
-        category = CategoryNetwork("Супермаркет", 0, "F52222"),
-        amount = 10100,
-    ),
-    Transaction(
-        id = 8,
-        date = 1629294379553,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
-        amount = 11000,
-    ),
-    Transaction(
-        id = 7,
-        date = 1629224699479,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
-        amount = 11001,
-    ),
-    Transaction(
-        id = 6,
-        date = 1629224699479,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
-        amount = 11010,
-    ),
-    Transaction(
-        id = 5,
-        date = 1629138299480,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
-        amount = 11100,
-    ),
-    Transaction(
-        id = 4,
-        date = 1629051899480,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
-        amount = 11101,
-    ),
-    Transaction(
-        id = 3,
-        date = 1629051899480,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
-        amount = 11110,
-    ),
-    Transaction(
-        id = 2,
-        date = 1628447099480,
-        type = TransactionType.INCOME,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
-        amount = 11111,
-    ),
-    Transaction(
-        id = 1,
-        date = 1628447099480,
-        type = TransactionType.EXPENSES,
-        category = TransactionCategory.INCOME_PART_TIME_JOB,
-        amount = 11245,
-    ),
-)*/
+private val data: List<Transaction> = listOf(
+    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
+    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
+    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
+    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
+    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
+    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
+    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
+    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
+)
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private val viewModel: CardDetailsViewModel by viewModels()
@@ -256,9 +181,48 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         }
         Handler(Looper.getMainLooper()).postDelayed({
             transactionAdapter?.setData(data)
-        }, 3000)
+        }, 2000)
 
-        val itemTouchHelper = ItemTouchHelper(TransactionTouchHelperCallback())
+        val swipe = object : MySwipeHelper(context, recycler, 180) {
+            override fun instantiateMyButton(
+                viewHolder: RecyclerView.ViewHolder?,
+                buffer: MutableList<MyButton>
+            ) {
+                buffer.add(
+                    MyButton(
+                        context!!,
+                        R.drawable.ic_edit,
+                        object: MyButtonClickListener {
+                            override fun onClick(pos: Int) {
+                                Toast.makeText(
+                                    context!!,
+                                    "EDIT Clicked $pos",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                )
+
+                buffer.add(
+                    MyButton(context!!,
+                        R.drawable.ic_delete,
+                        object: MyButtonClickListener {
+                            override fun onClick(pos: Int) {
+                                Toast.makeText(
+                                    context!!,
+                                    "DELETE Clicked $pos",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                            }
+
+                        }
+                    )
+                )
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipe)
         itemTouchHelper.attachToRecyclerView(recycler)
+
     }
 }

@@ -2,6 +2,7 @@ package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -29,8 +30,17 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
 
         setupNavigation()
         setupRecyclerView()
+        setupCreateCategory()
         setupNextButton()
         setupToolbar()
+    }
+
+
+    private fun setupCreateCategory() {
+        val createTextView: TextView = requireView().findViewById(R.id.tv_create)
+        createTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)
+        }
     }
 
     private fun openChooseColor(){
