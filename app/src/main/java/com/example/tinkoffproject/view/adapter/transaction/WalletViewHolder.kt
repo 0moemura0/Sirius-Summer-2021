@@ -9,26 +9,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.data.dto.Transaction
-import com.example.tinkoffproject.model.utils.formatDate
 
-class TransactionViewHolder(private val root: View) :
+class WalletViewHolder(root: View) :
     RecyclerView.ViewHolder(root) {
     private val amount: TextView = root.findViewById(R.id.tv_transaction_amount)
     private val category: TextView = root.findViewById(R.id.tv_transaction_category)
-    private val type: TextView = root.findViewById(R.id.tv_transaction_type)
     private val icon: ImageView = root.findViewById(R.id.iv_category_icon)
-    private val date: TextView = root.findViewById(R.id.tv_transaction_date)
 
     fun bind(data: Transaction) {
         category.text = data.category.name
-
-        val typeTextId = if (data.isIncome) R.string.income else R.string.expenses
-        type.visibility = View.VISIBLE
-        type.text = root.context.getString(typeTextId)
-
-        date.text = formatDate(root.context, data.date, R.string.date_format_only_time)
-        date.visibility = View.VISIBLE
-
 
         icon.setImageResource(data.category.resIconId)
         icon.backgroundTintList = ColorStateList.valueOf(data.category.color)
@@ -38,10 +27,10 @@ class TransactionViewHolder(private val root: View) :
     }
 
     companion object {
-        fun from(parent: ViewGroup, onClick: (Int) -> Unit): TransactionViewHolder {
+        fun from(parent: ViewGroup, onClick: (Int) -> Unit): WalletViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val view = layoutInflater.inflate(R.layout.item_transaction, parent, false)
-            val viewHolder = TransactionViewHolder(view)
+            val view = layoutInflater.inflate(R.layout.item_wallet, parent, false)
+            val viewHolder = WalletViewHolder(view)
             view.setOnClickListener {
                 onClick(viewHolder.adapterPosition)
             }

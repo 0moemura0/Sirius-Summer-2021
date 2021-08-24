@@ -45,7 +45,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     }
 
     private fun setupRecycler() {
-        transactionAdapter = TransactionAdapter(::onWalletClick)
+        transactionAdapter = TransactionAdapter(::onWalletClick, false)
 
         transactionAdapter.apply {
             //setHasStableIds(true)
