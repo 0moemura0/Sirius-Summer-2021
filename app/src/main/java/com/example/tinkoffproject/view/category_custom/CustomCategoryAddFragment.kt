@@ -2,7 +2,6 @@ package com.example.tinkoffproject.view.category_custom
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -54,7 +53,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val typeValue: TextView = typeLayout.findViewById(R.id.tv_value)
         val colorValue: TextView = colorLayout.findViewById(R.id.tv_value)
 
-        if(args.isNewOperation)
+        if (args.isNewOperation)
             viewModel.type.value = if (args.isIncome) CategoryType.INCOME else CategoryType.EXPENSE
 
         nameValue.text = viewModel.name.value ?: getString(R.string.category_new)

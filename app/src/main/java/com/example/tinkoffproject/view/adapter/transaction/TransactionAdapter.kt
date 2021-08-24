@@ -2,7 +2,6 @@ package com.example.tinkoffproject.view.adapter.transaction
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 
 

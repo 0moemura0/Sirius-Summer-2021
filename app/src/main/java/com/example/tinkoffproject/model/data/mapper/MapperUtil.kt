@@ -15,31 +15,60 @@ import kotlin.random.Random
 
 enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
     SHOP(0, R.drawable.ic_shop),
-    INCOME(1, R.drawable.ic_income),
-    SPORT(2, R.drawable.ic_sport),
-    DEFAULT(-1, R.drawable.ic_income),
-    WALLET(-2, R.drawable.ic_wallet);
+    PLAIN(1, R.drawable.ic_plain),
+    DIAMOND(2, R.drawable.ic_diamond),
+    CAFE(3, R.drawable.ic_cafe),
+    MEDICINE(4, R.drawable.ic_medicine),
+    CUP(5, R.drawable.ic_cup),
+    WIFI(6, R.drawable.ic_wi_fi),
+    THEATER(7, R.drawable.ic_theater),
+    TRAIN(8, R.drawable.ic_train),
+    PET(9, R.drawable.ic_pet),
+    SPORT(10, R.drawable.ic_sport),
+    NET(11, R.drawable.ic_net),
+    BUS(12,  R.drawable.ic_bus),
+    PALMA(13,  R.drawable.ic_palma),
+    HANDS(14,  R.drawable.ic_hands),
+    MUSIC(15,  R.drawable.ic_music),
+    CAP(16,  R.drawable.ic_cap),
+    GIFT(17,  R.drawable.ic_gift),
+    PHONE(18,  R.drawable.ic_phone),
+    GARDEN(19,  R.drawable.ic_garden),
+    MOVIE(20,  R.drawable.ic_movie),
+    CAR(21,  R.drawable.ic_car),
+    MEDICINE_BAG(22,  R.drawable.ic_medicine_bag),
+    EDUCATION(23,  R.drawable.ic_education),
+    TV(24,  R.drawable.ic_tv),
+    ICON(25,  R.drawable.ic_icon),
+    WEAR(26,  R.drawable.ic_wear),
+    MONEY(27,  R.drawable.ic_wear),
+    BALL0ON(28,  R.drawable.ic_balloon),
+    DOTS(29,  R.drawable.ic_dots);
     companion object {
+        val locals = values().map { it.localIconId }
         private val mapLocal = values().associateBy(CategoryEnum::localIconId)
         private val mapRemote = values().associateBy(CategoryEnum::remoteIconId)
-        fun fromLocalId(id: Int) = mapLocal[id] ?: DEFAULT
-        fun fromRemoteId(id: Int) = mapRemote[id] ?: DEFAULT
+        fun fromLocalId(id: Int) = mapLocal[id] ?: DEFAULT_CATEGORY_ENUM
+        fun fromRemoteId(id: Int) = mapRemote[id] ?: DEFAULT_CATEGORY_ENUM
     }
 }
+
+val DEFAULT_CATEGORY_ENUM: CategoryEnum = CategoryEnum.DOTS
+
 const val DEFAULT_COLOR = "#2E0EAE"
+const val WALLET_COLOR = DEFAULT_COLOR
 
 val WALLET_AS_CATEGORY = Category(
     name = "Кошелёк",
-    resIconId = CategoryEnum.WALLET.localIconId,
+    resIconId = R.drawable.ic_wallet,
     color = Color.parseColor(DEFAULT_COLOR),
     isIncome = false
 )
 
-
 val DEFAULT_CATEGORY = Category(
     name = "Категория",
-    resIconId = CategoryEnum.DEFAULT.localIconId,
-    color = Color.parseColor(DEFAULT_COLOR),
+    resIconId = DEFAULT_CATEGORY_ENUM.localIconId,
+    color = Color.parseColor(WALLET_COLOR),
     isIncome = false
 )
 
@@ -66,7 +95,7 @@ fun colorToStr(color: Int) = String.format("#%06X", 0xFFFFFF and color)
 
 fun CategoryNetwork.toCategory() = Category(
     name = name ?: "",
-    resIconId = CategoryEnum.fromRemoteId(iconId ?: CategoryEnum.DEFAULT.remoteIconId).localIconId,
+    resIconId = CategoryEnum.fromRemoteId(iconId ?: DEFAULT_CATEGORY_ENUM.remoteIconId).localIconId,
     color = Color.parseColor(iconColor),
     isIncome = isIncome ?: false
 )

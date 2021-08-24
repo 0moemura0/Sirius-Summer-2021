@@ -175,7 +175,6 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             adapter = transactionAdapter
             addItemDecoration(decorator)
         }
-        viewModel.transaction.observe(viewLifecycleOwner, ::updateTransaction)
 
         val swipe = object : MySwipeHelper(context, recycler, 180) {
             override fun instantiateMyButton(
