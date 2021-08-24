@@ -5,8 +5,8 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.data.dto.Category
 import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
-import com.example.tinkoffproject.model.data.network.dto.CategoryNetwork
-import com.example.tinkoffproject.model.data.network.dto.TransactionNetwork
+import com.example.tinkoffproject.model.data.network.dto.response.CategoryNetwork
+import com.example.tinkoffproject.model.data.network.dto.response.TransactionNetwork
 import com.example.tinkoffproject.model.utils.formatMoney
 
 enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {

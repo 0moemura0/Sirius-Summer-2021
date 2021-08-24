@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -58,14 +60,14 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
     //serialization
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinx_serial_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serial_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
 
-    //java rx
-    implementation "io.reactivex.rxjava3:rxandroid:$javarx_version"
-    implementation "io.reactivex.rxjava3:rxjava:$javarx_version"
-    implementation "io.reactivex.rxjava3:rxkotlin:$javarx_version"
-//    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    //RX
+    implementation "io.reactivex.rxjava2:rxjava:2.2.21"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
 
 
     //test

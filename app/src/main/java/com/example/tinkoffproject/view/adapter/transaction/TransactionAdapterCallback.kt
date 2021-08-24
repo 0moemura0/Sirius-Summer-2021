@@ -1,6 +1,6 @@
 package com.example.tinkoffproject.view.adapter.transaction
 
-import com.example.tinkoffproject.model.data.network.dto.TransactionNetwork
+import com.example.tinkoffproject.model.data.network.dto.response.TransactionNetwork
 
 interface TransactionAdapterCallback {
     fun removed(from: Int)

@@ -9,15 +9,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.data.dto.Currency
-import com.example.tinkoffproject.model.data.network.dto.CurrencyNetwork
-import com.example.tinkoffproject.view.adapter.category.CategoryAdapter
+import com.example.tinkoffproject.model.data.network.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.view.adapter.currency.CurrencyAdapter
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.view.data.OnItemSelectListener
-import com.example.tinkoffproject.view.data.SelectableCurrency
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
 class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
