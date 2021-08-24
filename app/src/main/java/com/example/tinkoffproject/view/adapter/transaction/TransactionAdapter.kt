@@ -7,10 +7,9 @@ import com.example.tinkoffproject.model.data.dto.Transaction
 
 
 //TODO Подключить diffutils
-class TransactionAdapter() :
+class TransactionAdapter(private val onClick: (Int) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val data = mutableListOf<Transaction>()
-    lateinit var currency: Currency
 
     companion object {
         const val TYPE_TRANSACTION = 0
@@ -32,7 +31,7 @@ class TransactionAdapter() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_TRANSACTION -> TransactionViewHolder.from(parent, currency)
+            TYPE_TRANSACTION -> TransactionViewHolder.from(parent, onClick)
             TYPE_NO_TRANSACTION -> NoTransactionsViewHolder.from(parent)
             else -> throw IllegalStateException("view type didn't added to onCreateViewHolder")
         }

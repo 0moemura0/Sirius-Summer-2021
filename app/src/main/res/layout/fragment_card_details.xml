@@ -79,9 +79,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/view_dimen_normal"
-        app:text="@string/operation_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/rcv_transaction"
         app:layout_constraintStart_toStartOf="@id/rcv_transaction"
-        app:layout_constraintTop_toBottomOf="@id/rcv_transaction" />
+        app:layout_constraintTop_toBottomOf="@id/rcv_transaction"
+        app:text="@string/operation_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,20 +1,23 @@
-package com.example.tinkoffproject.view.operation_add.category_add
+package com.example.tinkoffproject.view.category_custom
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
-import com.example.tinkoffproject.viewmodel.AddCategoryViewModel
+import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel
 import com.google.android.material.textfield.TextInputLayout
 
-class SetCategoryNameFragment: Fragment(R.layout.layout_set_value) {
-    private val viewModel: AddCategoryViewModel by activityViewModels()
+class CustomCategorySetNameFragment : Fragment(R.layout.layout_set_value) {
+    private val viewModel: CustomCategoryViewModel by activityViewModels()
 
     private lateinit var inputEditText: EditText
     private lateinit var inputTextLayout: TextInputLayout
@@ -25,10 +28,23 @@ class SetCategoryNameFragment: Fragment(R.layout.layout_set_value) {
         initViews()
 
         setupView()
-        setupData()
         setupInputText()
         setupToolbar()
+        setupNextButton()
     }
+
+    private fun setupNextButton() {
+        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
+            if (isNextAvailable()) {
+                viewModel.name.value = inputEditText.text.toString()
+                findNavController().popBackStack()
+            } else {
+                setDefaultError()
+            }
+        }
+    }
+
+    private fun isNextAvailable() = !inputEditText.text.isNullOrBlank()
 
     private fun initViews() {
         inputEditText = requireView().findViewById(R.id.et_sum)
@@ -37,22 +53,20 @@ class SetCategoryNameFragment: Fragment(R.layout.layout_set_value) {
 
     private fun setupInputText() {
         inputEditText.doAfterTextChanged {
-            if(!it.isNullOrBlank()) {
-                viewModel.name.value = it.toString()
+            if (!it.isNullOrBlank()) {
                 hideError()
             }
         }
     }
 
-    private fun setupData() {
-        viewModel.name.observe(viewLifecycleOwner, {
-            if(!it.isNullOrBlank())
-                viewModel.isNextAvailable.value = true
-        })
+    private fun setupToolbar() {
+        val update: UpdatableToolBar = (activity as MainActivity)
+        update.updateToolbar(getString(R.string.choose_name), ToolbarType.ADD_OPERATION)
     }
 
-    private fun setupView(){
-        inputEditText.hint = requireContext().getString(R.string.category_name)
+    private fun setupView() {
+        inputTextLayout.setHint(R.string.category_name)
+        inputEditText.inputType = InputType.TYPE_CLASS_TEXT
     }
 
     private fun setDefaultError() {
@@ -65,9 +79,4 @@ class SetCategoryNameFragment: Fragment(R.layout.layout_set_value) {
     }
 
     private fun hideError() = setError(null)
-
-    private fun setupToolbar() {
-        val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar(getString(R.string.imaging_name), ToolbarType.ADD_OPERATION)
-    }
 }

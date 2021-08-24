@@ -56,7 +56,7 @@
     <string name="limit_desc">Лимит на траты</string>
     <string name="wallet_name">Название кошелька</string>
 
-    <string name="dont_set">Не установлен</string>
+    <string name="dont_set">Не установлено</string>
     <string name="icon">Иконка</string>
     <string name="category_new">Новая категория</string>
     <string name="choose_color">Задать цвет</string>

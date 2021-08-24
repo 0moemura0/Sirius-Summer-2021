@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -40,7 +39,7 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     private fun setupData() {
         inputEditText.setText(viewModel.amount.value?.toString() ?: "")
 
-        if(args.isNewOperation) viewModel.init()
+        if (args.isNewOperation) viewModel.init()
     }
 
 
@@ -81,9 +80,10 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
         }
     }
 
-    private fun isNextAvailable() = viewModel.amount.value?.let{ it != 0 } ?: false
+    private fun isNextAvailable() =
+        (inputEditText.text?.toString() ?: "-1").toInt() > 0
 
-    private fun saveData(){
+    private fun saveData() {
         viewModel.amount.value = inputEditText.text.toString().toInt()
     }
 

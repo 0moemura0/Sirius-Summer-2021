@@ -10,9 +10,12 @@
         android:name="com.example.tinkoffproject.view.carddetails.CardDetailsFragment"
         android:label="fragment_card_details"
         tools:layout="@layout/fragment_card_details">
+        <argument
+            android:name="walletId"
+            app:argType="long" />
         <action
             android:id="@+id/action_cardDetails_to_addTransaction"
-            app:destination="@+id/add_transaction" >
+            app:destination="@+id/add_transaction">
             <argument
                 android:name="isNewOperation"
                 android:defaultValue="false"

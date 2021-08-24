@@ -12,17 +12,9 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.adapter.category_custom.CustomColorAdapter
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 
-class ChooseColorDialogFragment() : DialogFragment() {
+class ChooseColorDialogFragment() : DialogFragment(R.layout.dialog_choose_color) {
 
     private var listener: OnItemSelectListener? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_choose_color, null, false);
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

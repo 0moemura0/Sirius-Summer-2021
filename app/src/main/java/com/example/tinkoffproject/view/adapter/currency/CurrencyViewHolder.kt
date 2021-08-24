@@ -16,7 +16,7 @@ class CurrencyViewHolder(private val root: View) : RecyclerView.ViewHolder(root)
     val checked: SwitchMaterial = root.findViewById(R.id.swth)
 
     fun bind(i: SelectableCurrency) {
-        textView.text = "${i.currency.longStr} (${i.currency.shortStr})"
+        textView.text = "${i.currency.longName} (${i.currency.shortName})"
         checked.isChecked = i.isChecked
 
     }

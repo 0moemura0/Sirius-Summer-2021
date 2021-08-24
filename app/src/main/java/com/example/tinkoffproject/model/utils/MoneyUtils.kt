@@ -9,12 +9,6 @@ fun formatMoney(amount: Int, currency: Currency): String {
     val currencySymbol =
         javaCurr.getSymbol(Locale.getDefault())
     //TODO рус не отображается, надо хранить где-то
-    Log.d("kek", "$currencySymbol - ${javaCurr.displayName} - ${javaCurr.symbol}")
-    Log.d(
-        "kek",
-        "$currencySymbol - ${java.util.Currency.getInstance("USD").symbol} - ${javaCurr.symbol}"
-    )
-
     return "${formatMoney(amount)} $currencySymbol"
 }
 

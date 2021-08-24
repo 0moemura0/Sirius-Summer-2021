@@ -2,10 +2,14 @@ package com.example.tinkoffproject.view.category_custom
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
@@ -14,54 +18,25 @@ import com.example.tinkoffproject.view.adapter.category_custom.CustomCategoryAda
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.view.data.CategoryType
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 import com.example.tinkoffproject.view.dialog.ChooseColorDialogFragment
+import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel
 
 class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
+    private val viewModel: CustomCategoryViewModel by activityViewModels()
+
+    private val args: CustomCategoryAddFragmentArgs by navArgs()
+    val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupData()
+        setupNextButton()
+        setupToolbar()
+        setupRecycler()
 
         val dialog = ChooseColorDialogFragment()
-
-        val icons = listOf(
-            R.drawable.ic_shop,
-            R.drawable.ic_plain,
-            R.drawable.ic_diamond,
-            R.drawable.ic_cafe,
-            R.drawable.ic_medicine,
-            R.drawable.ic_cup,
-            R.drawable.ic_wi_fi,
-            R.drawable.ic_theather,
-            R.drawable.ic_train,
-            R.drawable.ic_pet,
-            R.drawable.ic_sport,
-            R.drawable.ic_net,
-            R.drawable.ic_bus,
-            R.drawable.ic_palma,
-            R.drawable.ic_hands,
-            R.drawable.ic_music,
-            R.drawable.ic_cap,
-            R.drawable.ic_gift,
-            R.drawable.ic_phone,
-            R.drawable.ic_garden,
-            R.drawable.ic_movie,
-            R.drawable.ic_car,
-            R.drawable.ic_medicine_bag,
-            R.drawable.ic_education,
-            R.drawable.ic_tv,
-            R.drawable.ic_icon,
-            R.drawable.ic_wear,
-            R.drawable.ic_money,
-            R.drawable.ic_balloon,
-            R.drawable.ic_dots
-        )
-        val recycler: RecyclerView = view.findViewById(R.id.rv_icons)
-        val customAdapter = CustomCategoryAdapter()
-        customAdapter.setData(icons)
-
-        val manager = GridLayoutManager(context, COLUMNS_COUNT)
-        recycler.adapter = customAdapter
-        recycler.layoutManager = manager
 
         val nameLayout: View = view.findViewById(R.id.ll_name_container)
         val typeLayout: View = view.findViewById(R.id.ll_type_container)
@@ -79,8 +54,11 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val typeValue: TextView = typeLayout.findViewById(R.id.tv_value)
         val colorValue: TextView = colorLayout.findViewById(R.id.tv_value)
 
-        nameValue.setText(R.string.category_new)
-        typeValue.setText(R.string.income)
+        if(args.isNewOperation)
+            viewModel.type.value = if (args.isIncome) CategoryType.INCOME else CategoryType.EXPENSE
+
+        nameValue.text = viewModel.name.value ?: getString(R.string.category_new)
+        typeValue.setText(viewModel.type.value?.nameResId ?: R.string.dont_set)
         colorValue.setText(R.string.choose_color)
 
         dialog.setOnItemClickListener(object : OnItemSelectListener {
@@ -97,15 +75,33 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         }
 
         nameLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_categoryAddFragment_to_categoryChooseName)
+            findNavController().navigate(R.id.action_newCategory_to_setCategoryName)
         }
 
         typeLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_categoryAddFragment_to_chooseTypeFragment)
+            findNavController().navigate(R.id.action_newCategory_to_chooseNewCategoryType)
         }
-        setupNextButton()
-        setupToolbar()
     }
+
+    private fun setupData() {
+        if (args.isNewOperation) viewModel.init()
+    }
+
+    private fun setupRecycler() {
+        val recycler: RecyclerView = requireView().findViewById(R.id.rv_icons)
+        customAdapter.setData(viewModel.icons)
+
+        val manager = GridLayoutManager(context, COLUMNS_COUNT)
+        recycler.adapter = customAdapter
+        recycler.layoutManager = manager
+
+        customAdapter.setOnItemClickListener(object : OnItemSelectListener {
+            override fun onItemSelect(position: Int) {
+                viewModel.iconId.value = viewModel.icons[position]
+            }
+        })
+    }
+
 
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)
@@ -114,15 +110,21 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-//            if (viewModel.isNextAvailable.value == true) {
-//                viewModel.prepareNext()
-//                findNavController().navigate(R.id.action_chooseCategoryFragment_to_newOperationFragment)
-//            } else {
-//                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
-//                    .show()
-//            }
+            if (isNextAvailable()) {
+                viewModel.addCategory()
+                findNavController().popBackStack()
+            } else {
+                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
+
+    private fun isNextAvailable() = viewModel.colorId.value != null
+            && viewModel.name.value != null
+            && viewModel.type.value != null
+            && viewModel.iconId.value != null
+
 
     companion object {
         private const val COLUMNS_COUNT = 6

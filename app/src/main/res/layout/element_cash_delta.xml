@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
     android:background="@drawable/background_cash_delta"
+    android:clickable="true"
+    android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:padding="@dimen/view_dimen_normal"
-    android:focusable="true">
+    android:padding="@dimen/view_dimen_normal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,10 +39,10 @@
         android:layout_marginTop="@dimen/view_dimen_small">
 
         <TextView
-            android:text="0"
             android:id="@+id/tv_cash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="0"
             android:textAppearance="@style/ElementCashAmount"
             tools:text="12 000 ₽" />
 

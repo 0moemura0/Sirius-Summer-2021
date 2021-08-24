@@ -28,7 +28,6 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
 
         viewModel.loadCategories()
 
-        setupNavigation()
         setupRecyclerView()
         setupCreateCategory()
         setupNextButton()
@@ -39,18 +38,10 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     private fun setupCreateCategory() {
         val createTextView: TextView = requireView().findViewById(R.id.tv_create)
         createTextView.setOnClickListener {
-            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)
+            val action = ChooseCategoryFragmentDirections.actionToChooseNewCategoryType(true, viewModel.type.value == CategoryType.INCOME)
+            findNavController().navigate(action)
         }
     }
-
-    private fun openChooseColor(){
-        //TODO
-    }
-
-    private fun setupNavigation(){
-        /*requireView().findViewById<View>(R.id.dtn_add_category).setOnClickListener {
-            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)*/
-        }
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {

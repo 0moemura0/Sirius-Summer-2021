@@ -6,10 +6,14 @@
     app:startDestination="@id/newTransactionCategory">
     <fragment
         android:id="@+id/newTransactionCategory"
-        android:name="com.example.tinkoffproject.view.operation_add.category_add.NewCategoryFragment"
+        android:name="com.example.tinkoffproject.view.category_custom.CustomCategoryAddFragment"
         android:label="NewCategory">
         <argument
             android:name="isNewOperation"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isIncome"
             android:defaultValue="false"
             app:argType="boolean" />
         <action
@@ -22,7 +26,7 @@
 
     <fragment
         android:id="@+id/setCategoryName"
-        android:name="com.example.tinkoffproject.view.operation_add.category_add.SetCategoryNameFragment"
+        android:name="com.example.tinkoffproject.view.category_custom.CustomCategorySetNameFragment"
         android:label="SetCategoryName"
         tools:layout="@layout/layout_set_value">
         <action
@@ -32,7 +36,7 @@
 
     <fragment
         android:id="@+id/chooseNewCategoryType"
-        android:name="com.example.tinkoffproject.view.operation_add.category_add.ChooseCategoryTypeFragment"
+        android:name="com.example.tinkoffproject.view.category_custom.CustomCategoryChooseTypeFragment"
         android:label="ChooseNewCategoryType"
         tools:layout="@layout/operation_choose_type">
         <action

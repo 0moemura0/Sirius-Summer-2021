@@ -2,15 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@+id/transactions">
+    app:startDestination="@+id/wallets">
 
     <include app:graph="@navigation/wallets" />
     <include app:graph="@navigation/transactions" />
-
-    <action
-        android:id="@+id/action_to_transactions"
-        app:destination="@+id/transactions"
-        app:launchSingleTop="true"
-        app:popUpTo="@+id/transactions" />
 
 </navigation>

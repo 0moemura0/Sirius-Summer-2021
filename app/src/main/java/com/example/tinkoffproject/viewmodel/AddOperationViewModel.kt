@@ -64,7 +64,7 @@ class AddOperationViewModel : ViewModel() {
         if (categoriesIncome.value == null) {
             categoriesIncome.value =
                 listOf(
-                    CategoryNetwork("Зарплата", 1, "#00B92D", isIncome = true).toCategory(),
+                    CategoryNetwork(name = "Зарплата", iconId = 1, iconColor = "#00B92D", isIncome = true, id = 11).toCategory(),
                 )
         }
     }
@@ -73,8 +73,8 @@ class AddOperationViewModel : ViewModel() {
         if (categoriesExpenses.value == null) {
             categoriesExpenses.value =
                 listOf(
-                    CategoryNetwork("Супермаркеты", 0, "#339FEE", isIncome = false).toCategory(),
-                    CategoryNetwork("Спортзал", 2, "#994747", isIncome = false).toCategory(),
+                    CategoryNetwork(name = "Супермаркеты", iconId = 0, iconColor = "#339FEE", isIncome = false, id = 12).toCategory(),
+                    CategoryNetwork(name = "Спортзал", iconId = 2, iconColor = "#994747", isIncome = false, id = 13).toCategory(),
                 )
         }
     }

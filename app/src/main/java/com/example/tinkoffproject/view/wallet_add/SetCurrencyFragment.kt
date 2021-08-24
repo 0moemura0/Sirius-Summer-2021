@@ -1,15 +1,19 @@
 package com.example.tinkoffproject.view.wallet_add
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.data.network.dto.response.CurrencyNetwork
+import com.example.tinkoffproject.model.data.dto.Currency
+import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.currency.CurrencyAdapter
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
@@ -19,45 +23,44 @@ import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
 class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
     private val viewModel: AddWalletViewModel by activityViewModels()
-    
+
     val DEFAULT_COUNT = 3
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setData()
+        setupRecyclerView()
         setupNextButton()
         setupToolbar()
-        setupNavigation()
-        //viewModel.isNextAvailable.value = true
     }
 
-    private fun setupNavigation() {
-
+    private fun onCurrencySelect(currency: Currency, isSelected: Boolean = true) {
+        viewModel.currency.value = if(isSelected) currency else null
     }
+
+    private fun isNextAvailable(): Boolean = viewModel.currency.value != null
+
 
     private fun setupNextButton() {
-
+        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
+            if (isNextAvailable()) {
+                findNavController().navigate(R.id.action_setWalletCurrency_to_newWallet)
+            } else {
+                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 
-    private fun setData() {
-        val data = listOf(
-            CurrencyNetwork("RUS", "Российский рубль"),
-            CurrencyNetwork("USD", "Доллар США"),
-            CurrencyNetwork("EUR", "Евро"),
-            CurrencyNetwork("CHF", "Швейцарские франки"),
-            CurrencyNetwork("KWD", "Кувейтский динар"),
-            CurrencyNetwork("BHD", "Бахрейнский динар"),
-            CurrencyNetwork("OMR", "Оманский риал"),
-            CurrencyNetwork("JPY", "Японская иена"),
-            CurrencyNetwork("SEK", "Шведская крона")
-        )
+
+    private fun setupRecyclerView() {
+        val data = viewModel.getAllCurrency()
         val recycler: RecyclerView = requireView().findViewById(R.id.rv_currency)
         val adapter = CurrencyAdapter()
         adapter.setData(data.subList(0, DEFAULT_COUNT))
         adapter.setOnItemClickListener(object : OnItemSelectListener {
             override fun onItemSelect(position: Int) {
-
+                onCurrencySelect(data[position], adapter.isItemSelected(position))
             }
         })
         val manager = LinearLayoutManager(view?.context)
@@ -79,6 +82,15 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
                 adapter.updateData(data.subList(DEFAULT_COUNT, data.size))
                 showMoreTitle.setText(R.string.turn)
                 showMoreIcon.rotation = 180F
+            }
+        }
+
+        viewModel.currency.value?.let {
+            Log.d("kek", "viewModel.currency.value - ${viewModel.currency.value}")
+            val i = data.indexOf(it)
+            Log.d("kek", "find - ${i}")
+            if (i >= 0) {
+                adapter.onItemSelect(i)
             }
         }
     }

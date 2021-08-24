@@ -1,8 +1,6 @@
 package com.example.tinkoffproject.view.carddetails
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,11 +9,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.data.dto.Category
 import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.dto.Wallet
@@ -25,17 +23,6 @@ import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.viewmodel.CardDetailsViewModel
-
-private val data: List<Transaction> = listOf(
-    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
-    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
-    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
-    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
-    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
-    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
-    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
-    Transaction(0, 112213214, false, Category("Имя", R.color.blue_main, 1, false), 123, "235 P"),
-)
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private val viewModel: CardDetailsViewModel by viewModels()
@@ -49,6 +36,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var walletLimit: TextView
 
     private var transactionAdapter: TransactionAdapter? = null
+
+    private val args: CardDetailsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,6 +64,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     }
 
     private fun setupDataObservers() {
+        args.walletId
         viewModel.wallet.observe(viewLifecycleOwner, ::updateWalletInfo)
         viewModel.transaction.observe(viewLifecycleOwner, ::updateTransaction)
     }
@@ -117,10 +107,16 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 layoutIncomeCash.text = formatMoney(wallet.incomeAmount, wallet.currency)
                 layoutExpensesCash.text = formatMoney(wallet.expensesAmount, wallet.currency)
 
-                transactionAdapter?.currency = wallet.currency
 
                 updateLimitInfo(wallet.limit, wallet.expensesAmount, wallet.currency)
             }
+        }
+    }
+
+    private fun onTransactionClick(position: Int) {
+        val transaction = transactionAdapter?.data?.getOrNull(position)
+        if (transaction != null) {
+
         }
     }
 
@@ -165,7 +161,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
 
     private fun setupRecyclerView(view: View) {
-        transactionAdapter = TransactionAdapter()
+        transactionAdapter = TransactionAdapter(::onTransactionClick)
 
         transactionAdapter.apply {
             //setHasStableIds(true)
@@ -179,9 +175,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             adapter = transactionAdapter
             addItemDecoration(decorator)
         }
-        Handler(Looper.getMainLooper()).postDelayed({
-            transactionAdapter?.setData(data)
-        }, 2000)
+        viewModel.transaction.observe(viewLifecycleOwner, ::updateTransaction)
 
         val swipe = object : MySwipeHelper(context, recycler, 180) {
             override fun instantiateMyButton(
@@ -192,7 +186,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                     MyButton(
                         context!!,
                         R.drawable.ic_edit,
-                        object: MyButtonClickListener {
+                        object : MyButtonClickListener {
                             override fun onClick(pos: Int) {
                                 Toast.makeText(
                                     context!!,
@@ -206,7 +200,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 buffer.add(
                     MyButton(context!!,
                         R.drawable.ic_delete,
-                        object: MyButtonClickListener {
+                        object : MyButtonClickListener {
                             override fun onClick(pos: Int) {
                                 Toast.makeText(
                                     context!!,

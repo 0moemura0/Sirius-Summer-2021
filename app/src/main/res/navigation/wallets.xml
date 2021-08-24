@@ -13,19 +13,23 @@
         <action
             android:id="@+id/action_to_addWallet"
             app:destination="@+id/add_wallet"
-            app:launchSingleTop="true" >
+            app:launchSingleTop="true">
             <argument
                 android:name="isNewOperation"
                 android:defaultValue="false"
                 app:argType="boolean" />
         </action>
+        <action
+            android:id="@+id/action_to_transactions"
+            app:destination="@+id/transactions"
+            app:launchSingleTop="true">
+            <argument
+                android:name="walletId"
+                app:argType="long" />
+        </action>
     </fragment>
 
     <include app:graph="@navigation/add_wallet" />
 
-    <action
-        android:id="@+id/action_to_wallets"
-        app:destination="@id/wallets"
-        app:launchSingleTop="true"
-        app:popUpTo="@id/wallets" />
+
 </navigation>

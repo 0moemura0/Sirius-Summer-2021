@@ -28,13 +28,13 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         initViews()
 
         nameLayout.setOnClickListener {
-            findNavController().popBackStack(R.id.setNameFragment, false)
+            findNavController().navigate(R.id.action_newWallet_to_setWalletName)
         }
         currencyLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newWalletFragment_to_setCurrencyFragment)
+            findNavController().navigate(R.id.action_newWallet_to_setWalletCurrency)
         }
         limitLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newWalletFragment_to_setLimitFragment)
+            findNavController().navigate(R.id.action_newWallet_to_setWalletLimit)
         }
 
         setData()
@@ -68,7 +68,8 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (viewModel.isNextAvailable.value == true) {
+            if (isNextAvailable()) {
+                viewModel.addWallet()
                 findNavController().popBackStack(R.id.walletsList, false)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
@@ -76,6 +77,10 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
             }
         }
     }
+
+    private fun isNextAvailable() =
+        viewModel.currency.value != null && viewModel.name.value != null && viewModel.limit.value != null
+
 
     private fun setData() {
         val name: TextView = nameLayout.findViewById(R.id.tv_value)
@@ -94,6 +99,7 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
             name.text = it
         })
 
+        currency.setText(R.string.dont_set)
         viewModel.currency.observe(viewLifecycleOwner, {
             currency.text = it.shortName
         })

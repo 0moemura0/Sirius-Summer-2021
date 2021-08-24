@@ -39,6 +39,9 @@
                 android:name="isNewOperation"
                 android:defaultValue="false"
                 app:argType="boolean" />
+            <argument
+                android:name="isIncome"
+                app:argType="boolean" />
         </action>
         <action
             android:id="@+id/action_chooseTransactionCategory_to_newOperation"

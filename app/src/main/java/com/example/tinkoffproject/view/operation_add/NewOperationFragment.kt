@@ -32,10 +32,9 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         setupNextButton()
         setupToolbar()
         setupNavigation()
-        viewModel.isNextAvailable.value = true
     }
 
-    private fun initViews(){
+    private fun initViews() {
         sumLayout = requireView().findViewById(R.id.ll_sum_container)
         typeLayout = requireView().findViewById(R.id.ll_type_container)
         categoryLayout = requireView().findViewById(R.id.ll_category_container)
@@ -76,7 +75,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (viewModel.isNextAvailable.value == true) {
+            if (isNextAvailable()) {
                 findNavController().popBackStack(R.id.cardDetails, false)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
@@ -84,6 +83,12 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
             }
         }
     }
+
+    private fun isNextAvailable() = viewModel.amount.value != null
+            && viewModel.category.value != null
+            && viewModel.date.value != null
+            && viewModel.type.value != null
+
 
     private fun setupNavigation() {
 

@@ -16,7 +16,7 @@ import com.example.tinkoffproject.model.data.network.dto.response.TransactionNet
 import com.example.tinkoffproject.model.data.network.dto.response.UserNetwork
 import com.example.tinkoffproject.model.data.network.dto.response.WalletNetwork
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType

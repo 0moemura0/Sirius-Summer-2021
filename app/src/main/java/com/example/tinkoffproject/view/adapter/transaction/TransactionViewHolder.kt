@@ -8,12 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.utils.formatDate
-import com.example.tinkoffproject.model.utils.formatMoney
 
-class TransactionViewHolder(private val root: View, private val currency: Currency) :
+class TransactionViewHolder(private val root: View) :
     RecyclerView.ViewHolder(root) {
     private val amount: TextView = root.findViewById(R.id.tv_transaction_amount)
     private val category: TextView = root.findViewById(R.id.tv_transaction_category)
@@ -36,10 +34,14 @@ class TransactionViewHolder(private val root: View, private val currency: Curren
     }
 
     companion object {
-        fun from(parent: ViewGroup, currency: Currency): TransactionViewHolder {
+        fun from(parent: ViewGroup, onClick: (Int) -> Unit): TransactionViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val view = layoutInflater.inflate(R.layout.item_transaction, parent, false)
-            return TransactionViewHolder(view, currency)
+            val viewHolder = TransactionViewHolder(view)
+            view.setOnClickListener {
+                onClick(viewHolder.adapterPosition)
+            }
+            return viewHolder
         }
     }
 }
