@@ -57,27 +57,27 @@ interface ApiService {
     //wallets
 
     @GET("wallets/")
-    fun getWallets(): Single<List<WalletNetwork?>?>
+    fun getWallets(): Single<List<WalletNetwork>>
 
     @POST("wallets/")
-    fun postWallet(@Body newWallet: CreateWallet): Single<WalletNetwork?>
+    fun postWallet(@Body newWallet: CreateWallet): Single<WalletNetwork>
 
     @GET("wallets/{id}/")
-    fun getUserWallets(@Path("id") id: Int): Single<WalletNetwork?>
+    fun getUserWallets(@Path("id") id: Int): Single<WalletNetwork>
 
     @PUT("wallets/{id}/")
-    fun putWallet(@Path("id") id: Int, @Body wallet: CreateWallet): Single<WalletNetwork?>
+    fun putWallet(@Path("id") id: Int, @Body wallet: CreateWallet): Single<WalletNetwork>
 
     @DELETE("wallets/{id}/")
-    fun deleteWallet(@Path("id") id: Int): Single<Response?>
+    fun deleteWallet(@Path("id") id: Int): Single<Response>
 
     //transactions
 
     @POST("transactions/")
-    fun postTransactions(@Body newWallet: CreateTransaction): Single<TransactionNetwork?>
+    fun postTransactions(@Body newWallet: CreateTransaction): Single<TransactionNetwork>
 
     @GET("transactions/{id}/")
-    fun getTransaction(@Path("id") id: Int): Single<TransactionNetwork?>
+    fun getTransaction(@Path("id") id: Int): Single<TransactionNetwork>
 
     @PUT("transactions/{id}/")
     fun putTransaction(
@@ -86,45 +86,45 @@ interface ApiService {
     ): Single<TransactionNetwork?>
 
     @DELETE("transactions/{id}/")
-    fun deleteTransaction(@Path("id") id: Int): Single<Response?>
+    fun deleteTransaction(@Path("id") id: Int): Single<Response>
 
     @GET("wallets/{id}/listTransactions/")
-    fun getUserTransactions(@Path("id") id: Int): Single<List<TransactionNetwork?>?>
+    fun getUserTransactions(@Path("id") id: Int): Single<List<TransactionNetwork>>
 
 
     //categories
 
     @GET("categories/")
-    fun getCategories(): Single<List<CategoryNetwork?>?>
+    fun getCategories(): Single<List<CategoryNetwork>>
 
     @POST("categories/")
-    fun postCategories(@Body newCategory: CreateCategory): Single<CategoryNetwork?>
+    fun postCategories(@Body newCategory: CreateCategory): Single<CategoryNetwork>
 
     @GET("categories/{id}")
-    fun getCategory(@Path("id") id: Int): Single<CategoryNetwork?>
+    fun getCategory(@Path("id") id: Int): Single<CategoryNetwork>
 
     @PUT("categories/{id}")
     fun putCategory(
         @Path("id") id: Int,
         @Body newCategory: CreateCategory
-    ): Single<CategoryNetwork?>
+    ): Single<CategoryNetwork>
 
     @DELETE("categories/{id}")
-    fun deleteCategory(@Path("id") id: Int): Single<Response?>
+    fun deleteCategory(@Path("id") id: Int): Single<Response>
 
     //users
     @GET("users/")
-    fun getUsers(): Single<List<UserNetwork?>?>
+    fun getUsers(): Single<List<UserNetwork>>
 
     @PUT("users/")
-    fun putUser(@Body newUser: CreateUser): Single<User?>
+    fun putUser(@Body newUser: CreateUser): Single<User>
 
     @POST("users/")
-    fun postUser(@Body newUser: CreateUser): Single<User?>
+    fun postUser(@Body newUser: CreateUser): Single<User>
 
     @GET("users/{id}")
-    fun getUser(@Path("id") id: Int): Single<UserNetwork?>
+    fun getUser(@Path("id") id: Int): Single<UserNetwork>
 
     @DELETE("users/{id}")
-    fun deleteUser(@Path("id") id: Int): Single<Response?>
+    fun deleteUser(@Path("id") id: Int): Single<Response>
 }

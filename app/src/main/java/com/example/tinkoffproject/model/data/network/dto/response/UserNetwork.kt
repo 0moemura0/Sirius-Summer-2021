@@ -1,8 +1,13 @@
 package com.example.tinkoffproject.model.data.network.dto.response
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.serialization.*
 
+@Entity
 @Serializable
 data class UserNetwork(
-    val id: Int?,
-    val username: String?
+    @PrimaryKey
+    val id: Int,
+    val username: String
 )
