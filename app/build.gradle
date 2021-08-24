@@ -61,13 +61,19 @@ dependencies {
 
     //serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
 
     //RX
     implementation "io.reactivex.rxjava2:rxjava:2.2.21"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+
+    //Room
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
 
 
     //test
