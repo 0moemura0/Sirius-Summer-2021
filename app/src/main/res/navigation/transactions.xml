@@ -15,7 +15,11 @@
             app:argType="long" />
         <action
             android:id="@+id/action_cardDetails_to_addTransaction"
-            app:destination="@+id/add_transaction">
+            app:destination="@+id/add_transaction"
+            app:enterAnim="@anim/from_bottom"
+            app:exitAnim="@anim/to_top"
+            app:popEnterAnim="@anim/from_top"
+            app:popExitAnim="@anim/to_bottom">
             <argument
                 android:name="isNewOperation"
                 android:defaultValue="false"

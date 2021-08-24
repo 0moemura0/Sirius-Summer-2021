@@ -18,10 +18,18 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_newCategory_to_setCategoryName"
-            app:destination="@id/setCategoryName" />
+            app:destination="@id/setCategoryName"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_newCategory_to_chooseNewCategoryType"
-            app:destination="@id/chooseNewCategoryType" />
+            app:destination="@id/chooseNewCategoryType"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 
     <fragment
@@ -31,7 +39,11 @@
         tools:layout="@layout/layout_set_value">
         <action
             android:id="@+id/action_setCategoryName_to_chooseNewCategoryType"
-            app:destination="@id/chooseNewCategoryType" />
+            app:destination="@id/chooseNewCategoryType"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 
     <fragment
@@ -42,6 +54,10 @@
         <action
             android:id="@+id/action_chooseNewCategoryType_to_newCategory"
             app:destination="@id/newTransactionCategory"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/newTransactionCategory" />
     </fragment>
 </navigation>
