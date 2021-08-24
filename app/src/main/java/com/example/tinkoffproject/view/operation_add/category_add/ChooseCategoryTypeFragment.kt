@@ -66,7 +66,7 @@ class ChooseCategoryTypeFragment : Fragment(R.layout.operation_choose_type) {
     private fun setupNextButton() {
         requireView().findViewById<TextView>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
-                findNavController().navigate(R.id.action_chooseNewCategoryTypeFragment_to_newCategoryFragment)
+                findNavController().navigate(R.id.action_chooseNewCategoryType_to_newCategory)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()

@@ -167,7 +167,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
     private fun setupNavigation() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            findNavController().navigate(R.id.action_cardDetailsFragment_to_setCashFragment)
+            val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(true)
+            findNavController().navigate(action)
         }
     }
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transactions"
+    app:startDestination="@id/cardDetails">
+
+    <fragment
+        android:id="@+id/cardDetails"
+        android:name="com.example.tinkoffproject.view.carddetails.CardDetailsFragment"
+        android:label="fragment_card_details"
+        tools:layout="@layout/fragment_card_details">
+        <action
+            android:id="@+id/action_cardDetails_to_addTransaction"
+            app:destination="@+id/add_transaction" >
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="false"
+                app:argType="boolean" />
+        </action>
+    </fragment>
+
+    <include app:graph="@navigation/add_transaction" />
+</navigation>

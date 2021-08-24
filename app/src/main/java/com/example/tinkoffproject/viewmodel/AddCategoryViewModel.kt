@@ -12,12 +12,23 @@ import com.example.tinkoffproject.view.data.CategoryType
 class AddCategoryViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var apiService: ApiService
 
-    val type = MutableLiveData(CategoryType.INCOME)
-    val name = MutableLiveData(application.getString(R.string.category_name_default))
-    val iconId: MutableLiveData<Int> = MutableLiveData()
-    val color: MutableLiveData<Int> = MutableLiveData()
+    var type = MutableLiveData(CategoryType.INCOME)
+    var name = MutableLiveData(application.getString(R.string.category_name_default))
+    var iconId: MutableLiveData<Int> = MutableLiveData()
+    var color: MutableLiveData<Int> = MutableLiveData()
 
     val isNextAvailable = MutableLiveData<Boolean>()
+
+    init {
+        init()
+    }
+    fun init(){
+        type = MutableLiveData(CategoryType.INCOME)
+        name = MutableLiveData(getApplication<Application>().getString(R.string.category_name_default))
+        iconId = MutableLiveData()
+        color = MutableLiveData()
+    }
+
 
     fun addCategory() {
         val name = name.value
@@ -37,5 +48,7 @@ class AddCategoryViewModel(application: Application) : AndroidViewModel(applicat
     private fun onCategoryAddFailed(e: Exception? = null) {
 
     }
+
+
 
 }

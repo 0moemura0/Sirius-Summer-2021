@@ -1,11 +1,15 @@
 package com.example.tinkoffproject.view.wallet_add
 
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
@@ -15,23 +19,26 @@ import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-
-class SetLimitFragment : Fragment(R.layout.layout_set_value) {
+class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
     private val viewModel: AddWalletViewModel by activityViewModels()
 
     private lateinit var inputEditText: TextInputEditText
     private lateinit var inputTextLayout: TextInputLayout
+
+    private val args: SetWalletNameFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
 
-        setupInputText()
-        setupViews()
         setupData()
+
+        setupViews()
         setupNextButton()
+        setupInputText()
         setupToolbar()
+        setupNextButton()
     }
 
     private fun initViews() {
@@ -43,7 +50,7 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
                 saveData()
-                findNavController().navigate(R.id.action_setWalletLimit_to_newWallet)
+                findNavController().navigate(R.id.action_setName_to_newWallet)
             } else setDefaultError()
         }
     }
@@ -65,30 +72,31 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
                 hideError()
             }
         }
-        inputEditText.setText(viewModel.limit.value.toString())
+    }
+
+    private fun setupData() {
+        Log.d("kek", "setupData - ${args.isNewOperation}")
+        if(args.isNewOperation) viewModel.init()
+        inputEditText.setText(viewModel.name.value)
     }
 
     private fun isNextAvailable(): Boolean {
         val str = inputEditText.text.toString()
-        return str.isNotBlank() && str.toInt() != 0
+        return str.isNotBlank()
     }
 
     private fun saveData() {
-        val str = inputEditText.text.toString()
-        viewModel.limit.value = str.toInt()
+        viewModel.name.value = inputEditText.text.toString()
     }
 
-    private fun setupData() {
-        inputEditText.setText(viewModel.limit.value?.toString() ?: "")
-    }
 
     private fun setupViews() {
-        inputTextLayout.setHint(R.string.limit_desc)
+        inputTextLayout.setHint(R.string.wallet_name)
+        inputEditText.inputType = InputType.TYPE_CLASS_TEXT
     }
 
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar("", ToolbarType.ADD_VALUE)
+        update.updateToolbar(getString(R.string.choose_name), ToolbarType.ADD_OPERATION)
     }
-
 }

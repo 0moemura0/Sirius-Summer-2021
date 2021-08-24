@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_category"
+    app:startDestination="@id/newTransactionCategory">
+    <fragment
+        android:id="@+id/newTransactionCategory"
+        android:name="com.example.tinkoffproject.view.operation_add.category_add.NewCategoryFragment"
+        android:label="NewCategory">
+        <argument
+            android:name="isNewOperation"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_newCategory_to_setCategoryName"
+            app:destination="@id/setCategoryName" />
+        <action
+            android:id="@+id/action_newCategory_to_chooseNewCategoryType"
+            app:destination="@id/chooseNewCategoryType" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/setCategoryName"
+        android:name="com.example.tinkoffproject.view.operation_add.category_add.SetCategoryNameFragment"
+        android:label="SetCategoryName"
+        tools:layout="@layout/layout_set_value">
+        <action
+            android:id="@+id/action_setCategoryName_to_chooseNewCategoryType"
+            app:destination="@id/chooseNewCategoryType" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chooseNewCategoryType"
+        android:name="com.example.tinkoffproject.view.operation_add.category_add.ChooseCategoryTypeFragment"
+        android:label="ChooseNewCategoryType"
+        tools:layout="@layout/operation_choose_type">
+        <action
+            android:id="@+id/action_chooseNewCategoryType_to_newCategory"
+            app:destination="@id/newTransactionCategory"
+            app:popUpTo="@id/newTransactionCategory" />
+    </fragment>
+</navigation>

@@ -39,6 +39,7 @@
         android:layout_marginTop="@dimen/view_dimen_small">
 
         <TextView
+            android:text="0"
             android:id="@+id/tv_cash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

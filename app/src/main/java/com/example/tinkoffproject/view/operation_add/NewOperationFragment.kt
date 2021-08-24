@@ -77,7 +77,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (viewModel.isNextAvailable.value == true) {
-                findNavController().popBackStack(R.id.cardDetailsFragment, false)
+                findNavController().popBackStack(R.id.cardDetails, false)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
@@ -88,14 +88,14 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private fun setupNavigation() {
 
         sumLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperationFragment_to_setCashFragment)
+            findNavController().navigate(R.id.action_newOperation_to_setCash)
         }
 
         typeLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperationFragment_to_chooseTypeFragment)
+            findNavController().navigate(R.id.action_newOperation_to_chooseType)
         }
         categoryLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperationFragment_to_chooseCategoryFragment)
+            findNavController().navigate(R.id.action_newOperation_to_chooseCategory)
         }
 
         dateLayout.setOnClickListener {

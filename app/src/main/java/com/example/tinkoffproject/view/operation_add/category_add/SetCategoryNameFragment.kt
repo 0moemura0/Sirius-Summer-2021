@@ -37,8 +37,10 @@ class SetCategoryNameFragment: Fragment(R.layout.layout_set_value) {
 
     private fun setupInputText() {
         inputEditText.doAfterTextChanged {
-            if(!it.isNullOrBlank())
+            if(!it.isNullOrBlank()) {
                 viewModel.name.value = it.toString()
+                hideError()
+            }
         }
     }
 
@@ -52,6 +54,17 @@ class SetCategoryNameFragment: Fragment(R.layout.layout_set_value) {
     private fun setupView(){
         inputEditText.hint = requireContext().getString(R.string.category_name)
     }
+
+    private fun setDefaultError() {
+        val text = requireContext().getString(R.string.wrong_input)
+        setError(text)
+    }
+
+    private fun setError(text: String?) {
+        inputTextLayout.error = text
+    }
+
+    private fun hideError() = setError(null)
 
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)

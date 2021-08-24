@@ -40,7 +40,6 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
                 CategoryType.EXPENSE -> switchSelection(cons, income)
                 else -> throw IllegalStateException("CategoryType don't have the value $it")
             }
-            viewModel.isNextAvailable.value = true
         })
     }
 
@@ -65,14 +64,16 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (viewModel.isNextAvailable.value == true) {
-                findNavController().navigate(R.id.action_chooseTypeFragment_to_chooseCategoryFragment)
+            if (isNextAvailable()) {
+                findNavController().navigate(R.id.action_chooseType_to_chooseCategory)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
             }
         }
     }
+
+    private fun isNextAvailable() = viewModel.type.value != null
 
     private fun switchSelection(selected: View, unselected: View) {
         selected.findViewById<ImageView>(R.id.iv_checked).visibility = View.VISIBLE

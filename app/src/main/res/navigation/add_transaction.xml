@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_transaction"
+    app:startDestination="@id/setTransactionCash">
+    <include app:graph="@navigation/add_category" />
+    <fragment
+        android:id="@+id/setTransactionCash"
+        android:name="com.example.tinkoffproject.view.operation_add.SetTransactionCashFragment"
+        android:label="SetCash"
+        tools:layout="@layout/layout_set_value">
+        <argument
+            android:name="isNewOperation"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_setCash_to_chooseType"
+            app:destination="@id/chooseTransactionType" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseTransactionType"
+        android:name="com.example.tinkoffproject.view.operation_add.ChooseTypeFragment"
+        android:label="ChooseType"
+        tools:layout="@layout/operation_choose_category">
+        <action
+            android:id="@+id/action_chooseType_to_chooseCategory"
+            app:destination="@id/chooseTransactionCategory" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseTransactionCategory"
+        android:name="com.example.tinkoffproject.view.operation_add.ChooseCategoryFragment"
+        android:label="ChooseCategory"
+        tools:layout="@layout/operation_choose_type">
+        <action
+            android:id="@+id/action_to_chooseNewCategoryType"
+            app:destination="@+id/add_category">
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="false"
+                app:argType="boolean" />
+        </action>
+        <action
+            android:id="@+id/action_chooseTransactionCategory_to_newOperation"
+            app:destination="@id/newOperation" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/newOperation"
+        android:name="com.example.tinkoffproject.view.operation_add.NewOperationFragment"
+        android:label="NewOperation"
+        tools:layout="@layout/operation_new_operation">
+        <action
+            android:id="@+id/action_newOperation_to_setCash"
+            app:destination="@id/setTransactionCash"
+            app:popUpTo="@id/setTransactionCash" />
+        <action
+            android:id="@+id/action_newOperation_to_chooseType"
+            app:destination="@id/chooseTransactionType"
+            app:popUpTo="@id/chooseTransactionType" />
+        <action
+            android:id="@+id/action_newOperation_to_chooseCategory"
+            app:destination="@id/chooseTransactionCategory"
+            app:popUpTo="@id/chooseTransactionCategory" />
+    </fragment>
+</navigation>

@@ -18,11 +18,11 @@ import java.util.*
 class AddOperationViewModel : ViewModel() {
     private lateinit var apiService: ApiService
 
-    val type = MutableLiveData<CategoryType>()
-    val category = MutableLiveData<Category>()
-    val amount = MutableLiveData<Int>()
+    var type = MutableLiveData<CategoryType>()
+    var category = MutableLiveData<Category>()
+    var amount = MutableLiveData<Int>()
 
-    val date = MutableLiveData(Date())
+    var date = MutableLiveData(Date())
 
     private val categoriesIncome: MutableLiveData<List<Category>> = MutableLiveData()
     private val categoriesExpenses: MutableLiveData<List<Category>> = MutableLiveData()
@@ -38,6 +38,10 @@ class AddOperationViewModel : ViewModel() {
             categories.map { SelectableCategory(category = it) }
         }
 
+
+    init {
+        init()
+    }
     fun setCategory(position: Int) {
         val newCategory: Category? = when (type.value) {
             CategoryType.INCOME -> categoriesIncome.value?.get(position)
@@ -93,5 +97,14 @@ class AddOperationViewModel : ViewModel() {
                 isIncome = type == CategoryType.INCOME,
                 amountFormatted = formatMoney(amount)
             ).toNetwork()
+    }
+
+    fun init(){
+        type = MutableLiveData<CategoryType>()
+        category = MutableLiveData<Category>()
+        amount = MutableLiveData<Int>()
+
+        date = MutableLiveData(Date())
+
     }
 }
