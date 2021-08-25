@@ -1,12 +1,18 @@
 package com.example.tinkoffproject.model.data.network.dto.response
 
-import kotlinx.serialization.Serializable
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.serialization.*
 
+@Entity
 @Serializable
 data class WalletNetwork(
-    val id: Int?,
-    val limit: Int?,
-    val name: String?,
-    val currency: CurrencyNetwork?,
-    val balance: Double?
+    @PrimaryKey
+    val id: Int ,
+    val limit: Int,
+    val name: String,
+    @Embedded
+    val currency: CurrencyNetwork,
+    val balance: Double
 )
