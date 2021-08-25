@@ -16,7 +16,11 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_setCash_to_chooseType"
-            app:destination="@id/chooseTransactionType" />
+            app:destination="@id/chooseTransactionType"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/chooseTransactionType"
@@ -25,7 +29,11 @@
         tools:layout="@layout/operation_choose_category">
         <action
             android:id="@+id/action_chooseType_to_chooseCategory"
-            app:destination="@id/chooseTransactionCategory" />
+            app:destination="@id/chooseTransactionCategory"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/chooseTransactionCategory"
@@ -34,7 +42,11 @@
         tools:layout="@layout/operation_choose_type">
         <action
             android:id="@+id/action_to_chooseNewCategoryType"
-            app:destination="@+id/add_category">
+            app:destination="@+id/add_category"
+            app:enterAnim="@anim/from_bottom"
+            app:exitAnim="@anim/to_top"
+            app:popEnterAnim="@anim/from_top"
+            app:popExitAnim="@anim/to_bottom">
             <argument
                 android:name="isNewOperation"
                 android:defaultValue="false"
@@ -45,7 +57,11 @@
         </action>
         <action
             android:id="@+id/action_chooseTransactionCategory_to_newOperation"
-            app:destination="@id/newOperation" />
+            app:destination="@id/newOperation"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
 
     </fragment>
 
@@ -57,14 +73,26 @@
         <action
             android:id="@+id/action_newOperation_to_setCash"
             app:destination="@id/setTransactionCash"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/setTransactionCash" />
         <action
             android:id="@+id/action_newOperation_to_chooseType"
             app:destination="@id/chooseTransactionType"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/chooseTransactionType" />
         <action
             android:id="@+id/action_newOperation_to_chooseCategory"
             app:destination="@id/chooseTransactionCategory"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/chooseTransactionCategory" />
     </fragment>
 </navigation>

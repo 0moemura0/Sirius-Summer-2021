@@ -15,9 +15,13 @@
             android:defaultValue="false"
             app:argType="boolean" />
         <action
-            app:launchSingleTop="true"
             android:id="@+id/action_setName_to_newWallet"
-            app:destination="@id/newWallet" />
+            app:destination="@id/newWallet"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/newWallet"
@@ -27,17 +31,29 @@
         <action
             android:id="@+id/action_newWallet_to_setWalletName"
             app:destination="@id/setWalletName"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/setWalletName" />
         <action
             android:id="@+id/action_newWallet_to_setWalletLimit"
             app:destination="@id/setWalletLimit"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/setWalletLimit" />
         <action
             android:id="@+id/action_newWallet_to_setWalletCurrency"
             app:destination="@id/setWalletCurrency"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/setWalletCurrency" />
     </fragment>
 
@@ -48,6 +64,8 @@
         <action
             android:id="@+id/action_setWalletLimit_to_newWallet"
             app:destination="@id/newWallet"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_right"
             app:launchSingleTop="true" />
     </fragment>
 
@@ -57,6 +75,8 @@
         <action
             android:id="@+id/action_setWalletCurrency_to_newWallet"
             app:destination="@id/newWallet"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_right"
             app:launchSingleTop="true" />
     </fragment>
 </navigation>
