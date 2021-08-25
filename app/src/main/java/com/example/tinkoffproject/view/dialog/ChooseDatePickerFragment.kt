@@ -84,13 +84,13 @@ class ChooseDatePickerFragment : DialogFragment(R.layout.dialog_choose_date) {
     }
 
 
-    fun previousMonthAction() {
+    private fun previousMonthAction() {
         selectedDate.add(Calendar.MONTH, -1)
         setMonthView()
     }
 
 
-    fun nextMonthAction() {
+    private fun nextMonthAction() {
         selectedDate.add(Calendar.MONTH, 1)
         setMonthView()
     }
@@ -100,17 +100,15 @@ class ChooseDatePickerFragment : DialogFragment(R.layout.dialog_choose_date) {
         val daysInMonth = daysInMonthArray(selectedDate)
         val calendarAdapter = CalendarAdapter()
         calendarAdapter.setData(daysInMonth.map { SelectableString(it) })
-        calendarAdapter.setOnItemClickListener(object : OnItemSelectListener {
-            override fun onItemSelect(position: Int) {
-                if (daysInMonth[position] != "") {
-                    val message =
-                        "Selected Date " + daysInMonth[position] + " " + monthYearFromDate(
-                            selectedDate
-                        )
-                    listener?.onItemSelect(position)
-                }
+        calendarAdapter.setOnItemClickListener { position ->
+            if (daysInMonth[position] != "") {
+                val message =
+                    "Selected Date " + daysInMonth[position] + " " + monthYearFromDate(
+                        selectedDate
+                    )
+                listener?.onItemSelect(position)
             }
-        })
+        }
 
         val layoutManager =
             GridLayoutManager(view?.context, 7)

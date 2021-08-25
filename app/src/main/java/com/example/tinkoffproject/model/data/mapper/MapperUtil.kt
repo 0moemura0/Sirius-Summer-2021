@@ -58,8 +58,6 @@ enum class IconEnum(val remoteIconId: Int, val localIconId: Int) {
         private val mapRemote = values().associateBy(IconEnum::remoteIconId)
         fun fromLocalId(id: Int) = mapLocal[id] ?: DEFAULT_ICON_ENUM
         fun fromRemoteId(id: Int) = mapRemote[id] ?: DEFAULT_ICON_ENUM
-
-
     }
 }
 

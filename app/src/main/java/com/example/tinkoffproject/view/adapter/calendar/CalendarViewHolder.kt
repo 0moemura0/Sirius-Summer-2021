@@ -4,21 +4,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 
 
-class CalendarViewHolder(root: View) :
-    RecyclerView.ViewHolder(root) {
-
+class CalendarViewHolder(root: View) : RecyclerView.ViewHolder(root) {
     private val dayOfMonth: TextView = root.findViewById(R.id.cellDayText)
 
     fun bind(i: SelectableString) {
         dayOfMonth.text = i.str
-        if (i.isChecked)
+        if (i.isChecked) {
             dayOfMonth.setBackgroundResource(R.color.blue_main)
-        else
+            dayOfMonth.setTextColor(ContextCompat.getColor(dayOfMonth.context, R.color.white))
+        } else {
             dayOfMonth.background = null
+            dayOfMonth.setTextColor(ContextCompat.getColor(dayOfMonth.context, R.color.black))
+        }
     }
 
     companion object {
@@ -28,5 +30,4 @@ class CalendarViewHolder(root: View) :
             return CalendarViewHolder(view)
         }
     }
-
 }
