@@ -53,11 +53,22 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
         initViews()
 
+        setupViews()
+
         setupToolbar()
         setupExpensesIncomeLayout()
         setupNavigation()
         setupRecycler()
         setupCurrency()
+    }
+
+    private fun setupViews() {
+        layoutIncome.isClickable = false
+        layoutIncome.isFocusable = false
+
+        layoutExpenses.isClickable = false
+        layoutExpenses.isFocusable = false
+
     }
 
     private fun setupCurrency() {

@@ -57,7 +57,7 @@ enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
 val DEFAULT_CATEGORY_ENUM: CategoryEnum = CategoryEnum.DOTS
 
 
-const val DEFAULT_COLOR = "#2E0EAE"
+const val DEFAULT_COLOR = "#5833EE"
 const val WALLET_COLOR = DEFAULT_COLOR
 
 val WALLET_AS_CATEGORY = Category(

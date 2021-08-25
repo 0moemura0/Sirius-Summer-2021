@@ -19,7 +19,7 @@
     <color name="black_alpha">#1F000000</color>
     <color name="black_alpha_light">#99000000</color>
     <color name="stab">#299C9C9C</color>
-
+    <color name="white_clicked">#EFEFEF</color>
 
     <color name="purple">#7765C0</color>
     <color name="blue">#339FEE</color>

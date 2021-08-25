@@ -40,10 +40,6 @@ class AddOperationViewModel : ViewModel() {
         }
 
 
-    init {
-        init()
-    }
-
     fun setCategory(position: Int) {
         val newCategory: Category? = when (type.value) {
             CategoryType.INCOME -> categoriesIncome.value?.get(position)
@@ -121,11 +117,10 @@ class AddOperationViewModel : ViewModel() {
 
     fun init(transaction: Transaction? = null) {
 
-        val transactionType = when {
-            transaction == null -> null
-            transaction.isIncome -> CategoryType.INCOME
-            else -> CategoryType.EXPENSE
-        }
+
+        val transactionType =
+            if (transaction?.isIncome == true) CategoryType.INCOME else CategoryType.EXPENSE
+
         type = MutableLiveData<CategoryType>(transactionType)
         category = MutableLiveData<Category>(transaction?.category)
         amount = MutableLiveData<Int>(transaction?.amount)
