@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
@@ -19,9 +21,7 @@ import com.example.tinkoffproject.model.utils.formatMoney
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
-import com.example.tinkoffproject.view.carddetails.MainActivity
-import com.example.tinkoffproject.view.carddetails.ToolbarType
-import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.view.carddetails.*
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import java.text.DecimalFormat
 
@@ -51,7 +51,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         setupCurrency()
     }
 
-    private fun setupCurrency(){
+    private fun setupCurrency() {
         viewModel.loadCurrencyInfo()
         viewModel.currency.observe(viewLifecycleOwner, {
             updateCurrencyInfo(it[0], currencyContainer1)
@@ -60,12 +60,12 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         })
     }
 
-    private fun updateCurrencyInfo(currency: Currency, container: View){
+    private fun updateCurrencyInfo(currency: Currency, container: View) {
         val dec = DecimalFormat("#.##")
         container.findViewById<TextView>(R.id.tv_name).text = currency.shortName
         container.findViewById<TextView>(R.id.tv_delta).text = dec.format(currency.rate)
         val arrow = container.findViewById<ImageView>(R.id.uv_arrow)
-        val arrayResId = if(currency.isUp) R.drawable.ic_arrow_up else R.drawable.ic_arrow_down
+        val arrayResId = if (currency.isUp) R.drawable.ic_arrow_up else R.drawable.ic_arrow_down
         arrow.setImageResource(arrayResId)
     }
 
@@ -84,6 +84,66 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             adapter = transactionAdapter
             addItemDecoration(decorator)
         }
+        val swipe = object : MySwipeHelper(context, recycler, 180) {
+            override fun instantiateMyButton(
+                viewHolder: RecyclerView.ViewHolder?,
+                buffer: MutableList<MyButton>
+            ) {
+
+                buffer.apply {
+                    add(
+                        MyButton(
+                            context!!,
+                            R.drawable.ic_delete,
+                            object : MyButtonClickListener {
+                                override fun onClick(pos: Int) {
+                                    Toast.makeText(
+                                        context!!,
+                                        "DLETE Clicked $pos",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            })
+                    )
+                    add(
+                        MyButton(
+                            context!!,
+                            R.drawable.ic_edit,
+                            object : MyButtonClickListener {
+                                override fun onClick(pos: Int) {
+                                    Toast.makeText(
+                                        context!!,
+                                        "EDIT Clicked $pos",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            })
+                    )
+                    add(
+                        MyButton(
+                            context!!,
+                            R.drawable.ic_hide,
+                            object : MyButtonClickListener {
+                                override fun onClick(pos: Int) {
+                                    Toast.makeText(
+                                        context!!,
+                                        "HIDE Clicked $pos",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            })
+                    )
+
+                }
+
+            }
+
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipe)
+        itemTouchHelper.attachToRecyclerView(recycler)
+
+
         viewModel.wallets.observe(viewLifecycleOwner, ::updateWallets)
     }
 
