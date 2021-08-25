@@ -1,7 +1,8 @@
 package com.example.tinkoffproject.model.data.network.dto.response
 
 import androidx.room.*
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Entity(
     foreignKeys = [ForeignKey(
@@ -22,7 +23,7 @@ data class TransactionNetwork(
     @Ignore
     var category: CategoryNetwork,
     @Transient
-    var categoryId: Int=0
+    var categoryId: Int = 0
 ) {
     constructor() : this(
         0,

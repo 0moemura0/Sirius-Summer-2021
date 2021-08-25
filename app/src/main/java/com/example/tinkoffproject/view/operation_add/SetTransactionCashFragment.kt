@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -75,7 +74,8 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
                 saveData()
-                val action = if(args.isFromMain) R.id.action_to_newOperation else R.id.action_setCash_to_chooseType
+                val action =
+                    if (args.isFromMain) R.id.action_to_newOperation else R.id.action_setCash_to_chooseType
                 findNavController().navigate(action)
             } else {
                 setDefaultError()

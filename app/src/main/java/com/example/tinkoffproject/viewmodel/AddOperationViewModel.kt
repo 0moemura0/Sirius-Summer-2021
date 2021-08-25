@@ -42,6 +42,7 @@ class AddOperationViewModel : ViewModel() {
     init {
         init()
     }
+
     fun setCategory(position: Int) {
         val newCategory: Category? = when (type.value) {
             CategoryType.INCOME -> categoriesIncome.value?.get(position)
@@ -64,7 +65,13 @@ class AddOperationViewModel : ViewModel() {
         if (categoriesIncome.value == null) {
             categoriesIncome.value =
                 listOf(
-                    CategoryNetwork(name = "Зарплата", iconId = 1, iconColor = "#00B92D", isIncome = true, id = 11).toCategory(),
+                    CategoryNetwork(
+                        name = "Зарплата",
+                        iconId = 1,
+                        iconColor = "#00B92D",
+                        isIncome = true,
+                        id = 11
+                    ).toCategory(),
                 )
         }
     }
@@ -73,13 +80,25 @@ class AddOperationViewModel : ViewModel() {
         if (categoriesExpenses.value == null) {
             categoriesExpenses.value =
                 listOf(
-                    CategoryNetwork(name = "Супермаркеты", iconId = 0, iconColor = "#339FEE", isIncome = false, id = 12).toCategory(),
-                    CategoryNetwork(name = "Спортзал", iconId = 2, iconColor = "#994747", isIncome = false, id = 13).toCategory(),
+                    CategoryNetwork(
+                        name = "Супермаркеты",
+                        iconId = 0,
+                        iconColor = "#339FEE",
+                        isIncome = false,
+                        id = 12
+                    ).toCategory(),
+                    CategoryNetwork(
+                        name = "Спортзал",
+                        iconId = 2,
+                        iconColor = "#994747",
+                        isIncome = false,
+                        id = 13
+                    ).toCategory(),
                 )
         }
     }
 
-    fun newTransaction(){
+    fun newTransaction() {
     }
 
     fun addTransaction() {
@@ -99,7 +118,7 @@ class AddOperationViewModel : ViewModel() {
             ).toNetwork()
     }
 
-    fun init(){
+    fun init() {
         type = MutableLiveData<CategoryType>()
         category = MutableLiveData<Category>()
         amount = MutableLiveData<Int>()

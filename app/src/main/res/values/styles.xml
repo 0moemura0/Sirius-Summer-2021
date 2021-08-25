@@ -89,6 +89,7 @@
         <item name="android:textSize">@dimen/view_text_like_small</item>
         <item name="textAllCaps">true</item>
     </style>
+
     <style name="AlertDialogTitle">
         <item name="android:textSize">@dimen/toolbar_text_size</item>
     </style>

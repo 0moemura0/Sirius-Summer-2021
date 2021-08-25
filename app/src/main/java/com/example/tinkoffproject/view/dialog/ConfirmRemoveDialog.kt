@@ -2,12 +2,12 @@ package com.example.tinkoffproject.view.dialog
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.data.OnItemSelectListener
-import android.view.ViewGroup
-import android.view.WindowManager
 
 
 class ConfirmRemoveDialog(private val strResId: Int) : DialogFragment(R.layout.dialog_confirm) {

@@ -107,16 +107,19 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private fun setupNavigation() {
 
         sumLayout.setOnClickListener {
-            val action = NewOperationFragmentDirections.actionNewOperationToSetCash(isFromMain = true)
+            val action =
+                NewOperationFragmentDirections.actionNewOperationToSetCash(isFromMain = true)
             findNavController().navigate(action)
         }
 
         typeLayout.setOnClickListener {
-            val action = NewOperationFragmentDirections.actionNewOperationToChooseType(isFromMain = true)
+            val action =
+                NewOperationFragmentDirections.actionNewOperationToChooseType(isFromMain = true)
             findNavController().navigate(action)
         }
         categoryLayout.setOnClickListener {
-            val action = NewOperationFragmentDirections.actionNewOperationToChooseCategory(isFromMain = true)
+            val action =
+                NewOperationFragmentDirections.actionNewOperationToChooseCategory(isFromMain = true)
             findNavController().navigate(action)
         }
 

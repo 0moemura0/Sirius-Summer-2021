@@ -1,6 +1,5 @@
 package com.example.tinkoffproject.model.utils
 
-import android.util.Log
 import com.example.tinkoffproject.model.data.dto.Currency
 import java.util.*
 

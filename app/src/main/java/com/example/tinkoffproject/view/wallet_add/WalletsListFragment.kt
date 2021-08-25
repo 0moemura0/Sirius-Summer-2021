@@ -21,7 +21,10 @@ import com.example.tinkoffproject.model.utils.formatMoney
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
-import com.example.tinkoffproject.view.carddetails.*
+import com.example.tinkoffproject.view.carddetails.MainActivity
+import com.example.tinkoffproject.view.carddetails.MySwipeHelper
+import com.example.tinkoffproject.view.carddetails.ToolbarType
+import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.view.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.view.dialog.ConfirmRemoveDialog
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
@@ -206,7 +209,15 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
     private fun onChangeClicked(pos: Int) {
         Toast.makeText(requireContext(), "EDIT Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
+        viewModel.wallets.value?.let {
+            if (it is State.DataState) {
+                val wallet = it.data.getOrNull(pos)
+                val action = WalletsListFragmentDirections.actionToChangeWallet(wallet)
+                findNavController().navigate(action)
+            }
+        }
     }
+
     private fun onHideClicked(pos: Int) {
         Toast.makeText(requireContext(), "HIDE Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
     }

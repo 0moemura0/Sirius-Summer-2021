@@ -107,7 +107,7 @@
     <action
         android:id="@+id/action_to_newOperation"
         app:destination="@+id/newOperation"
+        app:launchSingleTop="true"
         app:popUpTo="@+id/newOperation"
-        app:popUpToInclusive="true"
-        app:launchSingleTop="true"/>
+        app:popUpToInclusive="true" />
 </navigation>

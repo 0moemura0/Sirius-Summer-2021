@@ -32,11 +32,11 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:text="0"
                 android:id="@+id/tw_sum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/view_dimen_not_so_small"
+                android:text="0"
                 android:textAppearance="@style/WalletMainCounter"
                 tools:text="120 000 ₽" />
 
@@ -107,11 +107,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/view_dimen_normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/btn"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintTop_toBottomOf="@id/l_currency" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/l_currency"
+            app:layout_constraintVertical_bias="0" />
 
         <com.example.tinkoffproject.view.NextCustomButton
             android:id="@+id/btn"

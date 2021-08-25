@@ -11,6 +11,11 @@
         android:label="SetName"
         tools:layout="@layout/layout_set_value">
         <argument
+            android:name="wallet"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.model.data.dto.Wallet"
+            app:nullable="true" />
+        <argument
             android:name="isNewOperation"
             android:defaultValue="false"
             app:argType="boolean" />
@@ -22,6 +27,16 @@
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_setName_to_changeWallet"
+            app:destination="@id/newWallet"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/setWalletName"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/newWallet"

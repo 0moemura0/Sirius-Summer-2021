@@ -2,12 +2,10 @@ package com.example.tinkoffproject.view.wallet_add
 
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
@@ -75,7 +73,10 @@ class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupData() {
-        if(args.isNewOperation) viewModel.init()
+        if (args.isNewOperation) viewModel.init(args.wallet)
+        if (args.wallet != null) {
+            findNavController().navigate(R.id.action_setName_to_changeWallet)
+        }
         inputEditText.setText(viewModel.name.value)
     }
 

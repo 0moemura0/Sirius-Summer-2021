@@ -26,24 +26,25 @@ enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
     PET(9, R.drawable.ic_pet),
     SPORT(10, R.drawable.ic_sport),
     NET(11, R.drawable.ic_net),
-    BUS(12,  R.drawable.ic_bus),
-    PALMA(13,  R.drawable.ic_palma),
-    HANDS(14,  R.drawable.ic_hands),
-    MUSIC(15,  R.drawable.ic_music),
-    CAP(16,  R.drawable.ic_cap),
-    GIFT(17,  R.drawable.ic_gift),
-    PHONE(18,  R.drawable.ic_phone),
-    GARDEN(19,  R.drawable.ic_garden),
-    MOVIE(20,  R.drawable.ic_movie),
-    CAR(21,  R.drawable.ic_car),
-    MEDICINE_BAG(22,  R.drawable.ic_medicine_bag),
-    EDUCATION(23,  R.drawable.ic_education),
-    TV(24,  R.drawable.ic_tv),
-    ICON(25,  R.drawable.ic_icon),
-    WEAR(26,  R.drawable.ic_wear),
-    MONEY(27,  R.drawable.ic_wear),
-    BALL0ON(28,  R.drawable.ic_balloon),
-    DOTS(29,  R.drawable.ic_dots);
+    BUS(12, R.drawable.ic_bus),
+    PALMA(13, R.drawable.ic_palma),
+    HANDS(14, R.drawable.ic_hands),
+    MUSIC(15, R.drawable.ic_music),
+    CAP(16, R.drawable.ic_cap),
+    GIFT(17, R.drawable.ic_gift),
+    PHONE(18, R.drawable.ic_phone),
+    GARDEN(19, R.drawable.ic_garden),
+    MOVIE(20, R.drawable.ic_movie),
+    CAR(21, R.drawable.ic_car),
+    MEDICINE_BAG(22, R.drawable.ic_medicine_bag),
+    EDUCATION(23, R.drawable.ic_education),
+    TV(24, R.drawable.ic_tv),
+    ICON(25, R.drawable.ic_icon),
+    WEAR(26, R.drawable.ic_wear),
+    MONEY(27, R.drawable.ic_wear),
+    BALL0ON(28, R.drawable.ic_balloon),
+    DOTS(29, R.drawable.ic_dots);
+
     companion object {
         val locals = values().map { it.localIconId }
         private val mapLocal = values().associateBy(CategoryEnum::localIconId)
@@ -54,7 +55,6 @@ enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
 }
 
 val DEFAULT_CATEGORY_ENUM: CategoryEnum = CategoryEnum.DOTS
-
 
 
 const val DEFAULT_COLOR = "#2E0EAE"

@@ -3,7 +3,6 @@ package com.example.tinkoffproject.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.data.dto.Category
 import com.example.tinkoffproject.model.data.mapper.CategoryEnum
 import com.example.tinkoffproject.model.data.mapper.toNetwork
