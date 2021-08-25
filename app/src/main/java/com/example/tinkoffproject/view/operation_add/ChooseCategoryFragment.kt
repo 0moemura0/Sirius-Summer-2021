@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
@@ -22,6 +23,8 @@ import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     private val viewModel: AddOperationViewModel by activityViewModels()
     private val categoryAdapter: CategoryAdapter by lazy { CategoryAdapter() }
+
+    private val args: ChooseCategoryFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,7 +49,7 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
-                val action = ChooseCategoryFragmentDirections.actionChooseTransactionCategoryToNewOperation()
+                val action = if (args.isFromMain) R.id.action_to_newOperation else R.id.action_chooseTransactionCategory_to_newOperation
                 findNavController().navigate(action)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)

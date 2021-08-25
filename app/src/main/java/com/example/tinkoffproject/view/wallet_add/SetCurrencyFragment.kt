@@ -44,7 +44,7 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
-                findNavController().navigate(R.id.action_setWalletCurrency_to_newWallet)
+                findNavController().navigate(R.id.action_to_newWallet)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
@@ -86,9 +86,7 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
         }
 
         viewModel.currency.value?.let {
-            Log.d("kek", "viewModel.currency.value - ${viewModel.currency.value}")
             val i = data.indexOf(it)
-            Log.d("kek", "find - ${i}")
             if (i >= 0) {
                 adapter.onItemSelect(i)
             }

@@ -75,7 +75,6 @@ class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupData() {
-        Log.d("kek", "setupData - ${args.isNewOperation}")
         if(args.isNewOperation) viewModel.init()
         inputEditText.setText(viewModel.name.value)
     }

@@ -12,8 +12,6 @@ class AddWalletViewModel : ViewModel() {
     var currency = MutableLiveData<Currency>()
     var limit = MutableLiveData<Int>()
 
-    val isNextAvailable: MutableLiveData<Boolean> = MutableLiveData(false)
-
     init {
         init()
     }
@@ -22,7 +20,6 @@ class AddWalletViewModel : ViewModel() {
         name = MutableLiveData()
         currency = MutableLiveData()
         limit = MutableLiveData()
-        isNextAvailable.value = false
     }
 
     fun getAllCurrency(): List<Currency>{

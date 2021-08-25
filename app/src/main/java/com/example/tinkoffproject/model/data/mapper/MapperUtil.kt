@@ -90,7 +90,7 @@ fun Category.toNetwork() = CategoryNetwork(
     iconId = CategoryEnum.fromLocalId(resIconId).remoteIconId,
     iconColor = colorToStr(color),
     isIncome = isIncome,
-    id = null
+    id = 0
 )
 
 fun colorToStr(color: Int) = String.format("#%06X", 0xFFFFFF and color)

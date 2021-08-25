@@ -56,7 +56,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         if (args.isNewOperation)
             viewModel.type.value = if (args.isIncome) CategoryType.INCOME else CategoryType.EXPENSE
 
-        nameValue.text = viewModel.name.value ?: getString(R.string.category_new)
+        nameValue.text = viewModel.name.value ?: getString(R.string.dont_set)
         typeValue.setText(viewModel.type.value?.nameResId ?: R.string.dont_set)
         colorValue.setText(R.string.choose_color)
 
@@ -109,13 +109,14 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (isNextAvailable()) {
+            findNavController().navigate(R.id.action_to_chooseTransactionCategory)
+            /*if (isNextAvailable()) {
                 viewModel.addCategory()
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.action_to_chooseTransactionCategory)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
-            }
+            }*/
         }
     }
 

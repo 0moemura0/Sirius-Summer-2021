@@ -14,7 +14,6 @@ import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.view.data.OnItemSelectListener
-import com.example.tinkoffproject.view.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.view.dialog.ChooseDatePickerFragment
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
@@ -108,14 +107,17 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private fun setupNavigation() {
 
         sumLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperation_to_setCash)
+            val action = NewOperationFragmentDirections.actionNewOperationToSetCash(isFromMain = true)
+            findNavController().navigate(action)
         }
 
         typeLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperation_to_chooseType)
+            val action = NewOperationFragmentDirections.actionNewOperationToChooseType(isFromMain = true)
+            findNavController().navigate(action)
         }
         categoryLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperation_to_chooseCategory)
+            val action = NewOperationFragmentDirections.actionNewOperationToChooseCategory(isFromMain = true)
+            findNavController().navigate(action)
         }
 
         dateLayout.setOnClickListener {

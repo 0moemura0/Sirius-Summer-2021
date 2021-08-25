@@ -43,7 +43,7 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
                 saveData()
-                findNavController().navigate(R.id.action_setWalletLimit_to_newWallet)
+                findNavController().navigate(R.id.action_to_newWallet)
             } else setDefaultError()
         }
     }

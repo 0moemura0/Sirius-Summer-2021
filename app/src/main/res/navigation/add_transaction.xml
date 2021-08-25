@@ -14,6 +14,10 @@
             android:name="isNewOperation"
             android:defaultValue="false"
             app:argType="boolean" />
+        <argument
+            android:name="isFromMain"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_setCash_to_chooseType"
             app:destination="@id/chooseTransactionType"
@@ -27,6 +31,10 @@
         android:name="com.example.tinkoffproject.view.operation_add.ChooseTypeFragment"
         android:label="ChooseType"
         tools:layout="@layout/operation_choose_category">
+        <argument
+            android:name="isFromMain"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_chooseType_to_chooseCategory"
             app:destination="@id/chooseTransactionCategory"
@@ -45,6 +53,7 @@
             app:destination="@+id/add_category"
             app:enterAnim="@anim/from_bottom"
             app:exitAnim="@anim/to_top"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/from_top"
             app:popExitAnim="@anim/to_bottom">
             <argument
@@ -55,6 +64,10 @@
                 android:name="isIncome"
                 app:argType="boolean" />
         </action>
+        <argument
+            android:name="isFromMain"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_chooseTransactionCategory_to_newOperation"
             app:destination="@id/newOperation"
@@ -62,7 +75,6 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
-
     </fragment>
 
     <fragment
@@ -76,23 +88,26 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:popUpTo="@id/setTransactionCash" />
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_newOperation_to_chooseType"
             app:destination="@id/chooseTransactionType"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:popUpTo="@id/chooseTransactionType" />
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_newOperation_to_chooseCategory"
             app:destination="@id/chooseTransactionCategory"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:popUpTo="@id/chooseTransactionCategory" />
+            app:popExitAnim="@anim/to_right" />
     </fragment>
+    <action
+        android:id="@+id/action_to_newOperation"
+        app:destination="@+id/newOperation"
+        app:popUpTo="@+id/newOperation"
+        app:popUpToInclusive="true"
+        app:launchSingleTop="true"/>
 </navigation>

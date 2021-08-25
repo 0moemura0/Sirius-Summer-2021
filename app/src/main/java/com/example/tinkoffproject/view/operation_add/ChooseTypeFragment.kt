@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
@@ -15,12 +16,13 @@ import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.view.data.CategoryType
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
-import java.lang.IllegalStateException
 
 class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private val viewModel: AddOperationViewModel by activityViewModels()
     private lateinit var income: LinearLayout
     private lateinit var cons: LinearLayout
+
+    private val args: ChooseTypeFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,7 +67,9 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
-                findNavController().navigate(R.id.action_chooseType_to_chooseCategory)
+                val action =
+                    if (args.isFromMain) R.id.action_to_newOperation else R.id.action_chooseType_to_chooseCategory
+                findNavController().navigate(action)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
