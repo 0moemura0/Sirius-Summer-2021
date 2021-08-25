@@ -10,21 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/section_header"
+        <LinearLayout
+            android:id="@+id/l_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.3" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:background="@color/blue_main"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/view_dimen_normal"
             android:paddingTop="64dp"
-            app:layout_constraintBottom_toTopOf="@id/section_header"
+            app:layout_constraintBottom_toTopOf="@id/l_currency"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -75,7 +69,7 @@
             android:layout_margin="@dimen/view_dimen_normal"
             android:background="@drawable/rect_stab_8dp"
             android:padding="@dimen/view_dimen_not_so_normal"
-            app:layout_constraintTop_toBottomOf="@id/section_header">
+            app:layout_constraintTop_toBottomOf="@id/l_header">
 
             <include
                 android:id="@+id/l_currency_1"
@@ -113,6 +107,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/view_dimen_normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn"
+            app:layout_constraintVertical_bias="0"
             app:layout_constraintTop_toBottomOf="@id/l_currency" />
 
         <com.example.tinkoffproject.view.NextCustomButton

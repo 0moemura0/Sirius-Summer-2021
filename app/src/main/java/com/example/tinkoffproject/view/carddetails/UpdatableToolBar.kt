@@ -8,9 +8,8 @@ enum class ToolbarType(
 ) {
     DEFAULT(true, true, false),
     ADD_OPERATION(true, false, true),
-
     ADD_VALUE(isCloseVisible = true),
-    INVISIBLE()
+    INVISIBLE
 }
 
 interface UpdatableToolBar {

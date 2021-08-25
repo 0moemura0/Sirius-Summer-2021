@@ -152,6 +152,6 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar("", ToolbarType.DEFAULT)
+        update.updateToolbar("", ToolbarType.INVISIBLE)
     }
 }
