@@ -23,7 +23,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -42,9 +42,9 @@ detekt {
 
     reports {
         html.enabled = true // observe findings in your browser with structure and code snippets
-        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
-        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.enabled = true // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+        xml.enabled = false // checkstyle like format mainly for integrations like Jenkins
+        txt.enabled = false // similar to the console output, contains issue signature to manually edit baseline files
+        sarif.enabled = false // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
     }
 }
 
@@ -76,13 +76,12 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
 
     //java rx
-    implementation "io.reactivex.rxjava3:rxandroid:$javarx_version"
-    implementation "io.reactivex.rxjava3:rxjava:$javarx_version"
-    implementation "io.reactivex.rxjava3:rxkotlin:$javarx_version"
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation "io.reactivex.rxjava2:rxjava:$javarx_version"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
 
     //Room
-
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
