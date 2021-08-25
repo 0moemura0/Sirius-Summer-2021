@@ -2,14 +2,15 @@ package com.example.tinkoffproject.view.adapter.category_custom
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tinkoffproject.model.data.mapper.COLOR
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 
 class CustomColorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var listener: OnItemSelectListener
 
-    private val data = mutableListOf<Int>()
+    private val data = mutableListOf<COLOR>()
 
-    fun setData(_data: List<Int>) {
+    fun setData(_data: List<COLOR>) {
         data.clear()
         data.addAll(_data)
         notifyDataSetChanged()

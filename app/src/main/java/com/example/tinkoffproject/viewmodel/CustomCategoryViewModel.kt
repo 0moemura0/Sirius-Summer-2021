@@ -10,7 +10,7 @@ import com.example.tinkoffproject.view.data.CategoryType
 
 class CustomCategoryViewModel(application: Application) : AndroidViewModel(application) {
     var name = MutableLiveData<String>()
-    var colorId = MutableLiveData<Int>()
+    var color = MutableLiveData<Int>()
     var iconId = MutableLiveData<Int>()
     var type = MutableLiveData<CategoryType>()
 
@@ -19,7 +19,7 @@ class CustomCategoryViewModel(application: Application) : AndroidViewModel(appli
 
     fun init() {
         name = MutableLiveData<String>()
-        colorId = MutableLiveData<Int>()
+        color = MutableLiveData<Int>()
         type = MutableLiveData<CategoryType>()
     }
 
@@ -27,7 +27,7 @@ class CustomCategoryViewModel(application: Application) : AndroidViewModel(appli
         val name = name.value
         val type = type.value
         val iconId = iconId.value
-        val color = colorId.value
+        val color = color.value
         if (name != null && type != null && iconId != null && color != null) {
             Category(
                 name = name,

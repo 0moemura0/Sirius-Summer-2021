@@ -14,7 +14,6 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.utils.formatDate
 import com.example.tinkoffproject.view.adapter.calendar.CalendarAdapter
 import com.example.tinkoffproject.view.adapter.calendar.SelectableString
-import com.example.tinkoffproject.view.data.OnItemSelectListener
 import java.util.*
 import kotlin.collections.ArrayList
 

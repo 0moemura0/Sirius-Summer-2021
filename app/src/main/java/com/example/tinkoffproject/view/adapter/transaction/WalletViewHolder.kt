@@ -23,7 +23,6 @@ class WalletViewHolder(root: View) :
         icon.backgroundTintList = ColorStateList.valueOf(data.category.color)
 
         amount.text = data.amountFormatted
-
     }
 
     companion object {

@@ -30,5 +30,17 @@
     <color name="purple_dark">#91397D</color>
     <color name="yellow">#EEDB33</color>
 
+    //same but dark
+    <color name="purple_selected">#534786</color>
+    <color name="blue_selected">#246FA7</color>
+    <color name="brown_selected">#6B3232</color>
+    <color name="pink_selected">#A72482</color>
+    <color name="green_selected">#0F9A4F</color>
+    <color name="orange_selected">#A77224</color>
+    <color name="purple_dark_selected">#662858</color>
+    <color name="yellow_selected">#A79924</color>
+    <color name="blue_main_selected">#3E24A7</color>
+    <color name="green_main_selected">#008220</color>
+
     <color name="light_blue">#428BF9</color>
 </resources>

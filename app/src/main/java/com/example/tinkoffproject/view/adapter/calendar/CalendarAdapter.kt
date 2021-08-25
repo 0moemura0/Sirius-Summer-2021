@@ -39,7 +39,7 @@ class CalendarAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 data[currentSelectedPosition].isChecked = true
                 notifyItemChanged(currentSelectedPosition)
             }
-            if(doNotify)
+            if (doNotify)
                 listener.onItemSelect(currentSelectedPosition)
         }
     }
