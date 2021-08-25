@@ -13,6 +13,9 @@ import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.view.data.OnItemSelectListener
+import com.example.tinkoffproject.view.dialog.ChooseColorDialogFragment
+import com.example.tinkoffproject.view.dialog.ChooseDatePickerFragment
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
 class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
@@ -23,15 +26,27 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private lateinit var categoryLayout: View
     private lateinit var dateLayout: View
 
+    private val dialog by lazy { ChooseDatePickerFragment() }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
-
+        initDialog()
         setData()
         setupNextButton()
         setupToolbar()
         setupNavigation()
+    }
+
+    private fun initDialog() {
+
+        dialog.setOnItemClickListener(object : OnItemSelectListener {
+            override fun onItemSelect(position: Int) {
+                Toast.makeText(context!!, position.toString(), Toast.LENGTH_SHORT).show()
+                //dialog.dismiss()
+            }
+        })
     }
 
     private fun initViews() {
@@ -104,7 +119,8 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         }
 
         dateLayout.setOnClickListener {
-            //TODO
+            if (!dialog.isAdded)
+                dialog.show(childFragmentManager, ChooseDatePickerFragment.TAG)
         }
     }
 

@@ -24,6 +24,7 @@
     <string name="date">Дата операции</string>
 
     <string name="date_format_default">dd MMM</string>
+    <string name="date_format_calendar">MMM yyyy</string>
     <string name="date_format_month_full">dd MMMM</string>
     <string name="operation_new">Новая операция</string>
     <string name="enter_value">Введите значение</string>

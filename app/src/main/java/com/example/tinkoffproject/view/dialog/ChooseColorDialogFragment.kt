@@ -12,7 +12,7 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.adapter.category_custom.CustomColorAdapter
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 
-class ChooseColorDialogFragment() : DialogFragment(R.layout.dialog_choose_color) {
+class ChooseColorDialogFragment : DialogFragment(R.layout.dialog_choose_color) {
 
     private var listener: OnItemSelectListener? = null
 
