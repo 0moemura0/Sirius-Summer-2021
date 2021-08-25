@@ -40,7 +40,10 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     private fun setupData() {
         if (args.isNewOperation && isNewOperation) {
             isNewOperation = false
-            viewModel.init()
+            viewModel.init(args.transaction)
+        }
+        if (args.transaction != null) {
+            findNavController().navigate(R.id.action_setCash_to_changeTransaction)
         }
         inputEditText.setText(viewModel.amount.value?.toString() ?: "")
     }

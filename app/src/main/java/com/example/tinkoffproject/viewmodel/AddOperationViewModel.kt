@@ -18,6 +18,7 @@ import java.util.*
 class AddOperationViewModel : ViewModel() {
     private lateinit var apiService: ApiService
 
+    var id: Long = 0
     var type = MutableLiveData<CategoryType>()
     var category = MutableLiveData<Category>()
     var amount = MutableLiveData<Int>()
@@ -51,7 +52,7 @@ class AddOperationViewModel : ViewModel() {
         }
 
         if (newCategory != null)
-            category.value = newCategory!!
+            category.value = newCategory
     }
 
     fun loadCategories() {
@@ -118,11 +119,19 @@ class AddOperationViewModel : ViewModel() {
             ).toNetwork()
     }
 
-    fun init() {
-        type = MutableLiveData<CategoryType>()
-        category = MutableLiveData<Category>()
-        amount = MutableLiveData<Int>()
+    fun init(transaction: Transaction? = null) {
 
+        val transactionType = when {
+            transaction == null -> null
+            transaction.isIncome -> CategoryType.INCOME
+            else -> CategoryType.EXPENSE
+        }
+        type = MutableLiveData<CategoryType>(transactionType)
+        category = MutableLiveData<Category>(transaction?.category)
+        amount = MutableLiveData<Int>(transaction?.amount)
+        id = transaction?.id ?: 0
+
+        //TODO format date
         date = MutableLiveData(Date())
 
     }

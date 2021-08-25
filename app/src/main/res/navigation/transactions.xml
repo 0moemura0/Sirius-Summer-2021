@@ -25,6 +25,22 @@
                 android:defaultValue="false"
                 app:argType="boolean" />
         </action>
+        <action
+            android:id="@+id/action_to_change_transaction"
+            app:destination="@+id/add_transaction">
+            <argument
+                android:name="transaction"
+                app:argType="com.example.tinkoffproject.model.data.dto.Transaction"
+                app:nullable="true" />
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="true"
+                app:argType="boolean" />
+            <argument
+                android:name="isFromMain"
+                android:defaultValue="true"
+                app:argType="boolean" />
+        </action>
     </fragment>
 
     <include app:graph="@navigation/add_transaction" />

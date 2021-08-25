@@ -32,7 +32,6 @@
             app:destination="@id/newWallet"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
-            app:launchSingleTop="true"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
             app:popUpTo="@id/setWalletName"

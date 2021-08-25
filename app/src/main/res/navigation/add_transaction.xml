@@ -18,6 +18,11 @@
             android:name="isFromMain"
             android:defaultValue="false"
             app:argType="boolean" />
+        <argument
+            android:name="transaction"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.model.data.dto.Transaction"
+            app:nullable="true" />
         <action
             android:id="@+id/action_setCash_to_chooseType"
             app:destination="@id/chooseTransactionType"
@@ -25,6 +30,15 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_setCash_to_changeTransaction"
+            app:destination="@id/newOperation"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/setTransactionCash"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/chooseTransactionType"

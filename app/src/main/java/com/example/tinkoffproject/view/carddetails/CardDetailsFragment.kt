@@ -190,15 +190,15 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 buffer.add(
                     MyButton(
                         context!!,
-                        R.drawable.ic_edit
-                    ) { pos -> onChangeClicked(pos) }
+                        R.drawable.ic_delete
+                    ) { pos -> onRemoveClicked(pos) }
                 )
 
                 buffer.add(
                     MyButton(
                         context!!,
-                        R.drawable.ic_delete
-                    ) { pos -> onRemoveClicked(pos) }
+                        R.drawable.ic_edit
+                    ) { pos -> onChangeClicked(pos) }
                 )
             }
         }
@@ -220,6 +220,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     }
 
     private fun onChangeClicked(pos: Int) {
-        Toast.makeText(requireContext(), "EDIT Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
+        val transaction = transactionAdapter?.data?.getOrNull(pos)
+        val action = CardDetailsFragmentDirections.actionToChangeTransaction(transaction)
+        findNavController().navigate(action)
     }
 }

@@ -50,6 +50,4 @@
     </fragment>
 
     <include app:graph="@navigation/add_wallet" />
-
-
 </navigation>
