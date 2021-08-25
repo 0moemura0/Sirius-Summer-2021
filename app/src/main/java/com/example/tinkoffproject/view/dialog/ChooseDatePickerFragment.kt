@@ -2,6 +2,7 @@ package com.example.tinkoffproject.view.dialog
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,12 +20,11 @@ import kotlin.collections.ArrayList
 
 
 class ChooseDatePickerFragment : DialogFragment(R.layout.dialog_choose_date) {
-    private var listener: OnItemSelectListener? = null
+    private var listener: DatePickerListener? = null
 
     companion object {
         const val TAG = "ChooseDatePickerFragment"
     }
-
 
     //var selectedDate = LocalDate.now()!!
     var selectedDate = GregorianCalendar.getInstance()
@@ -32,6 +32,8 @@ class ChooseDatePickerFragment : DialogFragment(R.layout.dialog_choose_date) {
     private lateinit var monthYearText: TextView
     private lateinit var next: ImageView
     private lateinit var back: ImageView
+    private val calendarAdapter: CalendarAdapter by lazy { CalendarAdapter() }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +54,20 @@ class ChooseDatePickerFragment : DialogFragment(R.layout.dialog_choose_date) {
         monthYearText.text = monthYearFromDate(selectedDate)
         setMonthView()
 
+        calendarAdapter.setOnItemClickListener {
+            Log.d("kek", "listener")
+            /* if (daysInMonth[position] != "") {
+                 val message =
+                     "Selected Date " + daysInMonth[position] + " " + monthYearFromDate(
+                         selectedDate
+                     )
+                 Log.d("kek", message)
+                 */
+            selectedDate.set(Calendar.DAY_OF_MONTH, it - 1)
+            listener?.onSelect(selectedDate)
+        }
+        val day = selectedDate.get(Calendar.DAY_OF_MONTH)
+        calendarAdapter.onItemSelect(day + 1, false)
     }
 
     private fun daysInMonthArray(date: Calendar): ArrayList<String> {
@@ -98,17 +114,7 @@ class ChooseDatePickerFragment : DialogFragment(R.layout.dialog_choose_date) {
     private fun setMonthView() {
         monthYearText.text = monthYearFromDate(selectedDate)
         val daysInMonth = daysInMonthArray(selectedDate)
-        val calendarAdapter = CalendarAdapter()
         calendarAdapter.setData(daysInMonth.map { SelectableString(it) })
-        calendarAdapter.setOnItemClickListener { position ->
-            if (daysInMonth[position] != "") {
-                val message =
-                    "Selected Date " + daysInMonth[position] + " " + monthYearFromDate(
-                        selectedDate
-                    )
-                listener?.onItemSelect(position)
-            }
-        }
 
         val layoutManager =
             GridLayoutManager(view?.context, 7)
@@ -116,7 +122,7 @@ class ChooseDatePickerFragment : DialogFragment(R.layout.dialog_choose_date) {
         calendarRecyclerView.adapter = calendarAdapter
     }
 
-    fun setOnItemClickListener(_listener: OnItemSelectListener) {
+    fun setOnItemClickListener(_listener: DatePickerListener) {
         listener = _listener
     }
 }
