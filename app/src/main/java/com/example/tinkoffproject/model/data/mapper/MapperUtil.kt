@@ -77,7 +77,7 @@ val DEFAULT_CATEGORY = Category(
 val DEFAULT_CURRENCY = randomCurrency()
 
 private fun randomCurrency() = Currency(
-    rate = Random.nextDouble(0.0, 100.0).toFloat(),
+    rate = Random.nextDouble(0.0, 100.0),
     shortName = java.util.Currency.getInstance(Locale.getDefault()).currencyCode,
     longName = java.util.Currency.getInstance(Locale.getDefault()).displayName,
     isUp = Random.nextBoolean()

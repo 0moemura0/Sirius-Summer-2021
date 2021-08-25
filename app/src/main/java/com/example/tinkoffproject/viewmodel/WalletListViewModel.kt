@@ -22,7 +22,13 @@ class WalletListViewModel : ViewModel() {
     )
     val wallets: LiveData<State<List<Wallet>>> = _wallets
 
-    fun getCurrencyInfo(){
+    val currency: MutableLiveData<List<Currency>> = MutableLiveData()
 
+    fun loadCurrencyInfo() {
+        currency.value = listOf(
+            Currency(shortName = "USD", longName = "Доллар США", isUp = false, rate = 72.65),
+            Currency(shortName = "EUR", longName = "Евро", isUp = false, rate = 86.60),
+            Currency(shortName = "CHF", longName = "Швейцарские франки", isUp = true, 80.17),
+        )
     }
 }

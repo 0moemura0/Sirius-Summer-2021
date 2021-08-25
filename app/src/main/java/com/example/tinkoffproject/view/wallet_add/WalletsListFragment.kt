@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.dto.Wallet
 import com.example.tinkoffproject.model.data.mapper.WALLET_AS_CATEGORY
@@ -22,6 +23,7 @@ import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
+import java.text.DecimalFormat
 
 class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private val viewModel: WalletListViewModel by activityViewModels()
@@ -30,6 +32,10 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private lateinit var layoutIncomeCash: TextView
     private lateinit var layoutExpenses: View
     private lateinit var layoutExpensesCash: TextView
+
+    private lateinit var currencyContainer1: View
+    private lateinit var currencyContainer2: View
+    private lateinit var currencyContainer3: View
 
     private var transactionAdapter: TransactionAdapter? = null
 
@@ -42,6 +48,25 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         setupExpensesIncomeLayout()
         setupNavigation()
         setupRecycler()
+        setupCurrency()
+    }
+
+    private fun setupCurrency(){
+        viewModel.loadCurrencyInfo()
+        viewModel.currency.observe(viewLifecycleOwner, {
+            updateCurrencyInfo(it[0], currencyContainer1)
+            updateCurrencyInfo(it[1], currencyContainer2)
+            updateCurrencyInfo(it[2], currencyContainer3)
+        })
+    }
+
+    private fun updateCurrencyInfo(currency: Currency, container: View){
+        val dec = DecimalFormat("#.##")
+        container.findViewById<TextView>(R.id.tv_name).text = currency.shortName
+        container.findViewById<TextView>(R.id.tv_delta).text = dec.format(currency.rate)
+        val arrow = container.findViewById<ImageView>(R.id.uv_arrow)
+        val arrayResId = if(currency.isUp) R.drawable.ic_arrow_up else R.drawable.ic_arrow_down
+        arrow.setImageResource(arrayResId)
     }
 
     private fun setupRecycler() {
@@ -102,6 +127,9 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         layoutIncomeCash = layoutIncome.findViewById(R.id.tv_cash)
         layoutExpenses = requireView().findViewById(R.id.wallets_expenses)
         layoutExpensesCash = layoutExpenses.findViewById(R.id.tv_cash)
+        currencyContainer1 = requireView().findViewById(R.id.l_currency_1)
+        currencyContainer2 = requireView().findViewById(R.id.l_currency_2)
+        currencyContainer3 = requireView().findViewById(R.id.l_currency_3)
     }
 
     private fun setupExpensesIncomeLayout() {
