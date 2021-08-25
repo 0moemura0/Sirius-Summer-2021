@@ -19,7 +19,7 @@ class ColorViewHolder(root: View) : RecyclerView.ViewHolder(root) {
     companion object {
         fun from(parent: ViewGroup): ColorViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val view = layoutInflater.inflate(R.layout.item_category, parent, false)
+            val view = layoutInflater.inflate(R.layout.category_icon, parent, false)
             return ColorViewHolder(view)
         }
     }

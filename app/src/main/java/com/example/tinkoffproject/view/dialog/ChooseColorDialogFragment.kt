@@ -26,11 +26,11 @@ class ChooseColorDialogFragment : DialogFragment(R.layout.dialog_choose_color) {
         recycler.layoutManager = GridLayoutManager(view.context, 3)
     }
 
-    companion object {
-        const val TAG = "CHOOSE_COLOR_DIALOG"
-    }
-
     fun setOnItemClickListener(_listener: OnColorSelectInterface) {
         listener = _listener
+    }
+
+    companion object {
+        const val TAG = "CHOOSE_COLOR_DIALOG"
     }
 }
