@@ -109,14 +109,13 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            findNavController().navigate(R.id.action_to_chooseTransactionCategory)
-            /*if (isNextAvailable()) {
+            if (isNextAvailable()) {
                 viewModel.addCategory()
                 findNavController().navigate(R.id.action_to_chooseTransactionCategory)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
-            }*/
+            }
         }
     }
 
