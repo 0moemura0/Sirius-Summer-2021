@@ -22,6 +22,8 @@ import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.view.carddetails.*
+import com.example.tinkoffproject.view.dialog.ChooseColorDialogFragment
+import com.example.tinkoffproject.view.dialog.ConfirmRemoveDialog
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import java.text.DecimalFormat
 
@@ -36,6 +38,10 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private lateinit var currencyContainer1: View
     private lateinit var currencyContainer2: View
     private lateinit var currencyContainer3: View
+
+    private val confirmDialog: ConfirmRemoveDialog by lazy {
+        ConfirmRemoveDialog(R.string.confirm_remove_wallet)
+    }
 
     private var transactionAdapter: TransactionAdapter? = null
 
@@ -89,53 +95,23 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                 viewHolder: RecyclerView.ViewHolder?,
                 buffer: MutableList<MyButton>
             ) {
-
                 buffer.apply {
                     add(
-                        MyButton(
-                            context!!,
-                            R.drawable.ic_delete,
-                            object : MyButtonClickListener {
-                                override fun onClick(pos: Int) {
-                                    Toast.makeText(
-                                        context!!,
-                                        "DLETE Clicked $pos",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
+                        MyButton(context!!, R.drawable.ic_delete) { pos ->
+                            onRemoveClicked(pos)
+                        }
                     )
                     add(
-                        MyButton(
-                            context!!,
-                            R.drawable.ic_edit,
-                            object : MyButtonClickListener {
-                                override fun onClick(pos: Int) {
-                                    Toast.makeText(
-                                        context!!,
-                                        "EDIT Clicked $pos",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
+                        MyButton(context!!, R.drawable.ic_edit) { pos ->
+                            onChangeClicked(pos)
+                        }
                     )
                     add(
-                        MyButton(
-                            context!!,
-                            R.drawable.ic_hide,
-                            object : MyButtonClickListener {
-                                override fun onClick(pos: Int) {
-                                    Toast.makeText(
-                                        context!!,
-                                        "HIDE Clicked $pos",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
+                        MyButton(context!!, R.drawable.ic_hide) { pos ->
+                            onHideClicked(pos)
+                        }
                     )
-
                 }
-
             }
 
         }
@@ -213,5 +189,25 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)
         update.updateToolbar("", ToolbarType.INVISIBLE)
+    }
+
+    private fun onRemoveClicked(pos: Int) {
+        if (!confirmDialog.isAdded)
+            confirmDialog.show(childFragmentManager, ChooseColorDialogFragment.TAG)
+
+        confirmDialog.setOnItemClickListener {
+            val text: String
+            if (it == 0) text = "cancel"
+            else text = "confirm"
+            Toast.makeText(requireContext(), "DELETE $text $pos", Toast.LENGTH_SHORT).show()
+            confirmDialog.dismiss()
+        }
+    }
+
+    private fun onChangeClicked(pos: Int) {
+        Toast.makeText(requireContext(), "EDIT Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
+    }
+    private fun onHideClicked(pos: Int) {
+        Toast.makeText(requireContext(), "HIDE Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
     }
 }

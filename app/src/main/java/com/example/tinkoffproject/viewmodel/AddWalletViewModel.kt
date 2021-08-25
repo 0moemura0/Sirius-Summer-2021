@@ -1,5 +1,6 @@
 package com.example.tinkoffproject.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.model.data.dto.Currency

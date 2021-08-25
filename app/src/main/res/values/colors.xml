@@ -29,4 +29,6 @@
     <color name="orange">#EEA333</color>
     <color name="purple_dark">#91397D</color>
     <color name="yellow">#EEDB33</color>
+
+    <color name="light_blue">#428BF9</color>
 </resources>
