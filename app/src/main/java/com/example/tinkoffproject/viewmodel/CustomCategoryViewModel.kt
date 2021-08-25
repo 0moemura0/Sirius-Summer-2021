@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.tinkoffproject.model.data.dto.Category
-import com.example.tinkoffproject.model.data.mapper.CategoryEnum
+import com.example.tinkoffproject.model.data.mapper.IconEnum
 import com.example.tinkoffproject.model.data.mapper.toNetwork
 import com.example.tinkoffproject.view.data.CategoryType
 
@@ -14,7 +14,7 @@ class CustomCategoryViewModel(application: Application) : AndroidViewModel(appli
     var iconId = MutableLiveData<Int>()
     var type = MutableLiveData<CategoryType>()
 
-    val icons: List<Int> = CategoryEnum.locals
+    val icons: List<Int> = IconEnum.customLocalsId
 
 
     fun init() {

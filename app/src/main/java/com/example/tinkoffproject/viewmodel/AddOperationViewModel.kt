@@ -116,8 +116,6 @@ class AddOperationViewModel : ViewModel() {
     }
 
     fun init(transaction: Transaction? = null) {
-
-
         val transactionType =
             if (transaction?.isIncome == true) CategoryType.INCOME else CategoryType.EXPENSE
 
