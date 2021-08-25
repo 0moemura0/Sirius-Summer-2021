@@ -49,7 +49,7 @@
         app:destination="@+id/chooseTransactionCategory"
         app:enterAnim="@anim/from_bottom"
         app:launchSingleTop="true"
-        app:popUpTo="@id/chooseNewCategoryType"
+        app:popUpTo="@id/chooseTransactionCategory"
         app:popUpToInclusive="true" />
 
     <action
