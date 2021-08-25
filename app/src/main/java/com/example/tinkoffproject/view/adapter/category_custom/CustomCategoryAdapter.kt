@@ -3,12 +3,13 @@ package com.example.tinkoffproject.view.adapter.category_custom
 import android.graphics.Color
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tinkoffproject.model.data.mapper.DEFAULT_COLOR
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 
 class CustomCategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var listener: OnItemSelectListener
 
-    private var currentColor = Color.parseColor("#5833EE")
+    private var currentColor = Color.parseColor(DEFAULT_COLOR)
 
     private val data = mutableListOf<Int>()
 

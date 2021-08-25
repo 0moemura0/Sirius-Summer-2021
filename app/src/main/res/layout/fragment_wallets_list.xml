@@ -49,7 +49,6 @@
                     android:id="@+id/wallets_income"
                     layout="@layout/element_cash_delta"
                     android:layout_width="0dp"
-
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
