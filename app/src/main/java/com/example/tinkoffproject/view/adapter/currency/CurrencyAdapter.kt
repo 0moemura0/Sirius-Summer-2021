@@ -2,6 +2,7 @@ package com.example.tinkoffproject.view.adapter.currency
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.network.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 import com.example.tinkoffproject.view.data.SelectableCurrency
@@ -12,7 +13,7 @@ class CurrencyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val data = mutableListOf<SelectableCurrency>()
     private var currentSelected: Int = 0
 
-    fun setData(_data: List<CurrencyNetwork>) {
+    fun setData(_data: List<Currency>) {
         data.clear()
         data.addAll(_data.map { SelectableCurrency(it) })
         notifyDataSetChanged()
@@ -27,7 +28,7 @@ class CurrencyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return holder
     }
 
-    private fun onItemSelect(position: Int) {
+    fun onItemSelect(position: Int) {
         if (position == currentSelected) {
             data[currentSelected].isChecked = !data[currentSelected].isChecked
             notifyItemChanged(currentSelected)
@@ -43,8 +44,9 @@ class CurrencyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             listener.onItemSelect(currentSelected)
         }
     }
+    fun isItemSelected(position: Int) = data[position].isChecked
 
-    fun updateData(_data: List<CurrencyNetwork>) {
+    fun updateData(_data: List<Currency>) {
         val oldSize = data.size
         data.addAll(_data.map { SelectableCurrency(it) })
         notifyItemRangeInserted(oldSize, data.size)

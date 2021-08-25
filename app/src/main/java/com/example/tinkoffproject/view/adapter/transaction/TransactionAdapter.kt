@@ -2,18 +2,20 @@ package com.example.tinkoffproject.view.adapter.transaction
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
 
 
 //TODO Подключить diffutils
-class TransactionAdapter() :
+class TransactionAdapter(
+    private val onClick: (Int) -> Unit,
+    private val isTransaction: Boolean = true
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val data = mutableListOf<Transaction>()
-    lateinit var currency: Currency
 
     companion object {
         const val TYPE_TRANSACTION = 0
+        const val TYPE_WALLET = 2
         const val TYPE_NO_TRANSACTION = 1
     }
 
@@ -32,7 +34,8 @@ class TransactionAdapter() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_TRANSACTION -> TransactionViewHolder.from(parent, currency)
+            TYPE_WALLET -> WalletViewHolder.from(parent, onClick)
+            TYPE_TRANSACTION -> TransactionViewHolder.from(parent, onClick)
             TYPE_NO_TRANSACTION -> NoTransactionsViewHolder.from(parent)
             else -> throw IllegalStateException("view type didn't added to onCreateViewHolder")
         }
@@ -40,6 +43,7 @@ class TransactionAdapter() :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
+            is WalletViewHolder -> holder.bind(data[position])
             is TransactionViewHolder -> holder.bind(data[position])
             is NoTransactionsViewHolder -> {
             }
@@ -48,9 +52,10 @@ class TransactionAdapter() :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (data.size) {
-            0 -> TYPE_NO_TRANSACTION
-            else -> TYPE_TRANSACTION
+        return when {
+            data.size == 0 -> TYPE_NO_TRANSACTION
+            isTransaction -> TYPE_TRANSACTION
+            else -> TYPE_WALLET
         }
     }
 

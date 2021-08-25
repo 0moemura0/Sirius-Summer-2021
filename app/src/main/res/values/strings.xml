@@ -16,7 +16,6 @@
     <string name="percents">Капитализация</string>
     <string name="salary">Зарплата</string>
 
-
     <string name="sum">Сумма</string>
     <string name="type">Тип</string>
     <string name="main">Основные</string>
@@ -25,6 +24,7 @@
     <string name="date">Дата операции</string>
 
     <string name="date_format_default">dd MMM</string>
+    <string name="date_format_calendar">MMM yyyy</string>
     <string name="date_format_month_full">dd MMMM</string>
     <string name="operation_new">Новая операция</string>
     <string name="enter_value">Введите значение</string>
@@ -57,6 +57,7 @@
     <string name="limit_desc">Лимит на траты</string>
     <string name="wallet_name">Название кошелька</string>
 
+    <string name="dont_set">Не установлено</string>
     <string name="icon">Иконка</string>
     <string name="category_new">Новая категория</string>
     <string name="choose_color">Задать цвет</string>

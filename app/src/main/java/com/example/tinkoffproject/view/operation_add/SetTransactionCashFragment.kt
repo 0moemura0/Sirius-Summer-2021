@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -9,6 +8,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
@@ -17,11 +17,13 @@ import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 import com.google.android.material.textfield.TextInputLayout
 
-class SetCashFragment : Fragment(R.layout.layout_set_value) {
+class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
 
     private val viewModel: AddOperationViewModel by activityViewModels()
     private lateinit var inputEditText: EditText
     private lateinit var inputTextLayout: TextInputLayout
+
+    private val args: SetTransactionCashFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,22 +37,16 @@ class SetCashFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupData() {
-        viewModel.amount.value?.let{
-            inputEditText.setText(it.toString())
-        }
-        viewModel.amount.observe(viewLifecycleOwner, {
-            if (it != 0) {
-                viewModel.isNextAvailable.value = true
-                hideError()
-            }
-        })
+        inputEditText.setText(viewModel.amount.value?.toString() ?: "")
+
+        if (args.isNewOperation) viewModel.init()
     }
 
 
     private fun setupInputText() {
         inputEditText.doAfterTextChanged {
-            if (!it.isNullOrEmpty()) {
-                viewModel.amount.value = it.toString().toInt()
+            if (!it.isNullOrBlank()) {
+                hideError()
             }
         }
     }
@@ -69,19 +65,26 @@ class SetCashFragment : Fragment(R.layout.layout_set_value) {
     private fun initViews() {
         inputEditText = requireView().findViewById(R.id.et_sum)
         inputTextLayout = requireView().findViewById(R.id.input_sum)
-
     }
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (viewModel.isNextAvailable.value == true) {
-                findNavController().navigate(R.id.action_setCashFragment_to_chooseTypeFragment)
+            if (isNextAvailable()) {
+                saveData()
+                findNavController().navigate(R.id.action_setCash_to_chooseType)
             } else {
                 setDefaultError()
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
             }
         }
+    }
+
+    private fun isNextAvailable() =
+        (inputEditText.text?.toString() ?: "-1").toInt() > 0
+
+    private fun saveData() {
+        viewModel.amount.value = inputEditText.text.toString().toInt()
     }
 
     private fun setupToolbar() {

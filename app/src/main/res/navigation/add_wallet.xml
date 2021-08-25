@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_wallet"
+    app:startDestination="@id/setWalletName">
+
+    <fragment
+        android:id="@+id/setWalletName"
+        android:name="com.example.tinkoffproject.view.wallet_add.SetWalletNameFragment"
+        android:label="SetName"
+        tools:layout="@layout/layout_set_value">
+        <argument
+            android:name="isNewOperation"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_setName_to_newWallet"
+            app:destination="@id/newWallet"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/newWallet"
+        android:name="com.example.tinkoffproject.view.wallet_add.NewWalletFragment"
+        android:label="NewWallet"
+        tools:layout="@layout/fragment_new_wallet">
+        <action
+            android:id="@+id/action_newWallet_to_setWalletName"
+            app:destination="@id/setWalletName"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/setWalletName" />
+        <action
+            android:id="@+id/action_newWallet_to_setWalletLimit"
+            app:destination="@id/setWalletLimit"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/setWalletLimit" />
+        <action
+            android:id="@+id/action_newWallet_to_setWalletCurrency"
+            app:destination="@id/setWalletCurrency"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/setWalletCurrency" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/setWalletLimit"
+        android:name="com.example.tinkoffproject.view.wallet_add.SetLimitFragment"
+        tools:layout="@layout/layout_set_value">
+        <action
+            android:id="@+id/action_setWalletLimit_to_newWallet"
+            app:destination="@id/newWallet"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_right"
+            app:launchSingleTop="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/setWalletCurrency"
+        android:name="com.example.tinkoffproject.view.wallet_add.SetCurrencyFragment">
+        <action
+            android:id="@+id/action_setWalletCurrency_to_newWallet"
+            app:destination="@id/newWallet"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_right"
+            app:launchSingleTop="true" />
+    </fragment>
+</navigation>

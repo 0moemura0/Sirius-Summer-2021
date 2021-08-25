@@ -28,8 +28,6 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
 
         viewModel.loadCategories()
 
-        setupNavigation()
-        setupData()
         setupRecyclerView()
         setupCreateCategory()
         setupNextButton()
@@ -40,34 +38,24 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     private fun setupCreateCategory() {
         val createTextView: TextView = requireView().findViewById(R.id.tv_create)
         createTextView.setOnClickListener {
-            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)
+            val action = ChooseCategoryFragmentDirections.actionToChooseNewCategoryType(true, viewModel.type.value == CategoryType.INCOME)
+            findNavController().navigate(action)
         }
-    }
-
-    private fun openChooseColor(){
-        //TODO
-    }
-
-    private fun setupNavigation(){
-        /*requireView().findViewById<View>(R.id.dtn_add_category).setOnClickListener {
-            findNavController().navigate(R.id.action_chooseCategoryFragment_to_newCategoryFragment)*/
-        }
-    private fun setupData() {
-        viewModel.category.observe(viewLifecycleOwner, {
-            viewModel.isNextAvailable.value = true
-        })
     }
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (viewModel.isNextAvailable.value == true) {
-                findNavController().navigate(R.id.action_chooseCategoryFragment_to_newOperationFragment)
+            if (isNextAvailable()) {
+                val action = ChooseCategoryFragmentDirections.actionChooseTransactionCategoryToNewOperation()
+                findNavController().navigate(action)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
             }
         }
     }
+
+    private fun isNextAvailable() = viewModel.category.value != null
 
     private fun setupRecyclerView() {
         val recycler: RecyclerView = requireView().findViewById(R.id.rv_category)

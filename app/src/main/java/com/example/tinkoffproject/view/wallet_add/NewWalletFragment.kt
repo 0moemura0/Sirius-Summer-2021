@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.model.utils.formatMoney
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
-import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
 class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
@@ -28,31 +28,37 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         initViews()
 
         nameLayout.setOnClickListener {
-            findNavController().popBackStack(R.id.setNameFragment, false)
+            findNavController().navigate(R.id.action_newWallet_to_setWalletName)
         }
         currencyLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newWalletFragment_to_setCurrencyFragment)
+            findNavController().navigate(R.id.action_newWallet_to_setWalletCurrency)
         }
         limitLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newWalletFragment_to_setLimitFragment)
+            findNavController().navigate(R.id.action_newWallet_to_setWalletLimit)
         }
 
         setData()
         setupNextButton()
         setupToolbar()
         setupNavigation()
-        //viewModel.isNextAvailable.value = true
     }
 
-
-    private fun initViews(){
+    private fun initViews() {
         nameLayout = requireView().findViewById(R.id.ll_name_container)
         currencyLayout = requireView().findViewById(R.id.ll_currency_container)
         limitLayout = requireView().findViewById(R.id.ll_limit_container)
     }
 
     private fun setupNavigation() {
-        
+        nameLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWallet_to_setWalletName)
+        }
+        currencyLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWallet_to_setWalletCurrency)
+        }
+        limitLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_newWallet_to_setWalletLimit)
+        }
     }
 
     private fun setupToolbar() {
@@ -61,16 +67,20 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     }
 
     private fun setupNextButton() {
-//        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-//            if (viewModel.isNextAvailable.value == true) {
-//                viewModel.prepareNext()
-//                findNavController().popBackStack(R.id.walletsListFragment, false)
-//            } else {
-//                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
-//                    .show()
-//            }
-//        }
+        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
+            if (isNextAvailable()) {
+                viewModel.addWallet()
+                findNavController().popBackStack(R.id.walletsList, false)
+            } else {
+                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
+
+    private fun isNextAvailable() =
+        viewModel.currency.value != null && viewModel.name.value != null && viewModel.limit.value != null
+
 
     private fun setData() {
         val name: TextView = nameLayout.findViewById(R.id.tv_value)
@@ -84,9 +94,19 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         nameTitle.setText(R.string.name)
         currencyTitle.setText(R.string.currency)
         limitTitle.setText(R.string.limit)
-        
-        name.text = "Кошелек 1"
-        currency.text = "Российский рубль"
-        limit.text = "Не установлен"
+
+        viewModel.name.observe(viewLifecycleOwner, {
+            name.text = it
+        })
+
+        currency.setText(R.string.dont_set)
+        viewModel.currency.observe(viewLifecycleOwner, {
+            currency.text = it.shortName
+        })
+
+        limit.setText(R.string.dont_set)
+        viewModel.limit.observe(viewLifecycleOwner, {
+            limit.text = formatMoney(it)
+        })
     }
 }

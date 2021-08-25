@@ -49,9 +49,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_icons"
-            android:layout_margin="@dimen/view_dimen_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_dimen_normal"
             app:layout_constraintBottom_toTopOf="@id/btn"
             app:layout_constraintEnd_toEndOf="@id/section_type"
             app:layout_constraintStart_toStartOf="@id/section_type"

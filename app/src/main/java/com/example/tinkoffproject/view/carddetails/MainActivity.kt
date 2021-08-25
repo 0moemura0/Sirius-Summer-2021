@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
 
     @SuppressLint("RestrictedApi")
     override fun onBackPressed() {
-        val isMainPage = navController?.currentDestination?.id == R.id.walletsListFragment
+        val isMainPage = navController?.currentDestination?.id == R.id.walletsList
         if (!timer.isRunning() && isMainPage) {
             timer.start()
             Toast.makeText(this, getString(R.string.touch_again_for_exit), Toast.LENGTH_SHORT)

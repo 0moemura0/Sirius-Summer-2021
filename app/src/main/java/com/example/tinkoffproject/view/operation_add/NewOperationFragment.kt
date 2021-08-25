@@ -13,6 +13,9 @@ import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.view.data.OnItemSelectListener
+import com.example.tinkoffproject.view.dialog.ChooseColorDialogFragment
+import com.example.tinkoffproject.view.dialog.ChooseDatePickerFragment
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
 class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
@@ -23,19 +26,30 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private lateinit var categoryLayout: View
     private lateinit var dateLayout: View
 
+    private val dialog by lazy { ChooseDatePickerFragment() }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
-
+        initDialog()
         setData()
         setupNextButton()
         setupToolbar()
         setupNavigation()
-        viewModel.isNextAvailable.value = true
     }
 
-    private fun initViews(){
+    private fun initDialog() {
+
+        dialog.setOnItemClickListener(object : OnItemSelectListener {
+            override fun onItemSelect(position: Int) {
+                Toast.makeText(context!!, position.toString(), Toast.LENGTH_SHORT).show()
+                //dialog.dismiss()
+            }
+        })
+    }
+
+    private fun initViews() {
         sumLayout = requireView().findViewById(R.id.ll_sum_container)
         typeLayout = requireView().findViewById(R.id.ll_type_container)
         categoryLayout = requireView().findViewById(R.id.ll_category_container)
@@ -76,8 +90,8 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (viewModel.isNextAvailable.value == true) {
-                findNavController().popBackStack(R.id.cardDetailsFragment, false)
+            if (isNextAvailable()) {
+                findNavController().popBackStack(R.id.cardDetails, false)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
@@ -85,21 +99,28 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         }
     }
 
+    private fun isNextAvailable() = viewModel.amount.value != null
+            && viewModel.category.value != null
+            && viewModel.date.value != null
+            && viewModel.type.value != null
+
+
     private fun setupNavigation() {
 
         sumLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperationFragment_to_setCashFragment)
+            findNavController().navigate(R.id.action_newOperation_to_setCash)
         }
 
         typeLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperationFragment_to_chooseTypeFragment)
+            findNavController().navigate(R.id.action_newOperation_to_chooseType)
         }
         categoryLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newOperationFragment_to_chooseCategoryFragment)
+            findNavController().navigate(R.id.action_newOperation_to_chooseCategory)
         }
 
         dateLayout.setOnClickListener {
-            //TODO
+            if (!dialog.isAdded)
+                dialog.show(childFragmentManager, ChooseDatePickerFragment.TAG)
         }
     }
 

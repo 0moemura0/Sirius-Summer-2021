@@ -18,11 +18,11 @@ import java.util.*
 class AddOperationViewModel : ViewModel() {
     private lateinit var apiService: ApiService
 
-    val type = MutableLiveData<CategoryType>()
-    val category = MutableLiveData<Category>()
-    val amount = MutableLiveData<Int>()
+    var type = MutableLiveData<CategoryType>()
+    var category = MutableLiveData<Category>()
+    var amount = MutableLiveData<Int>()
 
-    val date = MutableLiveData(Date())
+    var date = MutableLiveData(Date())
 
     private val categoriesIncome: MutableLiveData<List<Category>> = MutableLiveData()
     private val categoriesExpenses: MutableLiveData<List<Category>> = MutableLiveData()
@@ -38,6 +38,10 @@ class AddOperationViewModel : ViewModel() {
             categories.map { SelectableCategory(category = it) }
         }
 
+
+    init {
+        init()
+    }
     fun setCategory(position: Int) {
         val newCategory: Category? = when (type.value) {
             CategoryType.INCOME -> categoriesIncome.value?.get(position)
@@ -60,7 +64,7 @@ class AddOperationViewModel : ViewModel() {
         if (categoriesIncome.value == null) {
             categoriesIncome.value =
                 listOf(
-                    CategoryNetwork("Зарплата", 1, "#00B92D", isIncome = true).toCategory(),
+                    CategoryNetwork(name = "Зарплата", iconId = 1, iconColor = "#00B92D", isIncome = true, id = 11).toCategory(),
                 )
         }
     }
@@ -69,8 +73,8 @@ class AddOperationViewModel : ViewModel() {
         if (categoriesExpenses.value == null) {
             categoriesExpenses.value =
                 listOf(
-                    CategoryNetwork("Супермаркеты", 0, "#339FEE", isIncome = false).toCategory(),
-                    CategoryNetwork("Спортзал", 2, "#994747", isIncome = false).toCategory(),
+                    CategoryNetwork(name = "Супермаркеты", iconId = 0, iconColor = "#339FEE", isIncome = false, id = 12).toCategory(),
+                    CategoryNetwork(name = "Спортзал", iconId = 2, iconColor = "#994747", isIncome = false, id = 13).toCategory(),
                 )
         }
     }
@@ -93,5 +97,14 @@ class AddOperationViewModel : ViewModel() {
                 isIncome = type == CategoryType.INCOME,
                 amountFormatted = formatMoney(amount)
             ).toNetwork()
+    }
+
+    fun init(){
+        type = MutableLiveData<CategoryType>()
+        category = MutableLiveData<Category>()
+        amount = MutableLiveData<Int>()
+
+        date = MutableLiveData(Date())
+
     }
 }
