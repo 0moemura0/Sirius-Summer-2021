@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 class SignInFragment : Fragment(R.layout.fragment_signin), ActivityResultCaller {
 
     private val viewModel: SignInViewModel by activityViewModels()
+    private lateinit var btn: NextCustomButton
 
     override fun onStart() {
         super.onStart()
@@ -31,8 +32,8 @@ class SignInFragment : Fragment(R.layout.fragment_signin), ActivityResultCaller 
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.initActivityLauncher(this)
-
-        view.findViewById<NextCustomButton>(R.id.btn_login).setOnClickListener {
+        btn = view.findViewById(R.id.btn_login)
+        btn.setOnClickListener {
             viewModel.signIn(requireActivity())
         }
     }
@@ -40,6 +41,7 @@ class SignInFragment : Fragment(R.layout.fragment_signin), ActivityResultCaller 
     private fun updateUI(state: State<GoogleSignInAccount>) {
         when (state) {
             is State.ErrorState -> {
+                btn.changeState(NextCustomButton.State.DEFAULT)
                 Log.d("kek", "${state.exception?.stackTraceToString()}")
                 Toast.makeText(context, getString(R.string.cant_sign_in), Toast.LENGTH_LONG).show()
             }
@@ -49,6 +51,7 @@ class SignInFragment : Fragment(R.layout.fragment_signin), ActivityResultCaller 
                 activity?.finish()
             }
             is State.LoadingState -> {
+                btn.changeState(NextCustomButton.State.LOADING)
             }
         }
     }
