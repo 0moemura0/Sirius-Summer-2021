@@ -14,5 +14,6 @@ data class WalletNetwork(
     val name: String,
     @Embedded
     val currency: CurrencyNetwork,
-    val balance: Int?
+    val balance: Int?,
+    val hidden: Boolean
 )
