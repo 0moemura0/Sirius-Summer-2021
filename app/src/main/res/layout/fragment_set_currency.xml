@@ -30,7 +30,7 @@
             app:layout_constraintStart_toStartOf="@id/rv_currency"
             app:layout_constraintTop_toBottomOf="@id/rv_currency" />
 
-        <com.example.tinkoffproject.view.NextCustomButton
+        <com.example.tinkoffproject.ui.main.NextCustomButton
             android:id="@+id/btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

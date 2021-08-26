@@ -7,7 +7,7 @@
     <include app:graph="@navigation/add_category" />
     <fragment
         android:id="@+id/setTransactionCash"
-        android:name="com.example.tinkoffproject.view.operation_add.SetTransactionCashFragment"
+        android:name="com.example.tinkoffproject.ui.main.operation_add.SetTransactionCashFragment"
         android:label="SetCash"
         tools:layout="@layout/layout_set_value">
         <argument
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseTransactionType"
-        android:name="com.example.tinkoffproject.view.operation_add.ChooseTypeFragment"
+        android:name="com.example.tinkoffproject.ui.main.operation_add.ChooseTypeFragment"
         android:label="ChooseType"
         tools:layout="@layout/operation_choose_category">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseTransactionCategory"
-        android:name="com.example.tinkoffproject.view.operation_add.ChooseCategoryFragment"
+        android:name="com.example.tinkoffproject.ui.main.operation_add.ChooseCategoryFragment"
         android:label="ChooseCategory"
         tools:layout="@layout/operation_choose_type">
         <action
@@ -67,7 +67,7 @@
 
     <fragment
         android:id="@+id/newOperation"
-        android:name="com.example.tinkoffproject.view.operation_add.NewOperationFragment"
+        android:name="com.example.tinkoffproject.ui.main.operation_add.NewOperationFragment"
         android:label="NewOperation"
         tools:layout="@layout/operation_new_operation">
         <action

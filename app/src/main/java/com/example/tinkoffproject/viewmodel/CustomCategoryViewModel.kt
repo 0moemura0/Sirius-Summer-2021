@@ -1,15 +1,22 @@
 package com.example.tinkoffproject.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.data.dto.Category
-import com.example.tinkoffproject.model.data.mapper.CategoryEnum
-import com.example.tinkoffproject.model.data.mapper.toNetwork
-import com.example.tinkoffproject.view.data.CategoryType
+import androidx.lifecycle.ViewModel
+import com.example.tinkoffproject.State
+import com.example.tinkoffproject.data.dto.request.CreateCategory
+import com.example.tinkoffproject.data.dto.response.CategoryNetwork
+import com.example.tinkoffproject.data.repository.CategoryRepository
+import com.example.tinkoffproject.ui.main.data.CategoryType
+import com.example.tinkoffproject.utils.CategoryEnum
+import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class CustomCategoryViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class CustomCategoryViewModel @Inject constructor(val repository: CategoryRepository) :
+    ViewModel() {
     var name = MutableLiveData<String>()
     var colorId = MutableLiveData<Int>()
     var iconId = MutableLiveData<Int>()
@@ -24,22 +31,31 @@ class CustomCategoryViewModel(application: Application) : AndroidViewModel(appli
         type = MutableLiveData<CategoryType>()
     }
 
-    fun addCategory() {
+    fun addCategory(): LiveData<State<CategoryNetwork>> {
+        val resource = MutableLiveData<State<CategoryNetwork>>(State.LoadingState)
         val name = name.value
         val type = type.value
         val iconId = iconId.value
         val color = colorId.value
         if (name != null && type != null && iconId != null && color != null) {
-            Category(
-                name = name,
-                resIconId = iconId,
-                isIncome = type == CategoryType.INCOME,
-                color = color
-            ).toNetwork()
-        } else onCategoryAddFailed()
-    }
-
-    private fun onCategoryAddFailed(e: Exception? = null) {
-
+            val disp = repository.postCategory(
+                CreateCategory(
+                    name = name,
+                    iconId = iconId,
+                    isIncome = type == CategoryType.INCOME,
+                    iconColor = color.toString()
+                )
+            ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        resource.value = State.DataState(it)
+                    },
+                    {
+                        resource.value = State.ErrorState(it)
+                    }
+                )
+        } else resource.value = State.ErrorState(IllegalArgumentException("Что-то null"))
+        return resource
     }
 }

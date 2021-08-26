@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".view.carddetails.CardDetailsFragment">
+    tools:context=".ui.main.carddetails.CardDetailsFragment">
 
     <LinearLayout
         android:id="@+id/section_cash"
@@ -74,7 +74,7 @@
         tools:listitem="@layout/item_transaction" />
 
 
-    <com.example.tinkoffproject.view.NextCustomButton
+    <com.example.tinkoffproject.ui.main.NextCustomButton
         android:id="@+id/btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
