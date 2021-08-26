@@ -5,10 +5,7 @@ import com.example.tinkoffproject.data.dto.request.CreateCategory
 import com.example.tinkoffproject.data.dto.request.CreateTransaction
 import com.example.tinkoffproject.data.dto.request.CreateUser
 import com.example.tinkoffproject.data.dto.request.CreateWallet
-import com.example.tinkoffproject.data.dto.response.CategoryNetwork
-import com.example.tinkoffproject.data.dto.response.TransactionNetwork
-import com.example.tinkoffproject.data.dto.response.UserNetwork
-import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.data.dto.response.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -31,6 +28,9 @@ interface ApiService {
 
     @DELETE("wallets/{id}/")
     fun deleteWallet(@Path("id") id: Int): Completable
+
+    @GET("wallets/{id}/sum/")
+    fun getIncomeExpenses(@Path("id") id: Int): Observable<IncomeAndExpense>
 
     //transactions
 
