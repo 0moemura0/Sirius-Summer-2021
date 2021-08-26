@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.view.carddetails
+package com.example.tinkoffproject.ui.main.carddetails
 
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +20,7 @@ import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.ui.main.NextCustomButton
@@ -27,8 +28,8 @@ import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
-import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.viewmodel.TransactionListViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     val viewModel: TransactionListViewModel by viewModels()

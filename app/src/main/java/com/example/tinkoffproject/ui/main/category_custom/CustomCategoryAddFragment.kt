@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.ui.main.category_custom
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.data.CategoryType
-import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.utils.COLOR
 import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel

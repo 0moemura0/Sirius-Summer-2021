@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.view.wallet_add
+package com.example.tinkoffproject.ui.main.wallet
 
 import android.os.Bundle
 import android.os.Handler
@@ -15,19 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.data.dto.to_view.Currency
-import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.ui.main.MainActivity
-import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.ui.main.carddetails.*
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
-import com.example.tinkoffproject.utils.WALLET_AS_CATEGORY
-import com.example.tinkoffproject.utils.toLocal
+import com.example.tinkoffproject.utils.toTransaction
+import com.example.tinkoffproject.utils.toWallet
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.DecimalFormat
@@ -170,7 +169,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                transactionAdapter?.setData(state.data.map { it.toTransaction() })
+                transactionAdapter?.setData(state.data.map { it.toWallet().toTransaction() })
             }
         }
     }

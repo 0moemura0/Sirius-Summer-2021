@@ -12,6 +12,7 @@ import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.repository.CategoryRepository
 import com.example.tinkoffproject.data.repository.TransactionRepository
 import com.example.tinkoffproject.data.dto.to_view.Category
+import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.ui.main.data.CategoryType
 import com.example.tinkoffproject.ui.main.data.SelectableCategory
 import com.example.tinkoffproject.utils.toCategory
@@ -27,6 +28,7 @@ class AddTransactionViewModel @Inject constructor(
 ) : ViewModel() {
 
     var wallet: WalletNetwork? = null
+    var id: Long = 0
     var type = MutableLiveData<CategoryType>()
     var category = MutableLiveData<Category>()
     var amount = MutableLiveData<Int>()
@@ -39,17 +41,13 @@ class AddTransactionViewModel @Inject constructor(
 
     val selectableCategoriesIncome: LiveData<List<SelectableCategory>> =
         Transformations.map(categoriesIncome) { categories ->
-            categories.map { SelectableCategory(category = it) }
+            categories.map { SelectableCategory(category = it, isChecked = category.value == it) }
         }
     val selectableCategoriesExpenses: LiveData<List<SelectableCategory>> =
         Transformations.map(categoriesExpenses) { categories ->
-            categories.map { SelectableCategory(category = it) }
+            categories.map { SelectableCategory(category = it, isChecked = category.value == it) }
         }
 
-
-    init {
-        init()
-    }
 
     fun setCategory(position: Int) {
         val newCategory: Category? = when (type.value) {
@@ -59,7 +57,7 @@ class AddTransactionViewModel @Inject constructor(
         }
 
         if (newCategory != null)
-            category.value = newCategory!!
+            category.value = newCategory
     }
 
     fun loadCategories() {
@@ -70,7 +68,6 @@ class AddTransactionViewModel @Inject constructor(
     }
 
     private fun loadIncomeCategories() {
-        if (categoriesIncome.value == null) {
             categoriesIncome.value =
                 listOf(
                     CategoryNetwork(
@@ -81,11 +78,10 @@ class AddTransactionViewModel @Inject constructor(
                         id = 11
                     ).toCategory(),
                 )
-        }
+
     }
 
     private fun loadExpensesCategories() {
-        if (categoriesExpenses.value == null) {
             categoriesExpenses.value =
                 listOf(
                     CategoryNetwork(
@@ -103,7 +99,7 @@ class AddTransactionViewModel @Inject constructor(
                         id = 13
                     ).toCategory(),
                 )
-        }
+
     }
 
     fun editTransaction(
@@ -172,10 +168,16 @@ class AddTransactionViewModel @Inject constructor(
         return resource
     }
 
-    fun init() {
-        type = MutableLiveData<CategoryType>()
-        category = MutableLiveData<Category>()
-        amount = MutableLiveData<Int>()
+    fun init(transaction: Transaction? = null) {
+        val transactionType =
+            if (transaction?.isIncome == true) CategoryType.INCOME else CategoryType.EXPENSE
+
+        type = MutableLiveData<CategoryType>(transactionType)
+        category = MutableLiveData<Category>(transaction?.category)
+        amount = MutableLiveData<Int>(transaction?.amount)
+        id = transaction?.id ?: 0
+
+        //TODO format date
         date = MutableLiveData(Date())
 
     }

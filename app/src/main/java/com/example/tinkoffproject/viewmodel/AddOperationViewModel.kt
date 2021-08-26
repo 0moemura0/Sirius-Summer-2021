@@ -1,19 +1,18 @@
 package com.example.tinkoffproject.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.tinkoffproject.model.data.dto.Category
-import com.example.tinkoffproject.model.data.dto.Transaction
-import com.example.tinkoffproject.model.data.mapper.toCategory
-import com.example.tinkoffproject.model.data.mapper.toNetwork
-import com.example.tinkoffproject.model.data.network.ApiService
-import com.example.tinkoffproject.model.data.network.dto.response.CategoryNetwork
-import com.example.tinkoffproject.model.utils.formatMoney
-import com.example.tinkoffproject.view.data.CategoryType
-import com.example.tinkoffproject.view.data.SelectableCategory
+import com.example.tinkoffproject.data.dto.response.CategoryNetwork
+import com.example.tinkoffproject.data.dto.to_view.Category
+import com.example.tinkoffproject.data.dto.to_view.Transaction
+import com.example.tinkoffproject.data.network.ApiService
+import com.example.tinkoffproject.ui.main.data.CategoryType
+import com.example.tinkoffproject.ui.main.data.SelectableCategory
+import com.example.tinkoffproject.utils.formatMoney
+import com.example.tinkoffproject.utils.toCategory
+import com.example.tinkoffproject.utils.toNetwork
 import java.util.*
 
 class AddOperationViewModel : ViewModel() {

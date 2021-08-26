@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.model.data.mapper
+package com.example.tinkoffproject.utils
 
 import android.graphics.Color
 import com.example.tinkoffproject.R
@@ -7,8 +7,10 @@ import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.data.dto.response.CategoryNetwork
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
+import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.dto.to_view.Category
-import java.util.*
+import com.example.tinkoffproject.data.dto.to_view.Wallet
+import java.util.Locale
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -114,6 +116,20 @@ fun Wallet.toTransaction() = Transaction(
     ),
     amount = incomeAmount - expensesAmount,
     amountFormatted = formatMoney(incomeAmount - expensesAmount, currency)
+)
+
+fun WalletNetwork.toWallet() = Wallet(
+    id = this.id.toLong(),
+    name = this.name,
+    incomeAmount = 0,
+    expensesAmount = 0,
+    currency = Currency(
+        longName = this.currency.longStr,
+        shortName = this.currency.shortStr,
+        isUp = true,
+        rate = 70.0
+    ),
+    limit = this.limit
 )
 
 
