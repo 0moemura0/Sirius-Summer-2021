@@ -14,8 +14,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.State
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
+import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.adapter.category_custom.CustomCategoryAdapter
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
@@ -162,8 +164,25 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     private fun setupNextButton() {
         btn.setOnClickListener {
             if (isNextAvailable()) {
-                viewModel.addCategory()
-                findNavController().navigate(R.id.action_to_chooseTransactionCategory)
+                viewModel.addCategory().observe(viewLifecycleOwner, {
+                    when (it) {
+                        is State.DataState -> {
+                            btn.changeState(NextCustomButton.State.DEFAULT)
+                            findNavController().navigate(R.id.action_to_chooseTransactionCategory)
+                        }
+                        is State.LoadingState -> {
+                            btn.changeState(NextCustomButton.State.LOADING)
+                        }
+                        is State.ErrorState -> {
+                            btn.changeState(NextCustomButton.State.DEFAULT)
+
+                            val notType =
+                                if (it.exception is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
+                            (requireActivity() as MainActivity).showNotification(notType)
+                        }
+                    }
+                })
+
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
