@@ -1,5 +1,6 @@
 package com.example.tinkoffproject.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -31,11 +32,13 @@ class AddOperationViewModel : ViewModel() {
 
     val selectableCategoriesIncome: LiveData<List<SelectableCategory>> =
         Transformations.map(categoriesIncome) { categories ->
-            categories.map { SelectableCategory(category = it) }
+            categories.map {
+                SelectableCategory(category = it, isChecked = category.value == it)
+            }
         }
     val selectableCategoriesExpenses: LiveData<List<SelectableCategory>> =
         Transformations.map(categoriesExpenses) { categories ->
-            categories.map { SelectableCategory(category = it) }
+            categories.map { SelectableCategory(category = it, isChecked = category.value == it) }
         }
 
 
@@ -58,40 +61,38 @@ class AddOperationViewModel : ViewModel() {
     }
 
     private fun loadIncomeCategories() {
-        if (categoriesIncome.value == null) {
-            categoriesIncome.value =
-                listOf(
-                    CategoryNetwork(
-                        name = "Зарплата",
-                        iconId = 1,
-                        iconColor = "#00B92D",
-                        isIncome = true,
-                        id = 11
-                    ).toCategory(),
-                )
-        }
+
+        categoriesIncome.value =
+            listOf(
+                CategoryNetwork(
+                    name = "Зарплата",
+                    iconId = 1,
+                    iconColor = "#00B92D",
+                    isIncome = true,
+                    id = 11
+                ).toCategory(),
+            )
+
     }
 
     private fun loadExpensesCategories() {
-        if (categoriesExpenses.value == null) {
-            categoriesExpenses.value =
-                listOf(
-                    CategoryNetwork(
-                        name = "Супермаркеты",
-                        iconId = 0,
-                        iconColor = "#339FEE",
-                        isIncome = false,
-                        id = 12
-                    ).toCategory(),
-                    CategoryNetwork(
-                        name = "Спортзал",
-                        iconId = 2,
-                        iconColor = "#994747",
-                        isIncome = false,
-                        id = 13
-                    ).toCategory(),
-                )
-        }
+        categoriesExpenses.value =
+            listOf(
+                CategoryNetwork(
+                    name = "Супермаркеты",
+                    iconId = 0,
+                    iconColor = "#339FEE",
+                    isIncome = false,
+                    id = 12
+                ).toCategory(),
+                CategoryNetwork(
+                    name = "Спортзал",
+                    iconId = 2,
+                    iconColor = "#994747",
+                    isIncome = false,
+                    id = 13
+                ).toCategory(),
+            )
     }
 
     fun newTransaction() {
