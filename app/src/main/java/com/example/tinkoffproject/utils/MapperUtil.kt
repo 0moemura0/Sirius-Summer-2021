@@ -143,7 +143,8 @@ fun Transaction.toWallet() = Wallet(
     expensesAmount = -1,
     currency = currency,
     limit = 0,
-    balance = 0
+    balance = 0,
+    hidden = false
 )
 //category
 

@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
-import com.example.tinkoffproject.data.UserData
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.ui.main.MainActivity
@@ -218,10 +217,10 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                walletAdapter?.setData(state.data.map { it.toWallet() }.filter { !it.hidden }
-                    .map { it.toTransaction() })
-                hiddenWalletAdapter?.setData(state.data.map { it.toWallet() }.filter { it.hidden }
-                    .map { it.toTransaction() })
+                walletAdapter?.setData(state.data.map { it.toLocal() }.filter { !it.hidden }
+                    .map { it.toLocal() })
+                hiddenWalletAdapter?.setData(state.data.map { it.toLocal() }.filter { it.hidden }
+                    .map { it.toLocal() })
             }
         }
     }

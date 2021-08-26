@@ -1,5 +1,6 @@
 package com.example.tinkoffproject.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -38,6 +39,7 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
                 },
                 {
                     resource.value = State.ErrorState(it)
+                    Log.e("TAG", "getWalletsList: "+ it)
                 }
             )
         return resource
