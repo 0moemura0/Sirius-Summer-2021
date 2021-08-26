@@ -176,7 +176,7 @@ class AddTransactionViewModel @Inject constructor(
         wallet = _wallet
         type = MutableLiveData<CategoryType>(transactionType)
         category = MutableLiveData<Category>(transaction?.category)
-        amount = MutableLiveData<Int>(transaction?.amount)
+        amount = MutableLiveData<Int>(transaction?.value)
         id = (transaction?.id ?: 0)
 
         //TODO format date

@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class Currency(
     val shortName: String,
     val longName: String,
+    val symbol: String,
     val isUp: Boolean = true,
-    val rate: Double = 0.0,
-    val symbol: String
+    val rate: Double = 0.0
 ) : Parcelable

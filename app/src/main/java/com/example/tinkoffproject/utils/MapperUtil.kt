@@ -2,16 +2,15 @@ package com.example.tinkoffproject.utils
 
 import android.graphics.Color
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.data.dto.to_view.Currency
-import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.data.dto.response.CategoryNetwork
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.dto.to_view.Category
+import com.example.tinkoffproject.data.dto.to_view.Currency
+import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.data.dto.to_view.Wallet
-import java.util.Locale
-import kotlin.math.roundToInt
+import java.util.*
 import kotlin.random.Random
 
 enum class IconEnum(val remoteIconId: Int, val localIconId: Int, val selectable: Boolean = true) {
@@ -111,32 +110,9 @@ private fun randomCurrency() = Currency(
 
 fun colorToStr(color: Int) = String.format("#%06X", 0xFFFFFF and color)
 
+//wallet <--> transaction
 
-//transaction
-
-fun TransactionNetwork.toLocal() = Transaction(
-    id = id,
-    date = System.currentTimeMillis(), //TODO
-    isIncome = isIncome,
-    category = category.toLocal(),
-    amount = value,
-    amountFormatted = formatMoney(value, currency.symbol),
-    currency = currency.toLocal(),
-    walletId = walletId
-)
-
-//TODO set real currency
-fun Transaction.toNetwork(currency: Currency = DEFAULT_CURRENCY) = TransactionNetwork(
-    id = id,
-    ts = date, //TODO
-    isIncome = isIncome,
-    category = category.toNetwork(),
-    value = amount,
-    currency = currency.toNetwork(),
-    walletId = walletId
-)
-
-fun Transaction.toWallet() = Wallet(
+fun Transaction.asWallet() = Wallet(
     id = id,
     name = "",
     incomeAmount = -1,
@@ -146,61 +122,85 @@ fun Transaction.toWallet() = Wallet(
     balance = 0,
     hidden = false
 )
-//category
 
-fun Category.toNetwork() = CategoryNetwork(
-    name = name,
-    iconId = IconEnum.fromLocalId(resIconId).remoteIconId,
-    iconColor = colorToStr(color),
-    isIncome = isIncome,
-    id = id
-)
-
-fun CategoryNetwork.toLocal() = Category(
-    name = name,
-    resIconId = IconEnum.fromRemoteId(iconId).localIconId,
-    color = Color.parseColor(iconColor),
-    isIncome = isIncome,
-    id = id
-)
-
-
-//wallet
-
-fun Wallet.toLocal() = Transaction(
+fun Wallet.asTransaction() = Transaction(
     id = id,
-    date = 0,
+    ts = 0,
     isIncome = false,
     category = Category(
         name = name, resIconId = IconEnum.WALLET.localIconId, color = Color.parseColor(
             DEFAULT_COLOR
         ), isIncome = false, id = 0
     ),
-    amount = incomeAmount - expensesAmount,
-    currency = this.currency,
-    walletId = this.id,
-    amountFormatted = formatMoney(incomeAmount - expensesAmount, currency.shortName)//TODO
+    value = incomeAmount - expensesAmount,
+    currency = currency,
+    walletId = id,
+    amountFormatted = formatMoney(incomeAmount - expensesAmount, currency.shortName),//TODO
+    categoryId = id
 )
+
+//transaction
+fun Transaction.toNetwork() = TransactionNetwork(
+    id = id,
+    value = value,
+    isIncome = isIncome,
+    ts = ts,
+    currency = currency.toNetwork(),
+    category = category.toNetwork(),
+    categoryId = categoryId,
+    walletId = walletId
+)
+
+fun TransactionNetwork.toLocal() = Transaction(
+    id = id,
+    value = value,
+    ts = ts,
+    isIncome = isIncome,
+    category = category.toLocal(),
+    categoryId = categoryId,
+    amountFormatted = formatMoney(value, currency.symbol),
+    currency = currency.toLocal(),
+    walletId = walletId
+)
+//category
+
+fun Category.toNetwork() = CategoryNetwork(
+    id = id,
+    isIncome = isIncome,
+    iconId = IconEnum.fromLocalId(resIconId).remoteIconId,
+    iconColor = colorToStr(color),
+    name = name,
+)
+
+fun CategoryNetwork.toLocal() = Category(
+    id = id,
+    isIncome = isIncome,
+    resIconId = IconEnum.fromRemoteId(iconId).localIconId,
+    color = Color.parseColor(iconColor),
+    name = name
+)
+//wallet
 
 fun WalletNetwork.toLocal() = Wallet(
-    id = this.id,
-    name = this.name,
-    incomeAmount = -1,
-    expensesAmount = -1,
-    currency = this.currency.toLocal(),
-    limit = this.limit,
-    balance = this.balance,
-    hidden = false
+    id = id,
+    name = name,
+    incomeAmount = 0,
+    expensesAmount = 0,
+    currency = currency.toLocal(),
+    limit = limit,
+    balance = balance,
+    hidden = hidden
 )
 
-
+fun Wallet.toNetwork() = WalletNetwork(
+    id = id,
+    name = name,
+    limit = limit,
+    currency = currency.toNetwork(),
+    balance = balance,
+    hidden = hidden
+)
 //currency
-
-fun Currency.toNetwork() = CurrencyNetwork(
-    shortStr = shortName,
-    longStr = longName,
-    symbol = ""
-)
 
 fun CurrencyNetwork.toLocal() = Currency(
     rate = DEFAULT_CURRENCY.rate,
@@ -209,3 +209,10 @@ fun CurrencyNetwork.toLocal() = Currency(
     isUp = DEFAULT_CURRENCY.isUp,
     symbol = symbol
 )
+
+fun Currency.toNetwork() = CurrencyNetwork(
+    longStr = longName,
+    shortStr = shortName,
+    symbol = symbol
+)
+

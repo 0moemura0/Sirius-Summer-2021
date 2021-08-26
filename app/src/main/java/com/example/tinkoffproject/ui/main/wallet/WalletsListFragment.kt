@@ -24,9 +24,9 @@ import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDec
 import com.example.tinkoffproject.ui.main.carddetails.*
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
+import com.example.tinkoffproject.utils.asTransaction
+import com.example.tinkoffproject.utils.asWallet
 import com.example.tinkoffproject.utils.toLocal
-import com.example.tinkoffproject.utils.toNetwork
-import com.example.tinkoffproject.utils.toWallet
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.DecimalFormat
@@ -50,7 +50,8 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private val confirmDialog: ConfirmRemoveDialog by lazy {
         ConfirmRemoveDialog(R.string.confirm_remove_wallet)
     }
-    companion object{
+
+    companion object {
         const val IS_HIDDEN_VISIBLE = "IS_HIDDEN_VISIBLE"
     }
 
@@ -144,7 +145,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         arrow.setImageResource(arrayResId)
     }
 
-    private fun initRecyclerAdapters(){
+    private fun initRecyclerAdapters() {
         hiddenWalletAdapter = TransactionAdapter(::onHiddenWalletClick, false)
         walletAdapter = TransactionAdapter(::onNotHiddenWalletClick, false)
     }
@@ -167,7 +168,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                 viewHolder: RecyclerView.ViewHolder?,
                 buffer: MutableList<MyButton>
             ) {
-                if(viewHolder?.itemViewType == TransactionAdapter.TYPE_NO_TRANSACTION) return
+                if (viewHolder?.itemViewType == TransactionAdapter.TYPE_NO_TRANSACTION) return
                 buffer.apply {
                     add(
                         MyButton(context!!, R.drawable.ic_delete) { pos ->
@@ -199,14 +200,15 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private fun onNotHiddenWalletClick(position: Int) {
         onWalletClick(position, walletAdapter)
     }
+
     private fun onHiddenWalletClick(position: Int) {
         onWalletClick(position, hiddenWalletAdapter)
     }
 
     private fun onWalletClick(position: Int, adapter: TransactionAdapter?) {
-        val wallet = adapter?.data?.getOrNull(position)
-        if (wallet != null) {
-            val action = WalletsListFragmentDirections.actionToTransactions(wallet.toWallet())
+        val transaction = adapter?.data?.getOrNull(position)
+        if (transaction != null) {
+            val action = WalletsListFragmentDirections.actionToTransactions(transaction.asWallet())
             findNavController().navigate(action)
         }
     }
@@ -218,10 +220,16 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                walletAdapter?.setData(state.data.map { it.toLocal() }.filter { !it.hidden }
-                    .map { it.toLocal() })
-                hiddenWalletAdapter?.setData(state.data.map { it.toLocal() }.filter { it.hidden }
-                    .map { it.toLocal() })
+                walletAdapter
+                    ?.setData(state.data
+                        .map { it.toLocal() }
+                        .filter { !it.hidden }
+                        .map { it.asTransaction() })
+                hiddenWalletAdapter
+                    ?.setData(state.data
+                        .map { it.toLocal() }
+                        .filter { it.hidden }
+                        .map { it.asTransaction() })
             }
         }
     }

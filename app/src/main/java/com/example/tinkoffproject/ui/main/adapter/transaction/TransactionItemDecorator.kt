@@ -70,8 +70,8 @@ class TransactionItemDecorator(
     }
 
     private fun isItemAtPositionFirstInDay(position: Int, data: List<Transaction>): Boolean {
-        val transactionDate = data[position].date
-        val prevTransactionDate = data.getOrNull(position - 1)?.date
+        val transactionDate = data[position].ts
+        val prevTransactionDate = data.getOrNull(position - 1)?.ts
         return prevTransactionDate == null || !isOneDay(prevTransactionDate, transactionDate)
     }
 
@@ -99,7 +99,7 @@ class TransactionItemDecorator(
             if(viewType != TransactionAdapter.TYPE_TRANSACTION) return@forEach
 
             if (isItemAtPositionFirstInDay(position, data)) {
-                val itemDate = data[position].date
+                val itemDate = data[position].ts
 
                 val text: String = when {
                     isToday(itemDate) -> parent.context.getString(R.string.today)

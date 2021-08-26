@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 data class WalletNetwork(
     @PrimaryKey
     var id: Int,
-    val limit: Int,
+    val limit: Int?,
     val name: String,
     @Embedded
     val currency: CurrencyNetwork,

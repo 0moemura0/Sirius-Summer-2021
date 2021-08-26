@@ -24,8 +24,8 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
     fun loadCurrencyInfo() {
         currency.value = listOf(
             Currency(shortName = "USD", longName = "Доллар США", isUp = false, rate = 72.65, symbol = "$"),
-            Currency(shortName = "EUR", longName = "Евро", isUp = false, rate = 86.60, "€"),
-            Currency(shortName = "CHF", longName = "Швейцарские франки", isUp = true, 80.17,"₣"),
+            Currency(shortName = "EUR", longName = "Евро", isUp = false, rate = 86.60, symbol = "€"),
+            Currency(shortName = "CHF", longName = "Швейцарские франки", isUp = true,rate = 80.17, symbol = "₣"),
         )
     }
 

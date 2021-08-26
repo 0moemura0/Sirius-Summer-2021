@@ -26,7 +26,7 @@ class TransactionViewHolder(private val root: View) :
         type.visibility = View.VISIBLE
         type.text = root.context.getString(typeTextId)
 
-        date.text = formatDate(root.context, data.date, R.string.date_format_only_time)
+        date.text = formatDate(root.context, data.ts, R.string.date_format_only_time)
         date.visibility = View.VISIBLE
 
 
