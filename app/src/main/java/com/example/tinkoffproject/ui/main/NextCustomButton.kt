@@ -7,7 +7,14 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.TextViewCompat
+import android.view.animation.Animation
+
+import android.view.animation.LinearInterpolator
+
+import android.view.animation.RotateAnimation
+import android.widget.ImageView
 import com.example.tinkoffproject.R
+
 
 class NextCustomButton @JvmOverloads constructor(
     context: Context,
@@ -19,8 +26,8 @@ class NextCustomButton @JvmOverloads constructor(
     private val title: TextView by lazy {
         findViewById(R.id.tv_title)
     }
-    private val progress: ProgressBar by lazy {
-        findViewById(R.id.progress)
+    private val progressNew: ImageView by lazy {
+        findViewById(R.id.iv_progress)
     }
 
     private var state: State = State.DEFAULT
@@ -42,6 +49,19 @@ class NextCustomButton @JvmOverloads constructor(
         } finally {
             ta.recycle()
         }
+
+        val anim = RotateAnimation(
+            360F,
+            0F,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
+        anim.interpolator = LinearInterpolator()
+        anim.repeatCount = Animation.INFINITE
+        anim.duration = 400
+        progressNew.startAnimation(anim)
     }
 
     /*Изменяет внешний вид по сотоянию*/
@@ -69,7 +89,7 @@ class NextCustomButton @JvmOverloads constructor(
         setBackgroundResource(state.bgResource)
         isEnabled = state.isEnabled
         isClickable = state.isClickable
-        progress.visibility = if (state.isProgressVisible) View.VISIBLE else View.GONE
+        progressNew.visibility = if (state.isProgressVisible) View.VISIBLE else View.GONE
         title.visibility = if (state.isTitleVisible) View.VISIBLE else View.GONE
         TextViewCompat.setTextAppearance(title, state.titleStyle)
     }

@@ -18,12 +18,11 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Создать кошелек" />
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateDrawable="@drawable/background_progress_bar"
-        android:indeterminateOnly="true"
+    <ImageView
+        android:id="@+id/iv_progress"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/background_progress_bar"
         android:padding="@dimen/view_dimen_14dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
