@@ -1,6 +1,8 @@
 package com.example.tinkoffproject.view.wallet_add
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,6 +28,7 @@ import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.view.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.view.dialog.ConfirmRemoveDialog
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.DecimalFormat
 
 class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
@@ -40,6 +43,9 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private lateinit var currencyContainer2: View
     private lateinit var currencyContainer3: View
 
+    private lateinit var mShimmerViewContainer: ShimmerFrameLayout
+    private lateinit var container: View
+
     private val confirmDialog: ConfirmRemoveDialog by lazy {
         ConfirmRemoveDialog(R.string.confirm_remove_wallet)
     }
@@ -51,6 +57,8 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
         initViews()
 
+        setupShimmer()
+
         setupViews()
 
         setupToolbar()
@@ -58,6 +66,17 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         setupNavigation()
         setupRecycler()
         setupCurrency()
+
+
+    }
+
+    private fun setupShimmer() {
+        container.visibility = View.INVISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            container.visibility = View.VISIBLE
+            mShimmerViewContainer.stopShimmer()
+            mShimmerViewContainer.visibility = View.GONE
+        }, 2000)
     }
 
     private fun setupViews() {
@@ -166,6 +185,9 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         currencyContainer1 = requireView().findViewById(R.id.l_currency_1)
         currencyContainer2 = requireView().findViewById(R.id.l_currency_2)
         currencyContainer3 = requireView().findViewById(R.id.l_currency_3)
+
+        mShimmerViewContainer = requireView().findViewById(R.id.shimmer_container)
+        container = requireView().findViewById(R.id.container)
     }
 
     private fun setupExpensesIncomeLayout() {
