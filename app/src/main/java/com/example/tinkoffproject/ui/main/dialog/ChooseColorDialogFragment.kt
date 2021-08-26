@@ -7,7 +7,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.ui.main.adapter.category_custom.CustomColorAdapter
+import com.example.tinkoffproject.ui.main.adapter.color.CustomColorAdapter
 import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 
 class ChooseColorDialogFragment : DialogFragment(R.layout.dialog_choose_color) {

@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.ui.main.adapter.transaction
+package com.example.tinkoffproject.ui.main.adapter.wallet
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater

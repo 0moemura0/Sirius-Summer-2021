@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.carddetails.MainActivity
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel

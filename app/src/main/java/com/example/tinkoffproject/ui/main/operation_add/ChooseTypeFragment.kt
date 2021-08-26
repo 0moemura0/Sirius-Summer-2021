@@ -10,15 +10,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.carddetails.MainActivity
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.data.CategoryType
-import com.example.tinkoffproject.viewmodel.AddOperationViewModel
+import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 import java.lang.IllegalStateException
 
 class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
-    val viewModel: AddOperationViewModel by activityViewModels()
+    val viewModel: AddTransactionViewModel by activityViewModels()
     private lateinit var income: LinearLayout
     private lateinit var cons: LinearLayout
 

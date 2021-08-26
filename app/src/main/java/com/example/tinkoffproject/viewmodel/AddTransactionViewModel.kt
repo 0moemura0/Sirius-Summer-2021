@@ -22,7 +22,7 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class AddOperationViewModel @Inject constructor(
+class AddTransactionViewModel @Inject constructor(
     val repository: TransactionRepository, val repositoryCategory: CategoryRepository
 ) : ViewModel() {
 

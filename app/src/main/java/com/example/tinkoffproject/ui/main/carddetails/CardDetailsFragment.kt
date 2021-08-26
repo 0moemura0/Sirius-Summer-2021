@@ -18,14 +18,15 @@ import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
-import com.example.tinkoffproject.viewmodel.CardDetailsViewModel
+import com.example.tinkoffproject.viewmodel.TransactionListViewModel
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
-    val viewModel: CardDetailsViewModel by viewModels()
+    val viewModel: TransactionListViewModel by viewModels()
 
     private lateinit var walletAmount: TextView
     private lateinit var layoutIncome: View

@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
-class CardDetailsViewModel @Inject constructor(val repository: TransactionRepository) :
+class TransactionListViewModel @Inject constructor(val repository: TransactionRepository) :
     ViewModel() {
     private val _transactions = MutableLiveData<State<List<Transaction>>>(
         State.DataState(

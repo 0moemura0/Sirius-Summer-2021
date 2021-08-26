@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.ui.main.wallet_add
+package com.example.tinkoffproject.ui.main.wallet
 
 import android.os.Bundle
 import android.view.View
@@ -16,6 +16,7 @@ import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter

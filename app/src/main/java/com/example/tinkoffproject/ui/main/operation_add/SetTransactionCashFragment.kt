@@ -11,15 +11,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.carddetails.MainActivity
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
-import com.example.tinkoffproject.viewmodel.AddOperationViewModel
+import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
 
-    val viewModel: AddOperationViewModel by activityViewModels()
+    val viewModel: AddTransactionViewModel by activityViewModels()
     private lateinit var inputEditText: EditText
     private lateinit var inputTextLayout: TextInputLayout
 

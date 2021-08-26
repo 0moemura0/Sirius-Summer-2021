@@ -8,11 +8,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCaller
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.carddetails.MainActivity
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.viewmodel.SignInViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 

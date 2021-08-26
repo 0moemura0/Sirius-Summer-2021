@@ -3,6 +3,7 @@ package com.example.tinkoffproject.ui.main.adapter.transaction
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.data.dto.to_view.Transaction
+import com.example.tinkoffproject.ui.main.adapter.wallet.WalletViewHolder
 
 
 //TODO Подключить diffutils

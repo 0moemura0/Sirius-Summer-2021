@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.ui.main.adapter.category_custom
+package com.example.tinkoffproject.ui.main.adapter.color
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

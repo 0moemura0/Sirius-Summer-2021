@@ -3,6 +3,7 @@ package com.example.tinkoffproject.ui.main.adapter.calendar
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
+import com.example.tinkoffproject.ui.main.data.SelectableString
 
 
 class CalendarAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

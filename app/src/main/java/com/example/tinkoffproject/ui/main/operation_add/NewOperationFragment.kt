@@ -10,15 +10,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.formatDate
 import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.carddetails.MainActivity
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 import com.example.tinkoffproject.ui.main.dialog.ChooseDatePickerFragment
-import com.example.tinkoffproject.viewmodel.AddOperationViewModel
+import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 
 class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
-    val viewModel: AddOperationViewModel by activityViewModels()
+    val viewModel: AddTransactionViewModel by activityViewModels()
 
     private lateinit var sumLayout: View
     private lateinit var typeLayout: View

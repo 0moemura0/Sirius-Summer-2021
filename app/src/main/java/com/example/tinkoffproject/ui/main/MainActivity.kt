@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.ui.main.carddetails
+package com.example.tinkoffproject.ui.main
 
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
+import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
