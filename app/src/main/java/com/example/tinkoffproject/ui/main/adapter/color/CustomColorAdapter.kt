@@ -3,6 +3,7 @@ package com.example.tinkoffproject.ui.main.adapter.color
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
+import com.example.tinkoffproject.utils.COLOR
 
 class CustomColorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var listener: OnItemSelectListener

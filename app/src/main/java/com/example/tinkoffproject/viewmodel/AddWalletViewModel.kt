@@ -8,6 +8,7 @@ import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.data.dto.request.CreateWallet
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.data.repository.WalletRepository
 import com.example.tinkoffproject.utils.toLocal
 import dagger.hilt.android.lifecycle.HiltViewModel

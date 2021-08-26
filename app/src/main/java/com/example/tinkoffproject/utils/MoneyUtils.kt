@@ -1,7 +1,7 @@
 package com.example.tinkoffproject.utils
 
-import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
-import java.util.*
+import com.example.tinkoffproject.data.dto.to_view.Currency
+import java.util.Locale
 
 fun formatMoney(amount: Int, currency: Currency): String {
     val javaCurr = java.util.Currency.getInstance(currency.shortName)

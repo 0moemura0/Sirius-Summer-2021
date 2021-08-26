@@ -22,9 +22,13 @@ import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.ui.main.carddetails.*
+import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
+import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
 import com.example.tinkoffproject.utils.WALLET_AS_CATEGORY
+import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import java.text.DecimalFormat
+
 
 class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private val viewModel: WalletListViewModel by activityViewModels()
@@ -154,10 +158,10 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                         date = 0,
                         isIncome = false,
                         category = WALLET_AS_CATEGORY,
-                        amount = (it.balance?: 0).toInt(),
+                        amount = (it.balance ?: 0).toInt(),
                         amountFormatted = formatMoney(
-                            (it.balance?: 0).toDouble(),
-                            it.currency
+                            (it.balance ?: 0).toInt(),
+                            it.currency.toLocal()
                         )
                     )
                 })

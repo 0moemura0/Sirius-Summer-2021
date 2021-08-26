@@ -7,8 +7,8 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.data.mapper.COLOR
-import com.example.tinkoffproject.view.data.SelectableIconCustomCategory
+import com.example.tinkoffproject.ui.main.data.SelectableIconCustomCategory
+import com.example.tinkoffproject.utils.COLOR
 
 class CustomCategoryViewHolder(root: View) : RecyclerView.ViewHolder(root) {
 

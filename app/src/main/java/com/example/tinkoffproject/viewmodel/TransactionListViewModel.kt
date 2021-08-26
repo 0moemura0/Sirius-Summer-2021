@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.data.dto.to_view.Category
 import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.repository.TransactionRepository
+import com.example.tinkoffproject.data.dto.to_view.Category
 import com.example.tinkoffproject.utils.DEFAULT_COLOR
 import com.example.tinkoffproject.utils.DEFAULT_CURRENCY
 import dagger.hilt.android.lifecycle.HiltViewModel

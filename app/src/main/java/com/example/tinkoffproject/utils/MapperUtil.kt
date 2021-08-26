@@ -2,12 +2,12 @@ package com.example.tinkoffproject.utils
 
 import android.graphics.Color
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.data.dto.to_view.Category
 import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.data.dto.response.CategoryNetwork
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
+import com.example.tinkoffproject.data.dto.to_view.Category
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -72,7 +72,7 @@ enum class COLOR(val color: Int, val colorSelected: Int) {
     BLUE_MAIN(R.color.blue_main, R.color.blue_main_selected),
     GREEN_MAIN(R.color.green_main, R.color.green_main_selected);
 
-
+}
 val DEFAULT_ICON_ENUM: IconEnum = IconEnum.DOTS
 
 const val DEFAULT_COLOR = "#5833EE"

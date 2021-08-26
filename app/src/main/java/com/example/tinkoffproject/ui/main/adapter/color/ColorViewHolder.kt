@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.model.data.mapper.COLOR
+import com.example.tinkoffproject.utils.COLOR
 
 class ColorViewHolder(root: View) : RecyclerView.ViewHolder(root) {
     private val icon: ImageView = root.findViewById(R.id.iv_category_icon)

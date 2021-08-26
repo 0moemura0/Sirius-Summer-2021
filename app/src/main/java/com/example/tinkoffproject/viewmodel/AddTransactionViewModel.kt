@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.State
-import com.example.tinkoffproject.data.dto.to_view.Category
 import com.example.tinkoffproject.data.dto.request.CreateTransaction
 import com.example.tinkoffproject.data.dto.response.CategoryNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.repository.CategoryRepository
 import com.example.tinkoffproject.data.repository.TransactionRepository
+import com.example.tinkoffproject.data.dto.to_view.Category
 import com.example.tinkoffproject.ui.main.data.CategoryType
 import com.example.tinkoffproject.ui.main.data.SelectableCategory
 import com.example.tinkoffproject.utils.toCategory

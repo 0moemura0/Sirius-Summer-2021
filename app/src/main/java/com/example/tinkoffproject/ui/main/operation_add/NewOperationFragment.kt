@@ -13,7 +13,6 @@ import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
-import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 import com.example.tinkoffproject.ui.main.dialog.ChooseDatePickerFragment
 import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 
@@ -40,7 +39,6 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
 
     private fun initDialog() {
         dialog.setOnItemClickListener { calendar ->
-            Log.d("kek", "$calendar")
             viewModel.date.value = calendar.time
             dialog.dismiss()
         }
@@ -121,9 +119,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         }
 
         dateLayout.setOnClickListener {
-            Log.d("kek", "click")
             if (!dialog.isAdded) {
-                Log.d("kek", "show")
                 dialog.show(childFragmentManager, ChooseDatePickerFragment.TAG)
             }
         }

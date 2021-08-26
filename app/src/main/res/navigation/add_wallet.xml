@@ -13,7 +13,7 @@
         <argument
             android:name="wallet"
             android:defaultValue="@null"
-            app:argType="com.example.tinkoffproject.model.data.dto.Wallet"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
             app:nullable="true" />
         <argument
             android:name="isNewOperation"

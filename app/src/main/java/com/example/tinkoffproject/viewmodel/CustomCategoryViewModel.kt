@@ -8,7 +8,7 @@ import com.example.tinkoffproject.data.dto.request.CreateCategory
 import com.example.tinkoffproject.data.dto.response.CategoryNetwork
 import com.example.tinkoffproject.data.repository.CategoryRepository
 import com.example.tinkoffproject.ui.main.data.CategoryType
-import com.example.tinkoffproject.utils.CategoryEnum
+import com.example.tinkoffproject.utils.IconEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

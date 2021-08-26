@@ -21,6 +21,7 @@ import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.data.CategoryType
 import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
+import com.example.tinkoffproject.utils.COLOR
 import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel
 
 class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {

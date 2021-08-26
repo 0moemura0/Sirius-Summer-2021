@@ -40,7 +40,7 @@
             app:destination="@+id/add_wallet">
             <argument
                 android:name="wallet"
-                app:argType="com.example.tinkoffproject.model.data.dto.Wallet"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
                 app:nullable="true" />
             <argument
                 android:name="isNewOperation"

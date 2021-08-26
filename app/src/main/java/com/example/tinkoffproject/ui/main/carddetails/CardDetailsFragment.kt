@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.view.carddetails
+package com.example.tinkoffproject.ui.main.carddetails
 
 import android.os.Bundle
 import android.view.View
@@ -23,6 +23,9 @@ import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
+import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
+import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
+import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.viewmodel.TransactionListViewModel
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
@@ -107,10 +110,10 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 val wallet = state.data
                 walletName.text = wallet.name
                 walletAmount.text =
-                    wallet.balance?.let { formatMoney(it, wallet.currency) }
+                    wallet.balance?.let { formatMoney(it.toInt(), wallet.currency.toLocal()) }
 
-                layoutIncomeCash.text = formatMoney(0.0, wallet.currency)
-                layoutExpensesCash.text = formatMoney(0.0, wallet.currency)
+                layoutIncomeCash.text = formatMoney(0, wallet.currency.toLocal())
+                layoutExpensesCash.text = formatMoney(0, wallet.currency.toLocal())
 
 
                 wallet.balance?.let {
@@ -137,7 +140,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             colorId = R.color.white
             alpha = 1f
         } else {
-            text = " / ${formatMoney(limit, currency)}"
+            text = " / ${formatMoney(limit.toInt(), currency.toLocal())}"
             if (limit > expenses) {
                 colorId = R.color.red_main
                 alpha = 1f

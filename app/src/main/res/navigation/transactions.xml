@@ -30,7 +30,7 @@
             app:destination="@+id/add_transaction">
             <argument
                 android:name="transaction"
-                app:argType="com.example.tinkoffproject.model.data.dto.Transaction"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
                 app:nullable="true" />
             <argument
                 android:name="isNewOperation"

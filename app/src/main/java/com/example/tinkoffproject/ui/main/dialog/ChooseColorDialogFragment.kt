@@ -1,14 +1,14 @@
-package com.example.tinkoffproject.view.dialog
+package com.example.tinkoffproject.ui.main.dialog
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.ui.main.adapter.color.CustomColorAdapter
-import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
+import com.example.tinkoffproject.ui.main.data.OnColorSelectInterface
+import com.example.tinkoffproject.utils.COLOR
 
 class ChooseColorDialogFragment : DialogFragment(R.layout.dialog_choose_color) {
     private var listener: OnColorSelectInterface? = null
@@ -33,4 +33,5 @@ class ChooseColorDialogFragment : DialogFragment(R.layout.dialog_choose_color) {
     companion object {
         const val TAG = "CHOOSE_COLOR_DIALOG"
     }
+
 }

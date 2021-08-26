@@ -21,7 +21,7 @@
         <argument
             android:name="transaction"
             android:defaultValue="@null"
-            app:argType="com.example.tinkoffproject.model.data.dto.Transaction"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
             app:nullable="true" />
         <action
             android:id="@+id/action_setCash_to_chooseType"

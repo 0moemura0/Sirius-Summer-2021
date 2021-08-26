@@ -3,6 +3,8 @@ package com.example.tinkoffproject.ui.main.adapter.category_custom
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
+import com.example.tinkoffproject.ui.main.data.SelectableIconCustomCategory
+import com.example.tinkoffproject.utils.COLOR
 
 class CustomCategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var listener: OnItemSelectListener
