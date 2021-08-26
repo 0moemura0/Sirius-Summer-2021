@@ -2,6 +2,7 @@ package com.example.tinkoffproject.viewmodel
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.activity.result.ActivityResultCaller
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LiveData
@@ -28,8 +29,7 @@ class SignInViewModel @Inject constructor(
     val repository: UserRepository
 ) :
     ViewModel() {
-    private val _signInState: MutableLiveData<State<GoogleSignInAccount>> =
-        MutableLiveData(State.LoadingState)
+    private val _signInState: MutableLiveData<State<GoogleSignInAccount>> = MutableLiveData()
     val signInState: LiveData<State<GoogleSignInAccount>> = _signInState
     private lateinit var activityLauncher: ActivityResultLauncher<GoogleSignInClient>
 
