@@ -41,11 +41,12 @@ class TransactionItemDecorator(
         val adapter = (parent.adapter as TransactionAdapter)
         val data = adapter.data
         val viewType = adapter.getItemViewType(position)
-        if (isNotItemTransaction(position, viewType)) return
+
+        if(isNotValidTransaction(position, viewType)) return
 
         val lineHeight = getLineHeightHeader(view.context)
 
-        val isFirstInDay = isItemAtPositionFirstInDay(position, data)
+        val isFirstInDay = viewType == TransactionAdapter.TYPE_TRANSACTION && isItemAtPositionFirstInDay(position, data)
         val isFirst = position == 0
         val isLast = position == itemCount - 1
         when {
@@ -77,10 +78,11 @@ class TransactionItemDecorator(
     private fun getLineHeightHeader(context: Context) =
         context.resources.getDimension(R.dimen.text_line_height_normal).toInt()
 
-    private fun isNotItemTransaction(position: Int, viewType: Int) =
-        viewType != TransactionAdapter.TYPE_TRANSACTION || position == RecyclerView.NO_POSITION
+    private fun isNotValidTransaction(position: Int, viewType: Int) =
+        position == RecyclerView.NO_POSITION || viewType == TransactionAdapter.TYPE_NO_TRANSACTION
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+
         val adapter = (parent.adapter as TransactionAdapter)
         val data = adapter.data
 
@@ -93,7 +95,8 @@ class TransactionItemDecorator(
             val position = parent.getChildAdapterPosition(view)
             val viewType = adapter.getItemViewType(position)
 
-            if (isNotItemTransaction(position, viewType)) return@forEach
+            if (isNotValidTransaction(position, viewType)) return@forEach
+            if(viewType != TransactionAdapter.TYPE_TRANSACTION) return@forEach
 
             if (isItemAtPositionFirstInDay(position, data)) {
                 val itemDate = data[position].date
