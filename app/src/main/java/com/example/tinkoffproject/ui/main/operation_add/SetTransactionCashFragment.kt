@@ -118,9 +118,8 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun isNextAvailable(): Boolean {
-        val str = inputEditText.text.toString()
-        return if (str.isBlank()) false
-        else str.toInt() > 0
+        val str = inputEditText.text?.toString()
+        return if (str.isNullOrBlank()) false else str.toInt() > 0
     }
 
     private fun saveData() {

@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         }
         setupNotificationRecycler()
 
-        showNotification(NotificationType.INTERNET_PROBLEM_ERROR)
+        //showNotification(NotificationType.INTERNET_PROBLEM_ERROR)
     }
 
     private fun setupNotificationRecycler() {

@@ -93,7 +93,7 @@ class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun saveData() {
-        viewModel.name.value = inputEditText.text.toString()
+        viewModel.name.value = inputEditText.text?.toString()
     }
 
 
