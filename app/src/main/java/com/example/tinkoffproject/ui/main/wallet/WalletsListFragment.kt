@@ -2,7 +2,6 @@ package com.example.tinkoffproject.ui.main.wallet
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -178,7 +177,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                 buffer.apply {
                     add(
                         MyButton(context!!, R.drawable.ic_delete) { pos ->
-                            onRemoveClicked(pos)
+                            onRemoveClicked(pos, transactionAdapter)
                         }
                     )
                     add(
@@ -314,15 +313,31 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         update.updateToolbar("", ToolbarType.INVISIBLE)
     }
 
-    private fun onRemoveClicked(pos: Int) {
+    private fun onRemoveClicked(pos: Int, adapter: TransactionAdapter) {
         if (!confirmDialog.isAdded)
             confirmDialog.show(childFragmentManager, ChooseColorDialogFragment.TAG)
 
-        confirmDialog.setOnItemClickListener {
+        confirmDialog.setOnItemClickListener { isConfirmed ->
             val text: String
-            if (it == 0) text = "cancel"
+            if (isConfirmed == 0) text = "cancel"
             else {
-                walletAdapter?.data?.get(pos)?.let { it1 -> viewModel.deleteWallet(it1.walletId) }
+                adapter.data[pos].let { wallet ->
+                    viewModel.deleteWallet(wallet.walletId).observe(viewLifecycleOwner,
+                        {
+                            when (it) {
+                                is State.LoadingState -> {
+                                    btn.changeState(NextCustomButton.State.LOADING)
+                                }
+                                is State.ErrorState -> {
+                                    onError(it.exception)
+                                }
+                                is State.DataState -> {
+                                    btn.changeState(NextCustomButton.State.DEFAULT)
+                                    adapter.onItemRemoved(pos)
+                                }
+                            }
+                        })
+                }
             }
             confirmDialog.dismiss()
         }

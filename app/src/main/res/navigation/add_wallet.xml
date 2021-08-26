@@ -72,7 +72,7 @@
     <fragment
         android:id="@+id/setWalletLimit"
         android:name="com.example.tinkoffproject.ui.main.wallet_add.SetLimitFragment"
-        tools:layout="@layout/layout_set_value"/>
+        tools:layout="@layout/layout_set_value" />
 
     <fragment
         android:id="@+id/setWalletCurrency"

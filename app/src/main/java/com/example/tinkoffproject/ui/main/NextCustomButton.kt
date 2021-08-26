@@ -30,7 +30,7 @@ class NextCustomButton @JvmOverloads constructor(
     private var state: State = State.DEFAULT
     private var titleText: String = ""
 
-    private val anim: RotateAnimation by lazy{
+    private val anim: RotateAnimation by lazy {
         RotateAnimation(
             360F,
             0F,
@@ -44,6 +44,7 @@ class NextCustomButton @JvmOverloads constructor(
             duration = 400
         }
     }
+
     init {
         init(attrs)
     }
@@ -62,11 +63,13 @@ class NextCustomButton @JvmOverloads constructor(
         }
 
     }
-    private fun startAnimation(){
+
+    private fun startAnimation() {
 
         progressNew.startAnimation(anim)
     }
-    private fun stopAnimation(){
+
+    private fun stopAnimation() {
         anim.cancel()
         anim.reset()
     }
@@ -97,7 +100,7 @@ class NextCustomButton @JvmOverloads constructor(
         setBackgroundResource(state.bgResource)
         isEnabled = state.isEnabled
         isClickable = state.isClickable
-        progressNew.visibility = if (state.isProgressVisible){
+        progressNew.visibility = if (state.isProgressVisible) {
             startAnimation()
             View.VISIBLE
         } else {

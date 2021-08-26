@@ -38,7 +38,6 @@ class AddTransactionViewModel @Inject constructor(
     var date = MutableLiveData(Date())
 
 
-
     private val categoriesIncome: MutableLiveData<List<Category>> = MutableLiveData()
     private val categoriesExpenses: MutableLiveData<List<Category>> = MutableLiveData()
 

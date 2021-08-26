@@ -60,5 +60,10 @@ class TransactionAdapter(
         }
     }
 
+    fun onItemRemoved(pos: Int) {
+        data.removeAt(pos)
+        notifyItemRemoved(pos)
+    }
+
     override fun getItemCount() = if (data.size == 0) if (isHiddenWallet) 0 else 1 else data.size
 }
