@@ -9,7 +9,7 @@ class CategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var listener: OnItemSelectListener
 
     private val data = mutableListOf<SelectableCategory>()
-    private var currentSelected: Int = 0
+    var currentSelected: Int = 0
 
     fun setData(_data: List<SelectableCategory>) {
         data.clear()

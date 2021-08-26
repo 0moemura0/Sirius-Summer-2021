@@ -11,8 +11,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.State
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
+import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.adapter.category.CategoryAdapter
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
@@ -29,7 +31,6 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadCategories()
         btn = requireView().findViewById(R.id.btn)
 
         setupRecyclerView()
@@ -37,6 +38,44 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
         setupNextButton()
         setupToolbar()
         setupBtnObserver()
+
+        viewModel.getCategories().observe(viewLifecycleOwner, {
+            when (it) {
+                is State.LoadingState -> {
+                    btn.changeState(NextCustomButton.State.LOADING)
+                }
+                is State.ErrorState -> {
+                    onError(it.exception)
+                }
+                is State.DataState -> {
+                    btn.changeState(NextCustomButton.State.DEFAULT)
+                    viewModel.categories().value = it.data
+
+                    val i = viewModel.categories().value
+                        ?.indexOfFirst { c -> c.id == viewModel.category.value?.id }
+                        ?: -1
+                    if (i >= 0) categoryAdapter.currentSelected = i
+                }
+            }
+        })
+        val isIncome = viewModel.type.value == CategoryType.INCOME
+        if (isIncome) {
+            viewModel.selectableCategoriesIncome.observe(viewLifecycleOwner, {
+                categoryAdapter.setData(it)
+            })
+        } else {
+            viewModel.selectableCategoriesExpenses.observe(viewLifecycleOwner, {
+                categoryAdapter.setData(it)
+            })
+        }
+    }
+
+    private fun onError(e: Throwable?) {
+        btn.changeState(NextCustomButton.State.DEFAULT)
+
+        val notType =
+            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
+        (requireActivity() as MainActivity).showNotification(notType)
     }
 
 

@@ -38,25 +38,35 @@ class AddTransactionViewModel @Inject constructor(
     var date = MutableLiveData(Date())
 
 
-    private val categoriesIncome: MutableLiveData<List<Category>> = MutableLiveData()
-    private val categoriesExpenses: MutableLiveData<List<Category>> = MutableLiveData()
+    val categoriesIncome: MutableLiveData<List<CategoryNetwork>> = MutableLiveData()
+    val categoriesExpenses: MutableLiveData<List<CategoryNetwork>> = MutableLiveData()
 
     val isNextAvailable: MutableLiveData<Boolean> = MutableLiveData(false)
 
     val selectableCategoriesIncome: LiveData<List<SelectableCategory>> =
         Transformations.map(categoriesIncome) { categories ->
-            categories.map { SelectableCategory(category = it, isChecked = category.value == it) }
+            categories.map {
+                SelectableCategory(
+                    category = it.toLocal(),
+                    isChecked = category.value?.id == it.id
+                )
+            }
         }
     val selectableCategoriesExpenses: LiveData<List<SelectableCategory>> =
         Transformations.map(categoriesExpenses) { categories ->
-            categories.map { SelectableCategory(category = it, isChecked = category.value == it) }
+            categories.map {
+                SelectableCategory(
+                    category = it.toLocal(),
+                    isChecked = category.value?.id == it.id
+                )
+            }
         }
 
 
     fun setCategory(position: Int) {
         val newCategory: Category? = when (type.value) {
-            CategoryType.INCOME -> categoriesIncome.value?.get(position)
-            CategoryType.EXPENSE -> categoriesExpenses.value?.get(position)
+            CategoryType.INCOME -> categoriesIncome.value?.get(position)?.toLocal()
+            CategoryType.EXPENSE -> categoriesExpenses.value?.get(position)?.toLocal()
             else -> null
         }
 
@@ -64,47 +74,9 @@ class AddTransactionViewModel @Inject constructor(
             category.value = newCategory
     }
 
-    fun loadCategories() {
-        when (type.value) {
-            CategoryType.INCOME -> loadIncomeCategories()
-            CategoryType.EXPENSE -> loadExpensesCategories()
-        }
-    }
+    fun categories() =
+        if (type.value == CategoryType.INCOME) categoriesIncome else categoriesExpenses
 
-    private fun loadIncomeCategories() {
-        categoriesIncome.value =
-            listOf(
-                CategoryNetwork(
-                    name = "Зарплата",
-                    iconId = 1,
-                    iconColor = "#00B92D",
-                    isIncome = true,
-                    id = 11
-                ).toLocal(),
-            )
-
-    }
-
-    private fun loadExpensesCategories() {
-        categoriesExpenses.value =
-            listOf(
-                CategoryNetwork(
-                    name = "Супермаркеты",
-                    iconId = 0,
-                    iconColor = "#339FEE",
-                    isIncome = false,
-                    id = 12
-                ).toLocal(),
-                CategoryNetwork(
-                    name = "Спортзал",
-                    iconId = 2,
-                    iconColor = "#994747",
-                    isIncome = false,
-                    id = 13
-                ).toLocal(),
-            )
-
-    }
 
     fun editTransaction(
         id: Int
@@ -158,6 +130,7 @@ class AddTransactionViewModel @Inject constructor(
 
     fun getCategories(): LiveData<State<List<CategoryNetwork>>> {
         val resource = MutableLiveData<State<List<CategoryNetwork>>>(State.LoadingState)
+
         val type = this.type.value == CategoryType.INCOME
         val disp = repositoryCategory.getCategoriesByType(type)
             .subscribeOn(Schedulers.io())
