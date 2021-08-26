@@ -318,9 +318,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             confirmDialog.show(childFragmentManager, ChooseColorDialogFragment.TAG)
 
         confirmDialog.setOnItemClickListener { isConfirmed ->
-            val text: String
-            if (isConfirmed == 0) text = "cancel"
-            else {
+            if (isConfirmed != 0) {
                 adapter.data[pos].let { wallet ->
                     viewModel.deleteWallet(wallet.walletId).observe(viewLifecycleOwner,
                         {
