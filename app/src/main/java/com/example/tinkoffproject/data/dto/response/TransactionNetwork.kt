@@ -36,7 +36,7 @@ data class TransactionNetwork(
         0.0,
         false,
         "",
-        CurrencyNetwork("", ""),
+        CurrencyNetwork("", "", ""),
         CategoryNetwork(0, false, 0, "", ""),
         0, 0
     )

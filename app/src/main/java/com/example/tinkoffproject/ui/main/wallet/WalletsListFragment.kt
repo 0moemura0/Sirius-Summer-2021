@@ -168,9 +168,9 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                         date = 0,
                         isIncome = false,
                         category = WALLET_AS_CATEGORY,
-                        amount = it.balance.toInt(),
+                        amount = (it.balance?: 0).toInt(),
                         amountFormatted = formatMoney(
-                            it.balance,
+                            (it.balance?: 0).toDouble(),
                             it.currency
                         )
                     )

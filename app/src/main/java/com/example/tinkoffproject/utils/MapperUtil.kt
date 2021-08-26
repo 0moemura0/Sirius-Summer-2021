@@ -127,6 +127,7 @@ fun Transaction.toNetwork(currency: Currency = DEFAULT_CURRENCY) = TransactionNe
 fun Currency.toNetwork() = CurrencyNetwork(
     shortStr = shortName,
     longStr = longName,
+    symbol = ""
 )
 
 fun CurrencyNetwork.toLocal() = Currency(

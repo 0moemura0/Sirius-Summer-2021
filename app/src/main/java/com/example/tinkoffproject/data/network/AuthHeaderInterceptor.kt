@@ -7,7 +7,7 @@ import okhttp3.Response
 class AuthHeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        if (!request.method.contains("users")) {
+        if (!request.url.toString().contains("users")) {
             val token: String = UserData.email
             if (token.isNotEmpty()) {
                 val finalToken = "Bearer $token"

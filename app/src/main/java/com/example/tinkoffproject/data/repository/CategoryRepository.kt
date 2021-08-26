@@ -23,8 +23,8 @@ class CategoryRepositoryImpl @Inject constructor(
 ) :
     CategoryRepository {
     override fun getAllCategories(): Observable<List<CategoryNetwork>> {
-        return Observable.concatArrayEager(
-            dao.getAll().subscribeOn(Schedulers.io()),
+        return Observable.concat(
+            dao.getAll().toObservable().subscribeOn(Schedulers.io()),
             Observable.defer {
                 if (App.isNetworkAvailable())
                     apiService.getCategories()
@@ -42,8 +42,10 @@ class CategoryRepositoryImpl @Inject constructor(
     }
 
     override fun getCategoriesByType(isIncome: Boolean): Observable<List<CategoryNetwork>> {
-        return Observable.concatArrayEager(
-            dao.getAllByType(isIncome).subscribeOn(Schedulers.io()),
+        return Observable.concat(
+            dao.getAllByType(isIncome)
+                .toObservable()
+                .subscribeOn(Schedulers.io()),
             Observable.defer {
                 if (App.isNetworkAvailable())
                     apiService.getCategories()

@@ -14,5 +14,5 @@ data class WalletNetwork(
     val name: String,
     @Embedded
     val currency: CurrencyNetwork,
-    val balance: Double
+    val balance: Double?
 )

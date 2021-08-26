@@ -9,5 +9,6 @@ import kotlinx.serialization.*
 data class CurrencyNetwork(
     @PrimaryKey
     val shortStr: String,
-    val longStr: String
+    val longStr: String,
+    val symbol: String
 )

@@ -20,7 +20,7 @@ interface ApiService {
     @GET("wallets/")
     fun getWallets(): Observable<List<WalletNetwork>>
 
-    @POST("wallets")
+    @POST("wallets/")
     fun postWallet(@Body newWallet: CreateWallet): Observable<WalletNetwork>
 
     @GET("wallets/{id}/")

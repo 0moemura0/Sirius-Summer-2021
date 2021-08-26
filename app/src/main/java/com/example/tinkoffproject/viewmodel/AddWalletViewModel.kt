@@ -36,15 +36,15 @@ class AddWalletViewModel @Inject constructor(val repository: WalletRepository) :
 
     fun getAllCurrency(): List<Currency> {
         return listOf(
-            CurrencyNetwork("RUS", "Российский рубль"),
-            CurrencyNetwork("USD", "Доллар США"),
-            CurrencyNetwork("EUR", "Евро"),
-            CurrencyNetwork("CHF", "Швейцарские франки"),
-            CurrencyNetwork("KWD", "Кувейтский динар"),
-            CurrencyNetwork("BHD", "Бахрейнский динар"),
-            CurrencyNetwork("OMR", "Оманский риал"),
-            CurrencyNetwork("JPY", "Японская иена"),
-            CurrencyNetwork("SEK", "Шведская крона")
+            CurrencyNetwork("RUS", "Российский рубль", "₽"),
+            CurrencyNetwork("USD", "Доллар США", "$"),
+            CurrencyNetwork("EUR", "Евро", "€"),
+            CurrencyNetwork("CHF", "Швейцарские франки", "₣"),
+            CurrencyNetwork("KWD", "Кувейтский динар", "KD"),
+            CurrencyNetwork("BHD", "Бахрейнский динар", "BD"),
+            CurrencyNetwork("OMR", "Оманский риал", "﷼"),
+            CurrencyNetwork("JPY", "Японская иена", "¥"),
+            CurrencyNetwork("SEK", "Шведская крона", "kr")
         ).map { it.toLocal() }
     }
 

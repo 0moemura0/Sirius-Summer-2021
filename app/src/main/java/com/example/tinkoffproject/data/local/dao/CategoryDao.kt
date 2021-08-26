@@ -3,12 +3,12 @@ package com.example.tinkoffproject.data.local.dao
 import androidx.room.*
 import com.example.tinkoffproject.data.dto.response.CategoryNetwork
 import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface CategoryDao {
     @Query("SELECT * from CategoryNetwork")
-    fun getAll(): Observable<List<CategoryNetwork>>
+    fun getAll(): Single<List<CategoryNetwork>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(entity: CategoryNetwork): Completable
@@ -29,7 +29,7 @@ interface CategoryDao {
     fun removeAll(): Completable
 
     @Query("SELECT * from CategoryNetwork WHERE isIncome = :isIncome")
-    fun getAllByType(isIncome: Boolean): Observable<List<CategoryNetwork>>
+    fun getAllByType(isIncome: Boolean): Single<List<CategoryNetwork>>
 
     @Query("DELETE FROM CategoryNetwork WHERE isIncome = :isIncome")
     fun removeAllByType(isIncome: Boolean): Completable

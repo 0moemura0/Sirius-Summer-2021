@@ -26,8 +26,9 @@ class TransactionRepositoryImpl @Inject constructor(
     val dao: TransactionDao
 ) : TransactionRepository {
     override fun getTransactionList(walletId: Int): Observable<List<TransactionNetwork>> {
-        return Observable.concatArrayEager(
-            dao.getAll(walletId).subscribeOn(Schedulers.io()),
+        return Observable.concat(
+            dao.getAll(walletId).toObservable()
+                .subscribeOn(Schedulers.io()),
             Observable.defer {
                 if (App.isNetworkAvailable())
                     apiService.getWalletsTransactions(walletId)

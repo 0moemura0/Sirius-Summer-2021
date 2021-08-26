@@ -2,16 +2,14 @@ package com.example.tinkoffproject.data.local.dao
 
 import androidx.room.*
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
-import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
 interface TransactionDao {
 
     @Query("SELECT * from TransactionNetwork WHERE walletId = :walletId")
-    fun getAll(walletId: Int): Observable<List<TransactionNetwork>>
+    fun getAll(walletId: Int): Single<List<TransactionNetwork>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(entity: TransactionNetwork): Completable

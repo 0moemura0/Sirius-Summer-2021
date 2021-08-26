@@ -103,13 +103,16 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 val wallet = state.data
                 walletName.text = wallet.name
                 walletAmount.text =
-                    formatMoney(wallet.balance, wallet.currency)
+                    wallet.balance?.let { formatMoney(it, wallet.currency) }
 
                 layoutIncomeCash.text = formatMoney(0.0, wallet.currency)
                 layoutExpensesCash.text = formatMoney(0.0, wallet.currency)
 
 
-                updateLimitInfo(wallet.limit.toDouble(), wallet.balance, wallet.currency)
+                wallet.balance?.let {
+                    updateLimitInfo(wallet.limit.toDouble(),
+                        it, wallet.currency)
+                }
             }
         }
     }

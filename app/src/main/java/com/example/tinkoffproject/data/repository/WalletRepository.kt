@@ -1,5 +1,6 @@
 package com.example.tinkoffproject.data.repository
 
+import android.util.Log
 import com.example.tinkoffproject.App.Companion.isNetworkAvailable
 import com.example.tinkoffproject.data.network.ApiService
 import com.example.tinkoffproject.data.dto.request.CreateWallet
@@ -24,11 +25,13 @@ class WalletRepositoryImpl @Inject constructor(
     WalletRepository {
 
     override fun getUserWalletList(): Observable<List<WalletNetwork>> {
-        return Observable.concatArrayEager(
-            dao.getAll().subscribeOn(Schedulers.io()),
+        return Observable.concat(
+            dao.getAll().toObservable(),
             Observable.defer {
                 if (isNetworkAvailable())
-                    apiService.getWallets().subscribeOn(Schedulers.io()).flatMap {
+                    apiService.getWallets().doOnEach {
+                        Log.d("TAG", "getUserWalletList: " + it.value?.size)
+                    }.flatMap {
                         dao.removeAll().andThen(Completable.fromCallable { dao.addAll(it) }
                             .andThen(Observable.just(it)))
                     }
