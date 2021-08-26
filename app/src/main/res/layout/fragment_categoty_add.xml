@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".view.category_custom.CustomCategoryAddFragment">
+    tools:context=".ui.main.category_custom.CustomCategoryAddFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/section_type"
             app:layout_constraintVertical_bias="0" />
 
-        <com.example.tinkoffproject.view.NextCustomButton
+        <com.example.tinkoffproject.ui.main.NextCustomButton
             android:id="@+id/btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/walletsList"
-        android:name="com.example.tinkoffproject.view.wallet_add.WalletsListFragment"
+        android:name="com.example.tinkoffproject.ui.main.wallet.WalletsListFragment"
         android:label="WalletsList"
         tools:layout="@layout/fragment_wallets_list">
         <action
@@ -40,7 +40,7 @@
             app:destination="@+id/add_wallet">
             <argument
                 android:name="wallet"
-                app:argType="com.example.tinkoffproject.model.data.dto.Wallet"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
                 app:nullable="true" />
             <argument
                 android:name="isNewOperation"

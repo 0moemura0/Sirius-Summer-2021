@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cardDetails"
-        android:name="com.example.tinkoffproject.view.carddetails.CardDetailsFragment"
+        android:name="com.example.tinkoffproject.ui.main.carddetails.CardDetailsFragment"
         android:label="fragment_card_details"
         tools:layout="@layout/fragment_card_details">
         <argument
@@ -30,7 +30,7 @@
             app:destination="@+id/add_transaction">
             <argument
                 android:name="transaction"
-                app:argType="com.example.tinkoffproject.model.data.dto.Transaction"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
                 app:nullable="true" />
             <argument
                 android:name="isNewOperation"

@@ -6,7 +6,7 @@
     app:startDestination="@id/newTransactionCategory">
     <fragment
         android:id="@+id/newTransactionCategory"
-        android:name="com.example.tinkoffproject.view.category_custom.CustomCategoryAddFragment"
+        android:name="com.example.tinkoffproject.ui.main.category_custom.CustomCategoryAddFragment"
         android:label="NewCategory">
         <argument
             android:name="isNewOperation"
@@ -34,13 +34,13 @@
 
     <fragment
         android:id="@+id/setCategoryName"
-        android:name="com.example.tinkoffproject.view.category_custom.CustomCategorySetNameFragment"
+        android:name="com.example.tinkoffproject.ui.main.category_custom.CustomCategorySetNameFragment"
         android:label="SetCategoryName"
         tools:layout="@layout/layout_set_value" />
 
     <fragment
         android:id="@+id/chooseNewCategoryType"
-        android:name="com.example.tinkoffproject.view.category_custom.CustomCategoryChooseTypeFragment"
+        android:name="com.example.tinkoffproject.ui.main.category_custom.CustomCategoryChooseTypeFragment"
         android:label="ChooseNewCategoryType"
         tools:layout="@layout/operation_choose_type" />
 

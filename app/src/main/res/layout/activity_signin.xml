@@ -5,7 +5,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/login_fragment_container"
-        android:name="com.example.tinkoffproject.view.signin.SignInFragment"
+        android:name="com.example.tinkoffproject.ui.main.signin.SignInFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

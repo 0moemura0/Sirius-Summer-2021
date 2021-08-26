@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/setWalletName"
-        android:name="com.example.tinkoffproject.view.wallet_add.SetWalletNameFragment"
+        android:name="com.example.tinkoffproject.ui.main.wallet_add.SetWalletNameFragment"
         android:label="SetName"
         tools:layout="@layout/layout_set_value">
         <argument
             android:name="wallet"
             android:defaultValue="@null"
-            app:argType="com.example.tinkoffproject.model.data.dto.Wallet"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
             app:nullable="true" />
         <argument
             android:name="isNewOperation"
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/newWallet"
-        android:name="com.example.tinkoffproject.view.wallet_add.NewWalletFragment"
+        android:name="com.example.tinkoffproject.ui.main.wallet_add.NewWalletFragment"
         android:label="NewWallet"
         tools:layout="@layout/fragment_new_wallet">
         <action
@@ -71,13 +71,14 @@
 
     <fragment
         android:id="@+id/setWalletLimit"
-        android:name="com.example.tinkoffproject.view.wallet_add.SetLimitFragment"
-        tools:layout="@layout/layout_set_value" />
+        android:name="com.example.tinkoffproject.ui.main.wallet_add.SetLimitFragment"
+        tools:layout="@layout/layout_set_value">
+    </fragment>
 
     <fragment
         android:id="@+id/setWalletCurrency"
-        android:name="com.example.tinkoffproject.view.wallet_add.SetCurrencyFragment" />
-    <action
+        android:name="com.example.tinkoffproject.ui.main.wallet_add.SetCurrencyFragment"/>
+   <action
         android:id="@+id/action_to_newWallet"
         app:destination="@+id/newWallet"
         app:enterAnim="@anim/from_left"
