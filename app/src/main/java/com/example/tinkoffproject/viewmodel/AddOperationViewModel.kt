@@ -22,7 +22,7 @@ class AddOperationViewModel : ViewModel() {
     var type = MutableLiveData<CategoryType>()
     var category = MutableLiveData<Category>()
     var amount = MutableLiveData<Int>()
-
+    var isNewOperation = true
     var date = MutableLiveData(Date())
 
     private val categoriesIncome: MutableLiveData<List<Category>> = MutableLiveData()

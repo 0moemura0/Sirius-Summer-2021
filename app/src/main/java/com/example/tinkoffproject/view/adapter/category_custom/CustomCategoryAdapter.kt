@@ -11,7 +11,7 @@ class CustomCategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var currentColor = COLOR.BLUE_MAIN
 
-    private val data = mutableListOf<SelectableIconCustomCategory>()
+    val data = mutableListOf<SelectableIconCustomCategory>()
     private var currentSelectedPosition: Int = DEFAULT_VALUE
 
     companion object {

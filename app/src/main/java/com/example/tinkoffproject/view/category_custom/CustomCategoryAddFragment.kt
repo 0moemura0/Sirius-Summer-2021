@@ -1,6 +1,7 @@
 package com.example.tinkoffproject.view.category_custom
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.model.data.mapper.COLOR
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.category_custom.CustomCategoryAdapter
 import com.example.tinkoffproject.view.carddetails.MainActivity
@@ -25,7 +27,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     private val viewModel: CustomCategoryViewModel by activityViewModels()
 
     private val args: CustomCategoryAddFragmentArgs by navArgs()
-    private val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
+    val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,19 +54,22 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val typeValue: TextView = typeLayout.findViewById(R.id.tv_value)
         val colorValue: TextView = colorLayout.findViewById(R.id.tv_value)
 
-        if (args.isNewOperation)
+        if (args.isNewOperation && viewModel.isNewOperation) {
+            viewModel.isNewOperation = false
             viewModel.type.value = if (args.isIncome) CategoryType.INCOME else CategoryType.EXPENSE
+        }
 
         nameValue.text = viewModel.name.value ?: getString(R.string.dont_set)
         typeValue.setText(viewModel.type.value?.nameResId ?: R.string.dont_set)
         colorValue.setText(R.string.choose_color)
 
-        viewModel.color.value?.let {
-            colorValue.setTextColor(it)
-        }
+
+        Log.d("kek", "color - ${viewModel.color.value}")
+        colorValue.setTextColor(ContextCompat.getColor(requireContext(), viewModel.color.value ?: COLOR.BLUE_MAIN.color))
 
         dialog.setOnItemClickListener { color ->
             val realColor = ContextCompat.getColor(requireContext(), color.color)
+            Log.d("kek", "color click - ${realColor}")
             viewModel.color.value = realColor
             colorValue.setTextColor(realColor)
             customAdapter.setCurrentColor(color)
@@ -96,9 +101,12 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val manager = GridLayoutManager(context, COLUMNS_COUNT)
         recycler.adapter = customAdapter
         recycler.layoutManager = manager
+        Log.d("kek", "seticon - start")
 
         customAdapter.setOnItemClickListener { position ->
-            viewModel.iconId.value = viewModel.icons[position]
+            Log.d("kek", "seticon - ${customAdapter.data[position].isChecked}")
+            viewModel.iconId.value =
+                if (customAdapter.data[position].isChecked) viewModel.icons[position] else null
         }
         viewModel.iconId.value?.let {
             val pos = viewModel.icons.indexOf(it)
@@ -114,6 +122,11 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
+            Log.d("kek", "color - ${viewModel.color.value}")
+            Log.d("kek", "name - ${viewModel.name.value}")
+            Log.d("kek", "type - ${viewModel.type.value}")
+            Log.d("kek", "iconId - ${viewModel.iconId.value}")
+
             if (isNextAvailable()) {
                 viewModel.addCategory()
                 findNavController().navigate(R.id.action_to_chooseTransactionCategory)

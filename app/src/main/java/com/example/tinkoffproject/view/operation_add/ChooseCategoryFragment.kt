@@ -72,11 +72,7 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
                 CategoryType.EXPENSE -> viewModel.selectableCategoriesExpenses
                 else -> viewModel.selectableCategoriesIncome
             }.observe(viewLifecycleOwner, { setData(it) })
-            setOnItemClickListener(object : OnItemSelectListener {
-                override fun onItemSelect(position: Int) {
-                    viewModel.setCategory(position)
-                }
-            })
+            setOnItemClickListener { position -> viewModel.setCategory(position) }
         }
 
         recycler.apply {

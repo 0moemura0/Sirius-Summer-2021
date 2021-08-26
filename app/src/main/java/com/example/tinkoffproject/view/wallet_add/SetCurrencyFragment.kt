@@ -57,11 +57,12 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
         val recycler: RecyclerView = requireView().findViewById(R.id.rv_currency)
         val adapter = CurrencyAdapter()
         adapter.setData(data.subList(0, DEFAULT_COUNT))
-        adapter.setOnItemClickListener(object : OnItemSelectListener {
-            override fun onItemSelect(position: Int) {
-                onCurrencySelect(data[position], adapter.isItemSelected(position))
-            }
-        })
+        adapter.setOnItemClickListener { position ->
+            onCurrencySelect(
+                data[position],
+                adapter.isItemSelected(position)
+            )
+        }
         val manager = LinearLayoutManager(view?.context)
         recycler.adapter = adapter
         recycler.layoutManager = manager

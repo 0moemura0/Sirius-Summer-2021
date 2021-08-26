@@ -15,7 +15,7 @@ class CustomCategoryViewModel(application: Application) : AndroidViewModel(appli
     var type = MutableLiveData<CategoryType>()
 
     val icons: List<Int> = IconEnum.customLocalsId
-
+    var isNewOperation = true
 
     fun init() {
         name = MutableLiveData<String>()

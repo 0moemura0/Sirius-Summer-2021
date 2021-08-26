@@ -38,8 +38,8 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupData() {
-        if (args.isNewOperation && isNewOperation) {
-            isNewOperation = false
+        if (args.isNewOperation && viewModel.isNewOperation) {
+            viewModel.isNewOperation = false
             viewModel.init(args.transaction)
         }
         if (args.transaction != null) {
