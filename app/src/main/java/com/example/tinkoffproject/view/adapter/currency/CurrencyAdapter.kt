@@ -3,7 +3,6 @@ package com.example.tinkoffproject.view.adapter.currency
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.model.data.dto.Currency
-import com.example.tinkoffproject.model.data.network.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.view.data.OnItemSelectListener
 import com.example.tinkoffproject.view.data.SelectableCurrency
 
@@ -44,6 +43,7 @@ class CurrencyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             listener.onItemSelect(currentSelected)
         }
     }
+
     fun isItemSelected(position: Int) = data[position].isChecked
 
     fun updateData(_data: List<Currency>) {

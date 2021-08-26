@@ -1,10 +1,10 @@
 package com.example.tinkoffproject.view.category_custom
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -18,7 +18,6 @@ import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.view.data.CategoryType
-import com.example.tinkoffproject.view.data.OnItemSelectListener
 import com.example.tinkoffproject.view.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel
 
@@ -26,7 +25,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     private val viewModel: CustomCategoryViewModel by activityViewModels()
 
     private val args: CustomCategoryAddFragmentArgs by navArgs()
-    val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
+    private val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,13 +59,17 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         typeValue.setText(viewModel.type.value?.nameResId ?: R.string.dont_set)
         colorValue.setText(R.string.choose_color)
 
-        dialog.setOnItemClickListener(object : OnItemSelectListener {
-            override fun onItemSelect(position: Int) {
-                colorValue.setTextColor(ColorStateList.valueOf(position))
-                customAdapter.setCurrentColor(position)
-                dialog.dismiss()
-            }
-        })
+        viewModel.color.value?.let {
+            colorValue.setTextColor(it)
+        }
+
+        dialog.setOnItemClickListener { color ->
+            val realColor = ContextCompat.getColor(requireContext(), color.color)
+            viewModel.color.value = realColor
+            colorValue.setTextColor(realColor)
+            customAdapter.setCurrentColor(color)
+            dialog.dismiss()
+        }
 
         colorLayout.setOnClickListener {
             if (!dialog.isAdded)
@@ -94,11 +97,13 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         recycler.adapter = customAdapter
         recycler.layoutManager = manager
 
-        customAdapter.setOnItemClickListener(object : OnItemSelectListener {
-            override fun onItemSelect(position: Int) {
-                viewModel.iconId.value = viewModel.icons[position]
-            }
-        })
+        customAdapter.setOnItemClickListener { position ->
+            viewModel.iconId.value = viewModel.icons[position]
+        }
+        viewModel.iconId.value?.let {
+            val pos = viewModel.icons.indexOf(it)
+            customAdapter.onItemSelect(pos, false)
+        }
     }
 
 
@@ -119,7 +124,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         }
     }
 
-    private fun isNextAvailable() = viewModel.colorId.value != null
+    private fun isNextAvailable() = viewModel.color.value != null
             && viewModel.name.value != null
             && viewModel.type.value != null
             && viewModel.iconId.value != null

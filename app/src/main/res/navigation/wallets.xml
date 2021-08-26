@@ -35,9 +35,19 @@
                 android:name="walletId"
                 app:argType="long" />
         </action>
+        <action
+            android:id="@+id/action_to_change_wallet"
+            app:destination="@+id/add_wallet">
+            <argument
+                android:name="wallet"
+                app:argType="com.example.tinkoffproject.model.data.dto.Wallet"
+                app:nullable="true" />
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="true"
+                app:argType="boolean" />
+        </action>
     </fragment>
 
     <include app:graph="@navigation/add_wallet" />
-
-
 </navigation>

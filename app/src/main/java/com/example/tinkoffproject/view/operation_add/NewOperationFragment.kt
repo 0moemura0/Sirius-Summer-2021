@@ -1,6 +1,7 @@
 package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -13,7 +14,6 @@ import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.carddetails.MainActivity
 import com.example.tinkoffproject.view.carddetails.ToolbarType
 import com.example.tinkoffproject.view.carddetails.UpdatableToolBar
-import com.example.tinkoffproject.view.data.OnItemSelectListener
 import com.example.tinkoffproject.view.dialog.ChooseDatePickerFragment
 import com.example.tinkoffproject.viewmodel.AddOperationViewModel
 
@@ -39,13 +39,11 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     }
 
     private fun initDialog() {
-
-        dialog.setOnItemClickListener(object : OnItemSelectListener {
-            override fun onItemSelect(position: Int) {
-                Toast.makeText(context!!, position.toString(), Toast.LENGTH_SHORT).show()
-                //dialog.dismiss()
-            }
-        })
+        dialog.setOnItemClickListener { calendar ->
+            Log.d("kek", "$calendar")
+            viewModel.date.value = calendar.time
+            dialog.dismiss()
+        }
     }
 
     private fun initViews() {
@@ -56,7 +54,6 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     }
 
     private fun setData() {
-
         val sum: TextView = sumLayout.findViewById(R.id.tv_value)
         val type: TextView = typeLayout.findViewById(R.id.tv_value)
         val category: TextView = categoryLayout.findViewById(R.id.tv_value)
@@ -107,22 +104,28 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private fun setupNavigation() {
 
         sumLayout.setOnClickListener {
-            val action = NewOperationFragmentDirections.actionNewOperationToSetCash(isFromMain = true)
+            val action =
+                NewOperationFragmentDirections.actionNewOperationToSetCash(isFromMain = true)
             findNavController().navigate(action)
         }
 
         typeLayout.setOnClickListener {
-            val action = NewOperationFragmentDirections.actionNewOperationToChooseType(isFromMain = true)
+            val action =
+                NewOperationFragmentDirections.actionNewOperationToChooseType(isFromMain = true)
             findNavController().navigate(action)
         }
         categoryLayout.setOnClickListener {
-            val action = NewOperationFragmentDirections.actionNewOperationToChooseCategory(isFromMain = true)
+            val action =
+                NewOperationFragmentDirections.actionNewOperationToChooseCategory(isFromMain = true)
             findNavController().navigate(action)
         }
 
         dateLayout.setOnClickListener {
-            if (!dialog.isAdded)
+            Log.d("kek", "click")
+            if (!dialog.isAdded) {
+                Log.d("kek", "show")
                 dialog.show(childFragmentManager, ChooseDatePickerFragment.TAG)
+            }
         }
     }
 

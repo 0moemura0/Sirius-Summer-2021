@@ -26,12 +26,11 @@ class CalendarAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return holder
     }
 
-    private fun onItemSelect(position: Int) {
+    fun onItemSelect(position: Int, doNotify: Boolean = true) {
         if (data[position].str.isNotEmpty()) {
             if (currentSelectedPosition == position) {
                 data[currentSelectedPosition].isChecked = !data[currentSelectedPosition].isChecked
                 notifyItemChanged(currentSelectedPosition)
-                listener.onItemSelect(currentSelectedPosition)
             } else {
                 data[currentSelectedPosition].isChecked = false
                 notifyItemChanged(currentSelectedPosition)
@@ -39,8 +38,9 @@ class CalendarAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 currentSelectedPosition = position
                 data[currentSelectedPosition].isChecked = true
                 notifyItemChanged(currentSelectedPosition)
-                listener.onItemSelect(currentSelectedPosition)
             }
+            if (doNotify)
+                listener.onItemSelect(currentSelectedPosition)
         }
     }
 

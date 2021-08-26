@@ -43,12 +43,10 @@
     <string name="selected">Выбрано</string>
     <string name="category_name">Названия категории</string>
     <string name="imaging_name">Придумайте название</string>
-    <string name="category_name_default">Новая категория</string>
 
     <string name="balance_overall">Общий баланс</string>
 
-    <string name="wallet_add">Создать кошелек</string>
-    <string name="wallet_new">Новый кошелек</string>
+    <string name="wallet_new">Новый кошелёк</string>
     <string name="name">Название</string>
     <string name="currency">Валюта</string>
     <string name="limit">Лимит</string>
@@ -62,9 +60,15 @@
     <string name="category_new">Новая категория</string>
     <string name="choose_color">Задать цвет</string>
     <string name="category_create">Создать категорию</string>
+    <string name="category_update">Обновить категорию</string>
     <string name="next">Далее</string>
-    <string name="wallet_create">Создать кошелек</string>
+    <string name="wallet_create">Создать кошелёк</string>
+    <string name="wallet_update">Обновить кошелёк</string>
     <string name="turn">Свернуть</string>
     <string name="show_more">Показать больше</string>
 
+    <string name="confirm_remove_transaction">Уверены что хотите удалить запись?</string>
+    <string name="confirm_remove_wallet">Уверены что хотите удалить кошелёк?</string>
+    <string name="cancel">Отменить</string>
+    <string name="remove">Удалить</string>
 </resources>

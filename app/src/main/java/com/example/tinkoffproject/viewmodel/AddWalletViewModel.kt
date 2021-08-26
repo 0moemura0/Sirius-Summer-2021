@@ -12,17 +12,17 @@ class AddWalletViewModel : ViewModel() {
     var currency = MutableLiveData<Currency>()
     var limit = MutableLiveData<Int>()
 
-    init {
-        init()
+    var isChangeCase: Boolean = false
+
+    fun init(wallet: Wallet? = null) {
+        isChangeCase = wallet != null
+
+        name = MutableLiveData(wallet?.name)
+        currency = MutableLiveData(wallet?.currency)
+        limit = MutableLiveData(wallet?.limit)
     }
 
-    fun init() {
-        name = MutableLiveData()
-        currency = MutableLiveData()
-        limit = MutableLiveData()
-    }
-
-    fun getAllCurrency(): List<Currency>{
+    fun getAllCurrency(): List<Currency> {
         return listOf(
             CurrencyNetwork("RUS", "Российский рубль"),
             CurrencyNetwork("USD", "Доллар США"),
@@ -36,7 +36,8 @@ class AddWalletViewModel : ViewModel() {
         ).map { it.toCurrency() }
     }
 
-    fun addWallet():Boolean{
+    fun addWallet(): Boolean {
         return true//Wallet()
     }
+
 }

@@ -1,17 +1,13 @@
 package com.example.tinkoffproject.model.data.network
 
+
 import com.example.tinkoffproject.model.data.dto.User
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import java.util.concurrent.TimeUnit
-
-
-import com.example.tinkoffproject.model.data.network.dto.response.CategoryNetwork
-import com.example.tinkoffproject.model.data.network.dto.request.CreateWallet
 import com.example.tinkoffproject.model.data.network.dto.Response
 import com.example.tinkoffproject.model.data.network.dto.request.CreateCategory
 import com.example.tinkoffproject.model.data.network.dto.request.CreateTransaction
 import com.example.tinkoffproject.model.data.network.dto.request.CreateUser
+import com.example.tinkoffproject.model.data.network.dto.request.CreateWallet
+import com.example.tinkoffproject.model.data.network.dto.response.CategoryNetwork
 import com.example.tinkoffproject.model.data.network.dto.response.TransactionNetwork
 import com.example.tinkoffproject.model.data.network.dto.response.UserNetwork
 import com.example.tinkoffproject.model.data.network.dto.response.WalletNetwork
@@ -21,9 +17,12 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.*
+import java.util.concurrent.TimeUnit
 
 
 interface ApiService {

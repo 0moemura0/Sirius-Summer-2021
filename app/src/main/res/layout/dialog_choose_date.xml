@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/view_dimen_big"
+    android:paddingTop="@dimen/view_dimen_small"
+    android:paddingBottom="@dimen/view_dimen_extra_big">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +22,7 @@
             android:layout_weight="2"
             android:lines="1"
             android:text="Feb 2021"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
             android:textAppearance="@style/Element" />
 
         <ImageView
@@ -114,6 +117,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp" />
 
 </LinearLayout>

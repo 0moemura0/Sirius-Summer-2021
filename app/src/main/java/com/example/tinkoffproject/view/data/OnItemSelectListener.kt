@@ -1,5 +1,5 @@
 package com.example.tinkoffproject.view.data
 
-interface OnItemSelectListener {
+fun interface OnItemSelectListener {
     fun onItemSelect(position: Int)
 }

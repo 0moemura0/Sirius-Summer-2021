@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.view.category_custom
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout

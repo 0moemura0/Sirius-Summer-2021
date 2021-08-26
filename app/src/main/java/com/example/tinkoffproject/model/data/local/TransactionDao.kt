@@ -1,4 +1,5 @@
 package com.example.tinkoffproject.model.data.local
+
 import androidx.room.*
 import com.example.tinkoffproject.model.data.network.dto.response.TransactionNetwork
 import io.reactivex.Completable
