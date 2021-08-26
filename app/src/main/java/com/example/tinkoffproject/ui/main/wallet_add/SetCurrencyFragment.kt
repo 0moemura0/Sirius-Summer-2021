@@ -1,6 +1,7 @@
 package com.example.tinkoffproject.ui.main.wallet_add
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -85,8 +86,9 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
             }
         }
 
-        viewModel.currency.value?.let {
-            val i = data.indexOf(it)
+        viewModel.currency.value?.let { currency ->
+            val i = data.indexOfFirst { it.shortName == currency.shortName}
+
             if (i >= 0) {
                 adapter.onItemSelect(i)
             }

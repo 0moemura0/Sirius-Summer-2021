@@ -55,7 +55,6 @@ class ChooseDatePickerFragment : DialogFragment(R.layout.dialog_choose_date) {
         setMonthView()
 
         calendarAdapter.setOnItemClickListener {
-            Log.d("kek", "listener")
             /* if (daysInMonth[position] != "") {
                  val message =
                      "Selected Date " + daysInMonth[position] + " " + monthYearFromDate(

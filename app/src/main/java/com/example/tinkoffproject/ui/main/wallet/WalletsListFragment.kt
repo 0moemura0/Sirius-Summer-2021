@@ -1,6 +1,8 @@
-package com.example.tinkoffproject.ui.main.wallet
+package com.example.tinkoffproject.view.wallet_add
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,6 +29,7 @@ import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
 import com.example.tinkoffproject.utils.WALLET_AS_CATEGORY
 import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.DecimalFormat
 
 
@@ -42,6 +45,9 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private lateinit var currencyContainer2: View
     private lateinit var currencyContainer3: View
 
+    private lateinit var mShimmerViewContainer: ShimmerFrameLayout
+    private lateinit var container: View
+
     private val confirmDialog: ConfirmRemoveDialog by lazy {
         ConfirmRemoveDialog(R.string.confirm_remove_wallet)
     }
@@ -53,6 +59,8 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
         initViews()
 
+        setupShimmer()
+
         setupViews()
 
         setupToolbar()
@@ -61,6 +69,16 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         setupRecycler()
         setupCurrency()
 
+
+    }
+
+    private fun setupShimmer() {
+        container.visibility = View.INVISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            container.visibility = View.VISIBLE
+            mShimmerViewContainer.stopShimmer()
+            mShimmerViewContainer.visibility = View.GONE
+        }, 2000)
     }
 
     private fun setupViews() {
@@ -152,19 +170,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                transactionAdapter?.setData(state.data.map {
-                    Transaction(
-                        id = it.id.toLong(),
-                        date = 0,
-                        isIncome = false,
-                        category = WALLET_AS_CATEGORY,
-                        amount = (it.balance ?: 0).toInt(),
-                        amountFormatted = formatMoney(
-                            (it.balance ?: 0).toInt(),
-                            it.currency.toLocal()
-                        )
-                    )
-                })
+                transactionAdapter?.setData(state.data.map { it.toTransaction() })
             }
         }
     }
@@ -181,6 +187,9 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         currencyContainer1 = requireView().findViewById(R.id.l_currency_1)
         currencyContainer2 = requireView().findViewById(R.id.l_currency_2)
         currencyContainer3 = requireView().findViewById(R.id.l_currency_3)
+
+        mShimmerViewContainer = requireView().findViewById(R.id.shimmer_container)
+        container = requireView().findViewById(R.id.container)
     }
 
     private fun setupExpensesIncomeLayout() {

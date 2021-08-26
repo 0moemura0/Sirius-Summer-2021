@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.utils
+package com.example.tinkoffproject.model.data.mapper
 
 import android.graphics.Color
 import com.example.tinkoffproject.R
@@ -72,7 +72,24 @@ enum class COLOR(val color: Int, val colorSelected: Int) {
     BLUE_MAIN(R.color.blue_main, R.color.blue_main_selected),
     GREEN_MAIN(R.color.green_main, R.color.green_main_selected);
 
+    companion object
 }
+/*fun make(context: Context) = COLOR.values().forEach {
+    //Log.d("kek", "${it.name} - ${colorToStr(manipulateColor(ContextCompat.getColor(context, it.color), 0.7f))}")
+}
+fun manipulateColor(color: Int, factor: Float): Int {
+    val a: Int = Color.alpha(color)
+    val r = (Color.red(color) * factor).roundToInt()
+    val g = (Color.green(color) * factor).roundToInt()
+    val b = (Color.blue(color) * factor).roundToInt()
+    return Color.argb(
+        a,
+        min(r, 255),
+        min(g, 255),
+        min(b, 255)
+    )
+}*/
+
 val DEFAULT_ICON_ENUM: IconEnum = IconEnum.DOTS
 
 const val DEFAULT_COLOR = "#5833EE"
@@ -85,6 +102,20 @@ val WALLET_AS_CATEGORY = Category(
     color = Color.parseColor(DEFAULT_COLOR),
     isIncome = false
 )
+
+fun Wallet.toTransaction() = Transaction(
+    id = id,
+    date = 0,
+    isIncome = false,
+    category = Category(
+        name = name, resIconId = IconEnum.WALLET.localIconId, color = Color.parseColor(
+            DEFAULT_COLOR
+        ), isIncome = false
+    ),
+    amount = incomeAmount - expensesAmount,
+    amountFormatted = formatMoney(incomeAmount - expensesAmount, currency)
+)
+
 
 val DEFAULT_CATEGORY = Category(
     id = 0,

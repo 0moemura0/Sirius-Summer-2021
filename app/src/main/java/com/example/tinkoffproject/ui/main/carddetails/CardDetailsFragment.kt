@@ -1,6 +1,8 @@
-package com.example.tinkoffproject.ui.main.carddetails
+package com.example.tinkoffproject.view.carddetails
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -39,6 +41,9 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var walletName: TextView
     private lateinit var walletLimit: TextView
 
+    private lateinit var mShimmerViewContainer: ShimmerFrameLayout
+    private lateinit var container: View
+
     private var transactionAdapter: TransactionAdapter? = null
 
     private val confirmDialog: ConfirmRemoveDialog by lazy {
@@ -51,6 +56,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+        setupShimmer()
 
         setupExpensesIncomeLayout()
         setupNavigation()
@@ -58,6 +64,15 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         setupDataObservers()
 
         setupRecyclerView(view)
+    }
+
+    private fun setupShimmer() {
+        container.visibility = View.INVISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            container.visibility = View.VISIBLE
+            mShimmerViewContainer.stopShimmer()
+            mShimmerViewContainer.visibility = View.GONE
+        }, 2000)
     }
 
     private fun initViews() {
@@ -69,6 +84,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         walletName = requireView().findViewById(R.id.tv_cash_name)
         walletLimit = layoutExpenses.findViewById(R.id.tv_cash_limit)
 
+        mShimmerViewContainer = requireView().findViewById(R.id.shimmer_container)
+        container = requireView().findViewById(R.id.container)
     }
 
     private fun setupDataObservers() {

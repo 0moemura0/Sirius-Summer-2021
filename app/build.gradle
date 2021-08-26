@@ -90,6 +90,7 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
 
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     //test
     testImplementation 'junit:junit:4.13.2'

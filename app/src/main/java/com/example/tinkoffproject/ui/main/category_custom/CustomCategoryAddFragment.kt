@@ -2,7 +2,9 @@ package com.example.tinkoffproject.ui.main.category_custom
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -28,7 +30,21 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     val viewModel: CustomCategoryViewModel by activityViewModels()
 
     private val args: CustomCategoryAddFragmentArgs by navArgs()
-    val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
+    private val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
+    private var isNewOperation = true
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if(savedInstanceState != null) isNewOperation = savedInstanceState.getBoolean(IS_NEW_OPERATION)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(IS_NEW_OPERATION, isNewOperation)
+        super.onSaveInstanceState(outState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,8 +71,8 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val typeValue: TextView = typeLayout.findViewById(R.id.tv_value)
         val colorValue: TextView = colorLayout.findViewById(R.id.tv_value)
 
-        if (args.isNewOperation && viewModel.isNewOperation) {
-            viewModel.isNewOperation = false
+        if (args.isNewOperation && isNewOperation) {
+            isNewOperation = false
             viewModel.type.value = if (args.isIncome) CategoryType.INCOME else CategoryType.EXPENSE
         }
 
@@ -64,13 +80,10 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         typeValue.setText(viewModel.type.value?.nameResId ?: R.string.dont_set)
         colorValue.setText(R.string.choose_color)
 
-
-        Log.d("kek", "color - ${viewModel.color.value}")
         colorValue.setTextColor(ContextCompat.getColor(requireContext(), viewModel.color.value ?: COLOR.BLUE_MAIN.color))
 
         dialog.setOnItemClickListener { color ->
             val realColor = ContextCompat.getColor(requireContext(), color.color)
-            Log.d("kek", "color click - ${realColor}")
             viewModel.color.value = realColor
             colorValue.setTextColor(realColor)
             customAdapter.setCurrentColor(color)
@@ -102,10 +115,8 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val manager = GridLayoutManager(context, COLUMNS_COUNT)
         recycler.adapter = customAdapter
         recycler.layoutManager = manager
-        Log.d("kek", "seticon - start")
 
         customAdapter.setOnItemClickListener { position ->
-            Log.d("kek", "seticon - ${customAdapter.data[position].isChecked}")
             viewModel.iconId.value =
                 if (customAdapter.data[position].isChecked) viewModel.icons[position] else null
         }
@@ -123,11 +134,6 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            Log.d("kek", "color - ${viewModel.color.value}")
-            Log.d("kek", "name - ${viewModel.name.value}")
-            Log.d("kek", "type - ${viewModel.type.value}")
-            Log.d("kek", "iconId - ${viewModel.iconId.value}")
-
             if (isNextAvailable()) {
                 viewModel.addCategory()
                 findNavController().navigate(R.id.action_to_chooseTransactionCategory)
@@ -145,6 +151,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
 
     companion object {
+        const val IS_NEW_OPERATION = "IS_NEW_OPERATION"
         private const val COLUMNS_COUNT = 6
     }
 }
