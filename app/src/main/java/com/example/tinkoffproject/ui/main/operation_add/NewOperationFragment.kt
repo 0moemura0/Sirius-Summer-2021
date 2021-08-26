@@ -9,8 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.formatDate
-import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.MainActivity
+import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.dialog.ChooseDatePickerFragment
@@ -23,6 +23,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private lateinit var typeLayout: View
     private lateinit var categoryLayout: View
     private lateinit var dateLayout: View
+    private lateinit var btn: NextCustomButton
 
     private val dialog by lazy { ChooseDatePickerFragment() }
 
@@ -35,6 +36,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         setupNextButton()
         setupToolbar()
         setupNavigation()
+        setupBtnObserver()
     }
 
     private fun initDialog() {
@@ -49,6 +51,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         typeLayout = requireView().findViewById(R.id.ll_type_container)
         categoryLayout = requireView().findViewById(R.id.ll_category_container)
         dateLayout = requireView().findViewById(R.id.ll_date_container)
+        btn = requireView().findViewById(R.id.btn)
     }
 
     private fun setData() {
@@ -98,6 +101,24 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
             && viewModel.date.value != null
             && viewModel.type.value != null
 
+    private fun setupBtnObserver() {
+        viewModel.amount.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+        viewModel.category.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+        viewModel.date.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+        viewModel.type.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+    }
+
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
+    }
 
     private fun setupNavigation() {
 

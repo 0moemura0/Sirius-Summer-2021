@@ -23,6 +23,7 @@ import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     val viewModel: AddTransactionViewModel by activityViewModels()
     private val categoryAdapter: CategoryAdapter by lazy { CategoryAdapter() }
+    private lateinit var btn: NextCustomButton
 
     private val args: ChooseCategoryFragmentArgs by navArgs()
 
@@ -30,11 +31,13 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loadCategories()
+        btn = requireView().findViewById(R.id.btn)
 
         setupRecyclerView()
         setupCreateCategory()
         setupNextButton()
         setupToolbar()
+        setupBtnObserver()
     }
 
 
@@ -63,6 +66,16 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     }
 
     private fun isNextAvailable() = viewModel.category.value != null
+
+    private fun setupBtnObserver() {
+        viewModel.category.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+    }
+
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
+    }
 
     private fun setupRecyclerView() {
         val recycler: RecyclerView = requireView().findViewById(R.id.rv_category)

@@ -10,18 +10,19 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.MainActivity
+import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.data.CategoryType
 import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
-import java.lang.IllegalStateException
 
 class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     val viewModel: AddTransactionViewModel by activityViewModels()
     private lateinit var income: LinearLayout
     private lateinit var cons: LinearLayout
+    private lateinit var btn: NextCustomButton
+
 
     private val args: ChooseTypeFragmentArgs by navArgs()
 
@@ -34,6 +35,7 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
         setupSelectors()
         setupNextButton()
         setupToolBar()
+        setupBtnObserver()
     }
 
     private fun setupData() {
@@ -49,6 +51,8 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     private fun initViews() {
         income = requireView().findViewById(R.id.ll_section_type_income)
         cons = requireView().findViewById(R.id.ll_section_type_expenses)
+        btn = requireView().findViewById(R.id.btn)
+
     }
 
     private fun setupSelectors() {
@@ -79,6 +83,16 @@ class ChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     }
 
     private fun isNextAvailable() = viewModel.type.value != null
+
+    private fun setupBtnObserver() {
+        viewModel.type.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+    }
+
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
+    }
 
     private fun switchSelection(selected: View, unselected: View) {
         selected.findViewById<ImageView>(R.id.iv_checked).visibility = View.VISIBLE

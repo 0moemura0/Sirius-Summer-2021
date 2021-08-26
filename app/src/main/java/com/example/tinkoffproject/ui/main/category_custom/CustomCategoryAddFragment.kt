@@ -14,9 +14,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.category_custom.CustomCategoryAdapter
-import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.data.CategoryType
@@ -26,6 +26,7 @@ import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel
 
 class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     val viewModel: CustomCategoryViewModel by activityViewModels()
+    private lateinit var btn: NextCustomButton
 
     private val args: CustomCategoryAddFragmentArgs by navArgs()
     private val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
@@ -35,7 +36,8 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if(savedInstanceState != null) isNewOperation = savedInstanceState.getBoolean(IS_NEW_OPERATION)
+        if (savedInstanceState != null) isNewOperation =
+            savedInstanceState.getBoolean(IS_NEW_OPERATION)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -46,10 +48,13 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        btn = view.findViewById(R.id.btn)
         setupData()
         setupNextButton()
         setupToolbar()
         setupRecycler()
+        setupBtnObserver()
 
         val dialog = ChooseColorDialogFragment()
 
@@ -78,7 +83,12 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         typeValue.setText(viewModel.type.value?.nameResId ?: R.string.dont_set)
         colorValue.setText(R.string.choose_color)
 
-        colorValue.setTextColor(ContextCompat.getColor(requireContext(), viewModel.color.value ?: COLOR.BLUE_MAIN.color))
+        colorValue.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                viewModel.color.value ?: COLOR.BLUE_MAIN.color
+            )
+        )
 
         dialog.setOnItemClickListener { color ->
             val realColor = ContextCompat.getColor(requireContext(), color.color)
@@ -100,6 +110,25 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         typeLayout.setOnClickListener {
             findNavController().navigate(R.id.action_newCategory_to_chooseNewCategoryType)
         }
+    }
+
+    private fun setupBtnObserver() {
+        viewModel.color.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+        viewModel.name.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+        viewModel.type.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+        viewModel.iconId.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+    }
+
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
     }
 
     private fun setupData() {
@@ -131,7 +160,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     }
 
     private fun setupNextButton() {
-        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
+        btn.setOnClickListener {
             if (isNextAvailable()) {
                 viewModel.addCategory()
                 findNavController().navigate(R.id.action_to_chooseTransactionCategory)

@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.ui.main.wallet_add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,25 +12,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.data.dto.to_view.Currency
+import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.currency.CurrencyAdapter
-import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
-import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
 class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
     private val viewModel: AddWalletViewModel by activityViewModels()
-
+    private lateinit var btn: NextCustomButton
     val DEFAULT_COUNT = 3
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        btn = requireView().findViewById(R.id.btn)
 
         setupRecyclerView()
         setupNextButton()
         setupToolbar()
+        setupBtnObserver()
     }
 
     private fun onCurrencySelect(currency: Currency, isSelected: Boolean = true) {
@@ -40,6 +40,15 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
 
     private fun isNextAvailable(): Boolean = viewModel.currency.value != null
 
+    private fun setupBtnObserver() {
+        viewModel.currency.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+    }
+
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
+    }
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
@@ -87,7 +96,7 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
         }
 
         viewModel.currency.value?.let { currency ->
-            val i = data.indexOfFirst { it.shortName == currency.shortName}
+            val i = data.indexOfFirst { it.shortName == currency.shortName }
 
             if (i >= 0) {
                 adapter.onItemSelect(i)

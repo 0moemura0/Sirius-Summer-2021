@@ -25,6 +25,7 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     val viewModel: AddTransactionViewModel by activityViewModels()
     private lateinit var inputEditText: EditText
     private lateinit var inputTextLayout: TextInputLayout
+    private lateinit var btn: NextCustomButton
 
     private val args: SetTransactionCashFragmentArgs by navArgs()
     private var isNewOperation = true
@@ -71,11 +72,16 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
 
 
     private fun setupInputText() {
+        updateButtonState()
         inputEditText.doAfterTextChanged {
+            updateButtonState()
             if (!it.isNullOrBlank()) {
                 hideError()
             }
         }
+    }
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
     }
 
     private fun setDefaultError() {
@@ -92,6 +98,8 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     private fun initViews() {
         inputEditText = requireView().findViewById(R.id.et_sum)
         inputTextLayout = requireView().findViewById(R.id.input_sum)
+        btn = requireView().findViewById(R.id.btn)
+
     }
 
     private fun setupNextButton() {

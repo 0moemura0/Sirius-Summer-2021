@@ -18,7 +18,7 @@ import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel
 
 class CustomCategoryChooseTypeFragment : Fragment(R.layout.operation_choose_type) {
     val viewModel: CustomCategoryViewModel by activityViewModels()
-
+    private lateinit var btn: NextCustomButton
     private lateinit var income: LinearLayout
     private lateinit var cons: LinearLayout
 
@@ -31,6 +31,7 @@ class CustomCategoryChooseTypeFragment : Fragment(R.layout.operation_choose_type
         setupSelectors()
         setupNextButton()
         setupToolBar()
+        setupBtnObserver()
     }
 
     private fun setupData() {
@@ -44,6 +45,8 @@ class CustomCategoryChooseTypeFragment : Fragment(R.layout.operation_choose_type
     }
 
     private fun initViews() {
+        btn = requireView().findViewById(R.id.btn)
+
         income = requireView().findViewById(R.id.ll_section_type_income)
         cons = requireView().findViewById(R.id.ll_section_type_expenses)
     }
@@ -74,6 +77,16 @@ class CustomCategoryChooseTypeFragment : Fragment(R.layout.operation_choose_type
     }
 
     private fun isNextAvailable() = viewModel.type.value != null
+
+    private fun setupBtnObserver() {
+        viewModel.type.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+    }
+
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
+    }
 
     private fun switchSelection(selected: View, unselected: View) {
         selected.findViewById<ImageView>(R.id.iv_checked).visibility = View.VISIBLE

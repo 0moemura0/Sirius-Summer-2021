@@ -1,6 +1,7 @@
 package com.example.tinkoffproject.ui.main.wallet_add
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +20,7 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     private lateinit var nameLayout: View
     private lateinit var currencyLayout: View
     private lateinit var limitLayout: View
+    private lateinit var btn: NextCustomButton
 
     private val viewModel: AddWalletViewModel by activityViewModels()
 
@@ -31,12 +33,15 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         setupNextButton()
         setupToolbar()
         setupNavigation()
+        setupBtnObserver()
     }
 
     private fun initViews() {
         nameLayout = requireView().findViewById(R.id.ll_name_container)
         currencyLayout = requireView().findViewById(R.id.ll_currency_container)
         limitLayout = requireView().findViewById(R.id.ll_limit_container)
+
+        btn = requireView().findViewById(R.id.btn)
     }
 
 
@@ -74,8 +79,20 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     }
 
     private fun isNextAvailable() =
-        viewModel.currency.value != null && viewModel.name.value != null && viewModel.limit.value != null
+        viewModel.currency.value != null && viewModel.name.value != null
 
+    private fun setupBtnObserver() {
+        viewModel.currency.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+        viewModel.name.observe(viewLifecycleOwner, {
+            updateButtonState()
+        })
+    }
+
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
+    }
 
     private fun setData() {
         val name: TextView = nameLayout.findViewById(R.id.tv_value)

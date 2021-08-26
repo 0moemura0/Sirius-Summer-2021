@@ -15,7 +15,6 @@ class NotificationViewHolder(root: View) : RecyclerView.ViewHolder(root) {
     private val description: TextView = root.findViewById(R.id.tv_description)
 
     fun bind(i: NotificationType) {
-        Log.d("kek", "bind")
         icon.setImageResource(i.iconResId)
         description.setText(i.textResId)
     }

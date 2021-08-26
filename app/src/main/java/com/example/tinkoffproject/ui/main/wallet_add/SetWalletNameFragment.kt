@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
     private val viewModel: AddWalletViewModel by activityViewModels()
+    private lateinit var btn: NextCustomButton
 
     private lateinit var inputEditText: TextInputEditText
     private lateinit var inputTextLayout: TextInputLayout
@@ -38,10 +39,14 @@ class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
         setupToolbar()
         setupNextButton()
     }
+    private fun updateButtonState() {
+        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
+    }
 
     private fun initViews() {
         inputEditText = requireView().findViewById(R.id.et_sum)
         inputTextLayout = requireView().findViewById(R.id.input_sum)
+        btn = requireView().findViewById(R.id.btn)
     }
 
     private fun setupNextButton() {
@@ -65,7 +70,9 @@ class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
     private fun hideError() = setError(null)
 
     private fun setupInputText() {
+        updateButtonState()
         inputEditText.doAfterTextChanged {
+            updateButtonState()
             if (!it.isNullOrBlank()) {
                 hideError()
             }
