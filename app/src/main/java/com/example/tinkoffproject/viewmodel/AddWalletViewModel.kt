@@ -24,7 +24,7 @@ class AddWalletViewModel : ViewModel() {
 
     fun getAllCurrency(): List<Currency> {
         return listOf(
-            CurrencyNetwork("RUS", "Российский рубль"),
+            CurrencyNetwork("RUB", "Российский рубль"),
             CurrencyNetwork("USD", "Доллар США"),
             CurrencyNetwork("EUR", "Евро"),
             CurrencyNetwork("CHF", "Швейцарские франки"),

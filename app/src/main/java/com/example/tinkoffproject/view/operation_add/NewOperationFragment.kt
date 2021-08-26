@@ -40,7 +40,6 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
 
     private fun initDialog() {
         dialog.setOnItemClickListener { calendar ->
-            Log.d("kek", "$calendar")
             viewModel.date.value = calendar.time
             dialog.dismiss()
         }
@@ -121,9 +120,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         }
 
         dateLayout.setOnClickListener {
-            Log.d("kek", "click")
             if (!dialog.isAdded) {
-                Log.d("kek", "show")
                 dialog.show(childFragmentManager, ChooseDatePickerFragment.TAG)
             }
         }
