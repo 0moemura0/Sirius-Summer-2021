@@ -78,7 +78,7 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
 
     private fun isNextAvailable(): Boolean {
         val str = inputEditText.text?.toString()
-        return !str.isNullOrBlank() && str.toInt() != 0
+        return !str.isNullOrEmpty() && str.toInt() != 0
     }
 
     private fun saveData() {

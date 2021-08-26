@@ -281,8 +281,9 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         confirmDialog.setOnItemClickListener {
             val text: String
             if (it == 0) text = "cancel"
-            else text = "confirm"
-            Toast.makeText(requireContext(), "DELETE $text $pos", Toast.LENGTH_SHORT).show()
+            else {
+                walletAdapter?.data?.get(pos)?.let { it1 -> viewModel.deleteWallet(it1.walletId) }
+            }
             confirmDialog.dismiss()
         }
     }

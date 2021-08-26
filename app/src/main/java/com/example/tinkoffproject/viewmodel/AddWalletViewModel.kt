@@ -21,15 +21,15 @@ class AddWalletViewModel @Inject constructor(val repository: WalletRepository) :
     var name = MutableLiveData<String>()
     var currency = MutableLiveData<Currency>()
     var limit = MutableLiveData<Int>()
-
+    var id = -1
     var isChangeCase: Boolean = false
 
     fun init(wallet: Wallet? = null) {
+        id = wallet?.id ?: -1
         isChangeCase = wallet != null
-
         name = MutableLiveData(wallet?.name)
         currency = MutableLiveData(wallet?.currency)
-        limit = MutableLiveData(wallet?.limit)
+        limit = MutableLiveData(wallet?.limit ?: 0)
     }
 
     fun getAllCurrency(): List<Currency> {
@@ -64,6 +64,27 @@ class AddWalletViewModel @Inject constructor(val repository: WalletRepository) :
                     resource.value = State.ErrorState(it)
                 }
             )
+        return resource
+    }
+
+    fun editWallet(): LiveData<State<WalletNetwork>> {
+        val resource = MutableLiveData<State<WalletNetwork>>(State.LoadingState)
+        if (id != -1) {
+            val disp = repository.editWallet(
+                id,
+                CreateWallet(limit.value, name.value, currency.value?.shortName)
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        resource.value = State.DataState(it)
+                    },
+                    {
+                        resource.value = State.ErrorState(it)
+                    }
+                )
+        } else resource.value = State.ErrorState(IllegalArgumentException("id == null"))
         return resource
     }
 

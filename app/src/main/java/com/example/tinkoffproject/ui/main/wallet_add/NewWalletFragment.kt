@@ -66,9 +66,15 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         requireView().findViewById<NextCustomButton>(R.id.btn).apply {
             setOnClickListener {
                 if (isNextAvailable()) {
-                    viewModel.addWallet().observe(viewLifecycleOwner, {
-                        findNavController().popBackStack(R.id.walletsList, false)
-                    })
+                    if (viewModel.isChangeCase){
+                        viewModel.editWallet().observe(viewLifecycleOwner, {
+                            findNavController().popBackStack(R.id.walletsList, false)
+                        })
+                    }else {
+                        viewModel.addWallet().observe(viewLifecycleOwner, {
+                            findNavController().popBackStack(R.id.walletsList, false)
+                        })
+                    }
                 } else {
                     Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                         .show()

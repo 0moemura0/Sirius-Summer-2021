@@ -45,27 +45,6 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
         return resource
     }
 
-    fun editWallet(
-        id: Int,
-        name: String,
-        limit: Int,
-        currency: CurrencyNetwork
-    ): LiveData<State<WalletNetwork>> {
-        val resource = MutableLiveData<State<WalletNetwork>>(State.LoadingState)
-        val disp = repository.editWallet(id, CreateWallet(limit, name, currency.shortStr))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    resource.value = State.DataState(it)
-                },
-                {
-                    resource.value = State.ErrorState(it)
-                }
-            )
-        return resource
-    }
-
     fun deleteWallet(id: Int): LiveData<State<String>> {
         val resource = MutableLiveData<State<String>>(State.LoadingState)
         val disp = repository.deleteWallet(id)
@@ -75,6 +54,7 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
                 resource.value = State.DataState("OK")
             }, {
                 resource.value = State.ErrorState(it)
+                Log.e("TAG", "deleteWallet: " + it)
             })
         return resource
     }

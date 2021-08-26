@@ -21,84 +21,13 @@ import javax.inject.Inject
 @HiltViewModel
 class TransactionListViewModel @Inject constructor(val repository: TransactionRepository) :
     ViewModel() {
-//    private val _transactions = MutableLiveData<State<List<Transaction>>>(
-//        State.DataState(
-//            listOf(
-//                Transaction(
-//                    0,
-//                    112213214,
-//                    false,
-//                    Category(id = 0,"Имя", R.drawable.ic_shop, Color.parseColor(DEFAULT_COLOR), false),
-//                    123,
-//                    "235 P"
-//                ),
-//                Transaction(
-//                    1,
-//                    112213214,
-//                    false,
-//                    Category(id = 0,"Имя", R.drawable.ic_sport, Color.parseColor(DEFAULT_COLOR), false),
-//                    123,
-//                    "235 P"
-//                ),
-//                Transaction(
-//                    2,
-//                    112213214,
-//                    false,
-//                    Category(id = 0,"Имя", R.drawable.ic_sport, Color.parseColor(DEFAULT_COLOR), false),
-//                    123,
-//                    "235 P"
-//                ),
-//                Transaction(
-//                    3,
-//                    112213214,
-//                    false,
-//                    Category(id = 0,"Имя", R.drawable.ic_sport, Color.parseColor(DEFAULT_COLOR), false),
-//                    123,
-//                    "235 P"
-//                ),
-//                Transaction(
-//                    4,
-//                    112213214,
-//                    false,
-//                    Category(id = 0,"Имя", R.drawable.ic_sport, Color.parseColor(DEFAULT_COLOR), false),
-//                    123,
-//                    "235 P"
-//                ),
-//                Transaction(
-//                    5,
-//                    112213214,
-//                    false,
-//                    Category(id = 0,"Имя", R.drawable.ic_sport, Color.parseColor(DEFAULT_COLOR), false),
-//                    123,
-//                    "235 P"
-//                ),
-//                Transaction(
-//                    6,
-//                    112213214,
-//                    false,
-//                    Category(id = 0,"Имя", R.drawable.ic_sport, Color.parseColor(DEFAULT_COLOR), false),
-//                    123,
-//                    "235 P"
-//                ),
-//                Transaction(
-//                    7,
-//                    112213214,
-//                    true,
-//                    Category(id = 0,"Имя", R.drawable.ic_income, Color.parseColor(DEFAULT_COLOR), true),
-//                    123,
-//                    "235 P"
-//                ),
-//            )
-//        )
-//    )
-//    val transaction: LiveData<State<List<Transaction>>> = _transactions
 
     var wallet: Wallet? = null
 
     fun getTransactionList(): LiveData<State<List<TransactionNetwork>>> {
         val resource = MutableLiveData<State<List<TransactionNetwork>>>(State.LoadingState)
         val disp = wallet!!.id.let {
-            repository.getTransactionList(it).subscribeOn(Schedulers.io())//wallet.id
+            repository.getTransactionList(it).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
