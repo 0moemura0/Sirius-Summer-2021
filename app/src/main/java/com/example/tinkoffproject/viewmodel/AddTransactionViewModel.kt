@@ -29,11 +29,15 @@ class AddTransactionViewModel @Inject constructor(
 ) : ViewModel() {
 
     var wallet: Wallet? = null
-    var id: Int = 0
+    var transaction: Transaction? = null
+
+    var id: Int = transaction?.id ?: 0
     var type = MutableLiveData<CategoryType>()
     var category = MutableLiveData<Category>()
     var amount = MutableLiveData<Int>()
     var date = MutableLiveData(Date())
+
+
 
     private val categoriesIncome: MutableLiveData<List<Category>> = MutableLiveData()
     private val categoriesExpenses: MutableLiveData<List<Category>> = MutableLiveData()
@@ -179,7 +183,6 @@ class AddTransactionViewModel @Inject constructor(
         amount = MutableLiveData<Int>(transaction?.value)
         id = (transaction?.id ?: 0)
 
-        //TODO format date
         date = MutableLiveData(Date())
 
     }

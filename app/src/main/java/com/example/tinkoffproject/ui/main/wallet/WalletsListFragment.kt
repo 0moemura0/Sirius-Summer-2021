@@ -2,6 +2,7 @@ package com.example.tinkoffproject.ui.main.wallet
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,9 +27,7 @@ import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
-import com.example.tinkoffproject.utils.asTransaction
-import com.example.tinkoffproject.utils.asWallet
-import com.example.tinkoffproject.utils.toLocal
+import com.example.tinkoffproject.utils.*
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.DecimalFormat
@@ -60,8 +59,6 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
     companion object {
         const val IS_HIDDEN_VISIBLE = "IS_HIDDEN_VISIBLE"
-        const val START_SHIMMER_TIME = "START_SHIMMER_TIME"
-        const val SHIMMER_MIN_TIME_MS = 1000
     }
 
     private var walletAdapter: TransactionAdapter? = null
@@ -72,7 +69,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             isHiddenVisible = savedInstanceState.getBoolean(IS_HIDDEN_VISIBLE) == true
-            startShimmerTime = savedInstanceState.getLong(START_SHIMMER_TIME, 0L)
+            startShimmerTime = savedInstanceState.getLong(START_SHIMMER_TIME_ARG, 0L)
         }
 
         super.onCreate(savedInstanceState)
@@ -80,7 +77,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(IS_HIDDEN_VISIBLE, isHiddenVisible)
-        outState.putLong(START_SHIMMER_TIME, startShimmerTime)
+        outState.putLong(START_SHIMMER_TIME_ARG, startShimmerTime)
         super.onSaveInstanceState(outState)
     }
 
@@ -217,6 +214,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private fun onWalletClick(position: Int, adapter: TransactionAdapter?) {
         val transaction = adapter?.data?.getOrNull(position)
         if (transaction != null) {
+            //TODO
             val action = WalletsListFragmentDirections.actionToTransactions(transaction.asWallet())
             findNavController().navigate(action)
         }

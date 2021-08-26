@@ -29,7 +29,7 @@ class AddWalletViewModel @Inject constructor(val repository: WalletRepository) :
         isChangeCase = wallet != null
         name = MutableLiveData(wallet?.name)
         currency = MutableLiveData(wallet?.currency)
-        limit = MutableLiveData(wallet?.limit ?: 0)
+        limit = MutableLiveData(wallet?.limit)
     }
 
     fun getAllCurrency(): List<Currency> {

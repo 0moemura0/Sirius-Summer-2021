@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.State
+import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
+import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.utils.formatMoney
@@ -66,13 +69,9 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
             setOnClickListener {
                 if (isNextAvailable()) {
                     if (viewModel.isChangeCase) {
-                        viewModel.editWallet().observe(viewLifecycleOwner, {
-                            findNavController().popBackStack(R.id.walletsList, false)
-                        })
+                        viewModel.editWallet().observe(viewLifecycleOwner, ::onUpdate)
                     } else {
-                        viewModel.addWallet().observe(viewLifecycleOwner, {
-                            findNavController().popBackStack(R.id.walletsList, false)
-                        })
+                        viewModel.addWallet().observe(viewLifecycleOwner, ::onUpdate)
                     }
                 } else {
                     Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
@@ -81,6 +80,29 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
             }
             setTitle(if (viewModel.isChangeCase) R.string.wallet_update else R.string.wallet_create)
         }
+    }
+
+    private fun onUpdate(state: State<WalletNetwork>) {
+        when (state) {
+            is State.LoadingState -> {
+                btn.changeState(NextCustomButton.State.LOADING)
+            }
+            is State.ErrorState -> {
+                onError(state.exception)
+            }
+            is State.DataState -> {
+                btn.changeState(NextCustomButton.State.DEFAULT)
+                findNavController().popBackStack(R.id.walletsList, false)
+            }
+        }
+    }
+
+    private fun onError(e: Throwable?) {
+        btn.changeState(NextCustomButton.State.DEFAULT)
+
+        val notType =
+            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
+        (requireActivity() as MainActivity).showNotification(notType)
     }
 
     private fun isNextAvailable() =

@@ -1,8 +1,10 @@
 package com.example.tinkoffproject.ui.main.carddetails
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,12 +22,17 @@ import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.data.dto.to_view.Currency
+import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
+import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
+import com.example.tinkoffproject.utils.SHIMMER_MIN_TIME_MS
+import com.example.tinkoffproject.utils.START_SHIMMER_TIME_ARG
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.viewmodel.TransactionListViewModel
@@ -41,6 +48,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var layoutExpensesCash: TextView
     private lateinit var walletName: TextView
     private lateinit var walletLimit: TextView
+    private lateinit var btn: NextCustomButton
 
     private lateinit var mShimmerViewContainer: ShimmerFrameLayout
     private lateinit var container: View
@@ -51,7 +59,22 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         ConfirmRemoveDialog(R.string.confirm_remove_transaction)
     }
 
+    private var startShimmerTime = 0L
+
     private val args: CardDetailsFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            startShimmerTime = savedInstanceState.getLong(START_SHIMMER_TIME_ARG, 0L)
+        }
+
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putLong(START_SHIMMER_TIME_ARG, startShimmerTime)
+        super.onSaveInstanceState(outState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,11 +110,13 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
         mShimmerViewContainer = requireView().findViewById(R.id.shimmer_container)
         container = requireView().findViewById(R.id.container)
+        btn = requireView().findViewById(R.id.btn)
     }
 
     private fun setupDataObservers() {
         viewModel.wallet = args.wallet
         viewModel.getTransactionList().observe(viewLifecycleOwner, ::updateTransaction)
+        updateWalletInfo(args.wallet)
     }
 
     private fun setupExpensesIncomeLayout() {
@@ -106,7 +131,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     }
 
     private fun setupNavigation() {
-        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
+        btn.setOnClickListener {
             val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(
                 true,
                 viewModel.wallet
@@ -120,29 +145,22 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         updateActivity.updateToolbar("")
     }
 
-    private fun updateWalletInfo(state: State<WalletNetwork>) {
-        when (state) {
-            is State.ErrorState -> onError(state.exception)
-            is State.LoadingState -> {
-                //TODO анимация либо на кнопке, либо свайп энд рефреш
-            }
-            is State.DataState -> {
-                val wallet = state.data
-                walletName.text = wallet.name
-                walletAmount.text =
-                    wallet.balance?.let { formatMoney(it.toInt(), wallet.currency.symbol) }
+    private fun updateWalletInfo(wallet: Wallet) {
+        walletName.text = wallet.name
+        walletAmount.text =
+            wallet.balance?.let { formatMoney(it, wallet.currency.symbol) }
 
-                layoutIncomeCash.text = formatMoney(0, wallet.currency.symbol)
-                layoutExpensesCash.text = formatMoney(0, wallet.currency.symbol)
+        layoutIncomeCash.text = formatMoney(0, wallet.currency.symbol)
+        layoutExpensesCash.text = formatMoney(0, wallet.currency.symbol)
 
 
-                wallet.balance?.let {
-                    updateLimitInfo(
-                        wallet.limit,
-                        it, wallet.currency
-                    )
-                }
-            }
+        wallet.balance?.let {
+            updateLimitInfo(
+                wallet.limit,
+                it, wallet.currency
+            )
+
+
         }
     }
 
@@ -153,7 +171,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         }
     }
 
-    private fun updateLimitInfo(limit: Int?, expenses: Int, currency: CurrencyNetwork) {
+    private fun updateLimitInfo(limit: Int?, expenses: Int, currency: Currency) {
         val colorId: Int
         val alpha: Float
         val text: String
@@ -188,8 +206,35 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         }
     }
 
+    private fun onLoading() {
+        startShimmerTime = System.currentTimeMillis()
+        container.visibility = View.INVISIBLE
+        mShimmerViewContainer.startShimmer()
+        mShimmerViewContainer.visibility = View.VISIBLE
+    }
+
+    private fun stopLoading() {
+        val differ = System.currentTimeMillis() - startShimmerTime
+        val doAfter =
+            if (differ > SHIMMER_MIN_TIME_MS) 0 else SHIMMER_MIN_TIME_MS - differ
+        object : CountDownTimer(doAfter, doAfter) {
+            override fun onFinish() {
+                container.visibility = View.VISIBLE
+                mShimmerViewContainer.stopShimmer()
+                mShimmerViewContainer.visibility = View.GONE
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+            }
+        }.start()
+    }
+
     private fun onError(e: Throwable?) {
-        //TODO интерфейс активити, который бы воказывал сообщение об ошибке
+        btn.changeState(NextCustomButton.State.DEFAULT)
+
+        val notType =
+            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
+        (requireActivity() as MainActivity).showNotification(notType)
     }
 
 

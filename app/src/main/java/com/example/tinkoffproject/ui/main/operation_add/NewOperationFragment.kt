@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.State
+import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.formatDate
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
+import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.dialog.ChooseDatePickerFragment
@@ -88,14 +91,41 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
-                viewModel.addTransaction().observe(viewLifecycleOwner, {
-                    findNavController().popBackStack(R.id.cardDetails, false)
-                })
+                val transaction = viewModel.transaction
+                if (transaction == null) {
+                    viewModel.addTransaction().observe(viewLifecycleOwner, ::onUpdate)
+                } else {
+                    viewModel.editTransaction(transaction.id)
+                        .observe(viewLifecycleOwner, ::onUpdate)
+                }
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
             }
         }
+    }
+
+    private fun onUpdate(state: State<TransactionNetwork>) {
+        when (state) {
+            is State.LoadingState -> {
+                btn.changeState(NextCustomButton.State.LOADING)
+            }
+            is State.ErrorState -> {
+                onError(state.exception)
+            }
+            is State.DataState -> {
+                btn.changeState(NextCustomButton.State.DEFAULT)
+                findNavController().popBackStack(R.id.cardDetails, false)
+            }
+        }
+    }
+
+    private fun onError(e: Throwable?) {
+        btn.changeState(NextCustomButton.State.DEFAULT)
+
+        val notType =
+            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
+        (requireActivity() as MainActivity).showNotification(notType)
     }
 
     private fun isNextAvailable() = viewModel.amount.value != null
