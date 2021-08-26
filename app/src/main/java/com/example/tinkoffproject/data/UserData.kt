@@ -2,6 +2,8 @@ package com.example.tinkoffproject.data
 
 import android.app.Application
 import android.content.Context
+import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.data.dto.to_view.Wallet
 
 object UserData {
     var app: Application? = null

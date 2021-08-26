@@ -23,6 +23,11 @@
             android:defaultValue="@null"
             app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
             app:nullable="true" />
+        <argument
+            android:name="wallet"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
+            app:nullable="true" />
         <action
             android:id="@+id/action_setCash_to_chooseType"
             app:destination="@id/chooseTransactionType"

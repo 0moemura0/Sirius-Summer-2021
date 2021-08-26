@@ -24,7 +24,8 @@ import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDec
 import com.example.tinkoffproject.ui.main.carddetails.*
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
-import com.example.tinkoffproject.utils.toTransaction
+import com.example.tinkoffproject.utils.toLocal
+import com.example.tinkoffproject.utils.toNetwork
 import com.example.tinkoffproject.utils.toWallet
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -204,7 +205,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private fun onWalletClick(position: Int, adapter: TransactionAdapter?) {
         val wallet = adapter?.data?.getOrNull(position)
         if (wallet != null) {
-            val action = WalletsListFragmentDirections.actionToTransactions(wallet.id)
+            val action = WalletsListFragmentDirections.actionToTransactions(wallet.toWallet())
             findNavController().navigate(action)
         }
     }
@@ -216,10 +217,10 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                walletAdapter?.setData(state.data.map { it.toWallet() }.filter { !it.hidden }
-                    .map { it.toTransaction() })
-                hiddenWalletAdapter?.setData(state.data.map { it.toWallet() }.filter { it.hidden }
-                    .map { it.toTransaction() })
+                walletAdapter?.setData(state.data.map { it.toLocal() }.filter { !it.hidden }
+                    .map { it.toLocal() })
+                hiddenWalletAdapter?.setData(state.data.map { it.toLocal() }.filter { it.hidden }
+                    .map { it.toLocal() })
             }
         }
     }
@@ -279,13 +280,13 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
     private fun onChangeClicked(pos: Int) {
         Toast.makeText(requireContext(), "EDIT Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
-        viewModel.wallets.value?.let {
-            if (it is State.DataState) {
-                val wallet = it.data.getOrNull(pos)
-                val action = WalletsListFragmentDirections.actionToChangeWallet(wallet)
-                findNavController().navigate(action)
-            }
-        }
+//        viewModel.wallets.value?.let {
+//            if (it is State.DataState) {
+//                val wallet = it.data.getOrNull(pos)
+//                val action = WalletsListFragmentDirections.actionToChangeWallet(wallet)
+//                findNavController().navigate(action)
+//            }
+//        }
     }
 
     private fun onHideClicked(pos: Int) {

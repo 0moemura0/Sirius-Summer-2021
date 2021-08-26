@@ -11,8 +11,8 @@
         android:label="fragment_card_details"
         tools:layout="@layout/fragment_card_details">
         <argument
-            android:name="walletId"
-            app:argType="long" />
+            android:name="wallet"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet" />
         <action
             android:id="@+id/action_cardDetails_to_addTransaction"
             app:destination="@+id/add_transaction"
@@ -24,6 +24,10 @@
                 android:name="isNewOperation"
                 android:defaultValue="false"
                 app:argType="boolean" />
+            <argument
+                android:name="wallet"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
+                app:nullable="true"/>
         </action>
         <action
             android:id="@+id/action_to_change_transaction"
@@ -31,6 +35,10 @@
             <argument
                 android:name="transaction"
                 app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
+                app:nullable="true" />
+            <argument
+                android:name="wallet"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
                 app:nullable="true" />
             <argument
                 android:name="isNewOperation"

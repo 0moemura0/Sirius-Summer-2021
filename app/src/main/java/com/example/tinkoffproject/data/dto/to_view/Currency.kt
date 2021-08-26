@@ -1,12 +1,13 @@
 package com.example.tinkoffproject.data.dto.to_view
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Currency(
     val shortName: String,
     val longName: String,
-    val isUp: Boolean,
-    val rate: Double
+    val isUp: Boolean = true,
+    val rate: Double = 0.0,
+    val symbol: String
 ) : Parcelable

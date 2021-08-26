@@ -88,7 +88,9 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
-                findNavController().popBackStack(R.id.cardDetails, false)
+                viewModel.addTransaction().observe(viewLifecycleOwner, {
+                    findNavController().popBackStack(R.id.cardDetails, false)
+                })
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()

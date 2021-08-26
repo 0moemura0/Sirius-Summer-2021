@@ -30,7 +30,7 @@ class TransactionAdapter(
 
 
     override fun getItemId(position: Int): Long {
-        return data.getOrNull(0)?.id ?: -1L
+        return (data.getOrNull(0)?.id ?: -1).toLong()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

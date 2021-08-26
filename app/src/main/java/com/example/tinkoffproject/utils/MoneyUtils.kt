@@ -3,12 +3,8 @@ package com.example.tinkoffproject.utils
 import com.example.tinkoffproject.data.dto.to_view.Currency
 import java.util.Locale
 
-fun formatMoney(amount: Int, currency: Currency): String {
-    val javaCurr = java.util.Currency.getInstance(currency.shortName)
-    val currencySymbol =
-        javaCurr.getSymbol(Locale.getDefault())
-    //TODO рус не отображается, надо хранить где-то
-    return "${formatMoney(amount)} $currencySymbol"
+fun formatMoney(amount: Int, symbol: String): String {
+    return "${formatMoney(amount)} $symbol"
 }
 
 private const val SPACE = ' '
