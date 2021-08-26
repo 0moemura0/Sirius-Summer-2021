@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.State
+import com.example.tinkoffproject.data.dto.response.IncomeAndExpense
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.data.repository.WalletRepository
@@ -69,8 +70,22 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
                 resource.value = State.DataState("OK")
             }, {
                 resource.value = State.ErrorState(it)
-                Log.e("TAG", "deleteWallet: " + it)
+                Log.e("TAG", "deleteWallet: $it")
             })
+        return resource
+    }
+
+    fun getIncomeExpense(id: Int): LiveData<State<IncomeAndExpense>> {
+        val resource = MutableLiveData<State<IncomeAndExpense>>(State.LoadingState)
+        val disp = repository.getIncomeExpenses(id).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                resource.value = State.DataState(it)
+            }, {
+                resource.value = State.ErrorState(it)
+                Log.e("TAG", "getIncomeExpense: $it")
+            })
+
         return resource
     }
 }

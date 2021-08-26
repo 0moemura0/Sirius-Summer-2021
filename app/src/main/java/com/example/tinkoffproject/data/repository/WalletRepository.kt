@@ -3,6 +3,7 @@ package com.example.tinkoffproject.data.repository
 import android.util.Log
 import com.example.tinkoffproject.App.Companion.isNetworkAvailable
 import com.example.tinkoffproject.data.dto.request.CreateWallet
+import com.example.tinkoffproject.data.dto.response.IncomeAndExpense
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.local.dao.WalletDao
 import com.example.tinkoffproject.data.network.ApiService
@@ -16,6 +17,7 @@ interface WalletRepository {
     fun postWallet(createWallet: CreateWallet): Observable<WalletNetwork>
     fun editWallet(id: Int, createWallet: CreateWallet): Observable<WalletNetwork>
     fun deleteWallet(id: Int): Completable
+    fun getIncomeExpenses(id: Int): Observable<IncomeAndExpense>
 }
 
 class WalletRepositoryImpl @Inject constructor(
@@ -73,5 +75,9 @@ class WalletRepositoryImpl @Inject constructor(
             else
                 Completable.error(IllegalAccessError("You are offline"))
         }
+    }
+
+    override fun getIncomeExpenses(id: Int): Observable<IncomeAndExpense> {
+        return apiService.getIncomeExpenses(id).subscribeOn(Schedulers.io())
     }
 }
