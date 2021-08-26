@@ -3,16 +3,13 @@ package com.example.tinkoffproject.ui.main
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ProgressBar
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.TextViewCompat
-import android.view.animation.Animation
-
-import android.view.animation.LinearInterpolator
-
-import android.view.animation.RotateAnimation
-import android.widget.ImageView
 import com.example.tinkoffproject.R
 
 

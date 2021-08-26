@@ -2,10 +2,10 @@ package com.example.tinkoffproject.data.repository
 
 import android.util.Log
 import com.example.tinkoffproject.App.Companion.isNetworkAvailable
-import com.example.tinkoffproject.data.network.ApiService
 import com.example.tinkoffproject.data.dto.request.CreateWallet
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.local.dao.WalletDao
+import com.example.tinkoffproject.data.network.ApiService
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

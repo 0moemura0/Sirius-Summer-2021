@@ -9,12 +9,8 @@ import android.view.View
 import androidx.annotation.Px
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tinkoffproject.R
+import com.example.tinkoffproject.*
 import com.example.tinkoffproject.data.dto.to_view.Transaction
-import com.example.tinkoffproject.formatDate
-import com.example.tinkoffproject.isOneDay
-import com.example.tinkoffproject.isToday
-import com.example.tinkoffproject.isYesterday
 import java.util.*
 
 
@@ -42,11 +38,15 @@ class TransactionItemDecorator(
         val data = adapter.data
         val viewType = adapter.getItemViewType(position)
 
-        if(isNotValidTransaction(position, viewType)) return
+        if (isNotValidTransaction(position, viewType)) return
 
         val lineHeight = getLineHeightHeader(view.context)
 
-        val isFirstInDay = viewType == TransactionAdapter.TYPE_TRANSACTION && isItemAtPositionFirstInDay(position, data)
+        val isFirstInDay =
+            viewType == TransactionAdapter.TYPE_TRANSACTION && isItemAtPositionFirstInDay(
+                position,
+                data
+            )
         val isFirst = position == 0
         val isLast = position == itemCount - 1
         when {
@@ -96,7 +96,7 @@ class TransactionItemDecorator(
             val viewType = adapter.getItemViewType(position)
 
             if (isNotValidTransaction(position, viewType)) return@forEach
-            if(viewType != TransactionAdapter.TYPE_TRANSACTION) return@forEach
+            if (viewType != TransactionAdapter.TYPE_TRANSACTION) return@forEach
 
             if (isItemAtPositionFirstInDay(position, data)) {
                 val itemDate = data[position].ts

@@ -6,12 +6,11 @@ import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.ui.main.adapter.wallet.WalletViewHolder
 
 
-//TODO Подключить diffutils
 class TransactionAdapter(
     private val onClick: (Int) -> Unit,
-    private val isTransaction: Boolean = true
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val isTransaction: Boolean = true,
+    private val isHiddenWallet: Boolean = false
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val data = mutableListOf<Transaction>()
 
     companion object {
@@ -22,6 +21,7 @@ class TransactionAdapter(
 
     fun setData(new: List<Transaction>) {
         val oldSize = itemCount
+        if (oldSize == 0 && new.isEmpty()) return
         data.clear()
         data.addAll(new)
         notifyItemRangeRemoved(0, oldSize)
@@ -30,7 +30,7 @@ class TransactionAdapter(
 
 
     override fun getItemId(position: Int): Long {
-        return (data.getOrNull(0)?.id ?: -1).toLong()
+        return (data.getOrNull(position)?.id ?: -1).toLong()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -60,5 +60,5 @@ class TransactionAdapter(
         }
     }
 
-    override fun getItemCount() = if (data.size == 0) 1 else data.size
+    override fun getItemCount() = if (data.size == 0) if (isHiddenWallet) 0 else 1 else data.size
 }

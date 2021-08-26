@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.ui.main.operation_add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.MainActivity
+import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
@@ -30,7 +29,7 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     private val args: SetTransactionCashFragmentArgs by navArgs()
     private var isNewOperation = true
 
-    companion object{
+    companion object {
         const val IS_NEW_OPERATION = "IS_NEW_OPERATION"
     }
 
@@ -39,7 +38,8 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if(savedInstanceState != null) isNewOperation = savedInstanceState.getBoolean(IS_NEW_OPERATION)
+        if (savedInstanceState != null) isNewOperation =
+            savedInstanceState.getBoolean(IS_NEW_OPERATION)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -80,6 +80,7 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
             }
         }
     }
+
     private fun updateButtonState() {
         btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
     }

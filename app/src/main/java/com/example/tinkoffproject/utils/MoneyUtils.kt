@@ -1,8 +1,5 @@
 package com.example.tinkoffproject.utils
 
-import com.example.tinkoffproject.data.dto.to_view.Currency
-import java.util.Locale
-
 fun formatMoney(amount: Int, symbol: String): String {
     return "${formatMoney(amount)} $symbol"
 }

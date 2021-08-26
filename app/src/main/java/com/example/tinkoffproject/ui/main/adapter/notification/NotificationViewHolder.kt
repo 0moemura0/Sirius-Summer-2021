@@ -1,6 +1,5 @@
 package com.example.tinkoffproject.ui.main.adapter.notification
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

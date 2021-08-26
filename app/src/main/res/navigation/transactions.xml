@@ -27,7 +27,7 @@
             <argument
                 android:name="wallet"
                 app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
-                app:nullable="true"/>
+                app:nullable="true" />
         </action>
         <action
             android:id="@+id/action_to_change_transaction"

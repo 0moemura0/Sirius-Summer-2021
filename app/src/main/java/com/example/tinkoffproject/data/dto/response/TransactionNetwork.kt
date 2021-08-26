@@ -1,10 +1,6 @@
 package com.example.tinkoffproject.data.dto.response
 
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
-import androidx.room.Ignore
+import androidx.room.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 

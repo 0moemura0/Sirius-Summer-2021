@@ -2,7 +2,6 @@ package com.example.tinkoffproject.ui.main.dialog
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,7 +13,6 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.formatDate
 import com.example.tinkoffproject.ui.main.adapter.calendar.CalendarAdapter
 import com.example.tinkoffproject.ui.main.data.SelectableString
-import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 import java.util.*
 import kotlin.collections.ArrayList
 

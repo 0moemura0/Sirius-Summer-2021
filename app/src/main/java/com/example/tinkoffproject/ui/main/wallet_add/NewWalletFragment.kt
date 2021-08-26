@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.ui.main.wallet_add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -9,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.utils.formatMoney
-import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.MainActivity
+import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
 class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
@@ -66,11 +65,11 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         requireView().findViewById<NextCustomButton>(R.id.btn).apply {
             setOnClickListener {
                 if (isNextAvailable()) {
-                    if (viewModel.isChangeCase){
+                    if (viewModel.isChangeCase) {
                         viewModel.editWallet().observe(viewLifecycleOwner, {
                             findNavController().popBackStack(R.id.walletsList, false)
                         })
-                    }else {
+                    } else {
                         viewModel.addWallet().observe(viewLifecycleOwner, {
                             findNavController().popBackStack(R.id.walletsList, false)
                         })

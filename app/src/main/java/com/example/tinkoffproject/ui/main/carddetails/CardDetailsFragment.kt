@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,18 +17,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
-import com.example.tinkoffproject.data.UserData
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
-import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.ui.main.MainActivity
-import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
+import com.example.tinkoffproject.utils.formatMoney
+import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.viewmodel.TransactionListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 
@@ -109,7 +107,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
     private fun setupNavigation() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(true,
+            val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(
+                true,
                 viewModel.wallet
             )
             findNavController().navigate(action)
@@ -184,7 +183,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                transactionAdapter?.setData(state.data.map {it.toLocal()})
+                transactionAdapter?.setData(state.data.map { it.toLocal() })
             }
         }
     }
@@ -249,7 +248,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
     private fun onChangeClicked(pos: Int) {
         val transaction = transactionAdapter?.data?.getOrNull(pos)
-        val action = CardDetailsFragmentDirections.actionToChangeTransaction(transaction, viewModel.wallet)
+        val action =
+            CardDetailsFragmentDirections.actionToChangeTransaction(transaction, viewModel.wallet)
         findNavController().navigate(action)
     }
 }

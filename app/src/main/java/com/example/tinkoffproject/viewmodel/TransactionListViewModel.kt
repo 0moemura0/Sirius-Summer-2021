@@ -1,18 +1,13 @@
 package com.example.tinkoffproject.viewmodel
 
-import android.graphics.Color
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
-import com.example.tinkoffproject.data.dto.to_view.Category
-import com.example.tinkoffproject.data.dto.to_view.Transaction
 import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.data.repository.TransactionRepository
-import com.example.tinkoffproject.utils.DEFAULT_COLOR
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

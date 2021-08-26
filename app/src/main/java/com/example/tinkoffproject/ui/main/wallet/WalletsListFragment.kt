@@ -1,8 +1,7 @@
 package com.example.tinkoffproject.ui.main.wallet
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,9 +18,12 @@ import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
+import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
-import com.example.tinkoffproject.ui.main.carddetails.*
+import com.example.tinkoffproject.ui.main.carddetails.MySwipeHelper
+import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
+import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
 import com.example.tinkoffproject.utils.asTransaction
@@ -44,6 +46,11 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private lateinit var currencyContainer2: View
     private lateinit var currencyContainer3: View
 
+    private lateinit var walletsRecycler: RecyclerView
+    private lateinit var walletsHiddenRecycler: RecyclerView
+
+    private lateinit var btn: NextCustomButton
+
     private lateinit var mShimmerViewContainer: ShimmerFrameLayout
     private lateinit var container: View
 
@@ -53,19 +60,27 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
     companion object {
         const val IS_HIDDEN_VISIBLE = "IS_HIDDEN_VISIBLE"
+        const val START_SHIMMER_TIME = "START_SHIMMER_TIME"
+        const val SHIMMER_MIN_TIME_MS = 1000
     }
 
     private var walletAdapter: TransactionAdapter? = null
     private var hiddenWalletAdapter: TransactionAdapter? = null
     private var isHiddenVisible = false
+    private var startShimmerTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        isHiddenVisible = savedInstanceState?.getBoolean(IS_HIDDEN_VISIBLE) == true
+        if (savedInstanceState != null) {
+            isHiddenVisible = savedInstanceState.getBoolean(IS_HIDDEN_VISIBLE) == true
+            startShimmerTime = savedInstanceState.getLong(START_SHIMMER_TIME, 0L)
+        }
+
         super.onCreate(savedInstanceState)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.getBoolean(IS_HIDDEN_VISIBLE, isHiddenVisible)
+        outState.putBoolean(IS_HIDDEN_VISIBLE, isHiddenVisible)
+        outState.putLong(START_SHIMMER_TIME, startShimmerTime)
         super.onSaveInstanceState(outState)
     }
 
@@ -83,19 +98,14 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         setupNavigation()
 
         initRecyclerAdapters()
-        setupRecycler(walletAdapter!!)
-        setupRecycler(hiddenWalletAdapter!!)
+        setupRecycler(walletAdapter!!, walletsRecycler)
+        setupRecycler(hiddenWalletAdapter!!, walletsHiddenRecycler)
 
         setupCurrency()
     }
 
     private fun setupShimmer() {
-        container.visibility = View.INVISIBLE
-        Handler(Looper.getMainLooper()).postDelayed({
-            container.visibility = View.VISIBLE
-            mShimmerViewContainer.stopShimmer()
-            mShimmerViewContainer.visibility = View.GONE
-        }, 2000)
+
     }
 
     private fun setupViews() {
@@ -146,16 +156,15 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     }
 
     private fun initRecyclerAdapters() {
-        hiddenWalletAdapter = TransactionAdapter(::onHiddenWalletClick, false)
-        walletAdapter = TransactionAdapter(::onNotHiddenWalletClick, false)
+        hiddenWalletAdapter =
+            TransactionAdapter(::onHiddenWalletClick, isTransaction = false, isHiddenWallet = true)
+        walletAdapter = TransactionAdapter(::onNotHiddenWalletClick, isTransaction = false)
     }
 
-    private fun setupRecycler(transactionAdapter: TransactionAdapter) {
+    private fun setupRecycler(transactionAdapter: TransactionAdapter, recycler: RecyclerView) {
         transactionAdapter.apply {
             //setHasStableIds(true)
         }
-        val recycler: RecyclerView = requireView().findViewById(R.id.rv_wallets)
-
         val offsetNormal = resources.getDimension(R.dimen.view_dimen_normal).toInt()
         val decorator = TransactionItemDecorator(offsetNormal)
         recycler.apply {
@@ -213,29 +222,58 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         }
     }
 
+    private fun onLoading() {
+        startShimmerTime = System.currentTimeMillis()
+        container.visibility = View.INVISIBLE
+        mShimmerViewContainer.startShimmer()
+        mShimmerViewContainer.visibility = View.VISIBLE
+    }
+
+    private fun stopLoading() {
+        val differ = System.currentTimeMillis() - startShimmerTime
+        val doAfter = if (differ > SHIMMER_MIN_TIME_MS) 0 else SHIMMER_MIN_TIME_MS - differ
+        object : CountDownTimer(doAfter, doAfter) {
+            override fun onFinish() {
+                container.visibility = View.VISIBLE
+                mShimmerViewContainer.stopShimmer()
+                mShimmerViewContainer.visibility = View.GONE
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+            }
+        }.start()
+    }
+
 
     private fun updateWallets(state: State<List<WalletNetwork>>) {
         when (state) {
             is State.LoadingState -> {
+                onLoading()
             }
-            is State.ErrorState -> onError(state.exception)
+            is State.ErrorState -> {
+                stopLoading()
+                onError(state.exception)
+            }
             is State.DataState -> {
-                walletAdapter
-                    ?.setData(state.data
-                        .map { it.toLocal() }
-                        .filter { !it.hidden }
-                        .map { it.asTransaction() })
-                hiddenWalletAdapter
-                    ?.setData(state.data
-                        .map { it.toLocal() }
-                        .filter { it.hidden }
-                        .map { it.asTransaction() })
+                stopLoading()
+                walletAdapter?.setData(state.data
+                    .map { it.toLocal() }
+                    .filter { !it.hidden }
+                    .map { it.asTransaction() })
+                hiddenWalletAdapter?.setData(state.data
+                    .map { it.toLocal() }
+                    .filter { it.hidden }
+                    .map { it.asTransaction() })
             }
         }
     }
 
     private fun onError(e: Throwable?) {
-        //TODO интерфейс активити, который бы воказывал сообщение об ошибке
+        btn.changeState(NextCustomButton.State.DEFAULT)
+
+        val notType =
+            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
+        (requireActivity() as MainActivity).showNotification(notType)
     }
 
     private fun initViews() {
@@ -249,6 +287,10 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
         mShimmerViewContainer = requireView().findViewById(R.id.shimmer_container)
         container = requireView().findViewById(R.id.container)
+        btn = requireView().findViewById(R.id.btn)
+
+        walletsRecycler = requireView().findViewById(R.id.rv_wallets)
+        walletsHiddenRecycler = requireView().findViewById(R.id.rv_wallets_hidden)
     }
 
     private fun setupExpensesIncomeLayout() {

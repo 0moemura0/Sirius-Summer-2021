@@ -1,10 +1,10 @@
 package com.example.tinkoffproject.data.repository
 
 import com.example.tinkoffproject.App
-import com.example.tinkoffproject.data.network.ApiService
 import com.example.tinkoffproject.data.dto.request.CreateCategory
 import com.example.tinkoffproject.data.dto.response.CategoryNetwork
 import com.example.tinkoffproject.data.local.dao.CategoryDao
+import com.example.tinkoffproject.data.network.ApiService
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

@@ -2,10 +2,10 @@ package com.example.tinkoffproject.data.repository
 
 import android.util.Log
 import com.example.tinkoffproject.App
-import com.example.tinkoffproject.data.local.dao.TransactionDao
-import com.example.tinkoffproject.data.network.ApiService
 import com.example.tinkoffproject.data.dto.request.CreateTransaction
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
+import com.example.tinkoffproject.data.local.dao.TransactionDao
+import com.example.tinkoffproject.data.network.ApiService
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

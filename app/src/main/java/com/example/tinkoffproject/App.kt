@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.room.Room
-import com.example.tinkoffproject.data.local.AppDatabase
 import com.example.tinkoffproject.data.UserData
+import com.example.tinkoffproject.data.local.AppDatabase
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -18,10 +18,11 @@ class App : Application() {
 
         fun isNetworkAvailable(): Boolean {
             val cm = instance.applicationContext
-            .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             return cm.activeNetworkInfo?.isConnected ?: false
         }
     }
+
     lateinit var database: AppDatabase
     override fun onCreate() {
         super.onCreate()

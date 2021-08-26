@@ -5,11 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.State
-import com.example.tinkoffproject.data.dto.request.CreateWallet
-import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.dto.to_view.Currency
-import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.data.repository.WalletRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,9 +20,27 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
 
     fun loadCurrencyInfo() {
         currency.value = listOf(
-            Currency(shortName = "USD", longName = "Доллар США", isUp = false, rate = 72.65, symbol = "$"),
-            Currency(shortName = "EUR", longName = "Евро", isUp = false, rate = 86.60, symbol = "€"),
-            Currency(shortName = "CHF", longName = "Швейцарские франки", isUp = true,rate = 80.17, symbol = "₣"),
+            Currency(
+                shortName = "USD",
+                longName = "Доллар США",
+                isUp = false,
+                rate = 72.65,
+                symbol = "$"
+            ),
+            Currency(
+                shortName = "EUR",
+                longName = "Евро",
+                isUp = false,
+                rate = 86.60,
+                symbol = "€"
+            ),
+            Currency(
+                shortName = "CHF",
+                longName = "Швейцарские франки",
+                isUp = true,
+                rate = 80.17,
+                symbol = "₣"
+            ),
         )
     }
 
@@ -39,7 +54,7 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
                 },
                 {
                     resource.value = State.ErrorState(it)
-                    Log.e("TAG", "getWalletsList: "+ it)
+                    Log.e("TAG", "getWalletsList: " + it)
                 }
             )
         return resource

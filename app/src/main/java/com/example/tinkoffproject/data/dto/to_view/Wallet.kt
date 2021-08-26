@@ -1,8 +1,6 @@
 package com.example.tinkoffproject.data.dto.to_view
 
 import android.os.Parcelable
-import androidx.room.Embedded
-import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

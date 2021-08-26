@@ -7,7 +7,6 @@ import com.example.tinkoffproject.ui.main.NotificationType
 
 class NotificationAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val data = mutableListOf<NotificationType>()
-    private val timers = mutableListOf<CountDownTimer>()
 
     companion object {
         const val MS_BEFORE_DELETE = 5000L
@@ -27,17 +26,22 @@ class NotificationAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val i = data.size
         data.add(notification)
         notifyItemInserted(i)
-        timers.add(object : CountDownTimer(MS_BEFORE_DELETE, 100) {
+        object : CountDownTimer(MS_BEFORE_DELETE, 100) {
             override fun onTick(p0: Long) {}
             override fun onFinish() {
-                deleteItem(i)
+                deleteItem(notification, this)
             }
-        }.start())
+        }.start()
+    }
+
+    fun deleteItem(notification: NotificationType, timer: CountDownTimer? = null) {
+        timer?.cancel()
+        val i = data.indexOf(notification)
+        data.remove(notification)
+        notifyItemRemoved(i)
     }
 
     fun deleteItem(position: Int) {
-        timers[position].cancel()
-        timers.removeAt(position)
         data.removeAt(position)
         notifyItemRemoved(position)
     }
