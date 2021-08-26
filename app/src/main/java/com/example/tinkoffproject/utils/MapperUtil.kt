@@ -135,7 +135,7 @@ fun Wallet.asTransaction() = Transaction(
     value = incomeAmount - expensesAmount,
     currency = currency,
     walletId = id,
-    amountFormatted = formatMoney(incomeAmount - expensesAmount, currency.shortName),//TODO
+    amountFormatted = formatMoney(incomeAmount - expensesAmount, currency.symbol),//TODO
     categoryId = id
 )
 
