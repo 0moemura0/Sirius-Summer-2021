@@ -65,8 +65,7 @@ class CustomCategoryChooseTypeFragment : Fragment(R.layout.operation_choose_type
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
-
-                findNavController().navigate(R.id.action_chooseNewCategoryType_to_newCategory)
+                findNavController().navigate(R.id.action_to_newCategory)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()

@@ -37,7 +37,7 @@ class CustomCategorySetNameFragment : Fragment(R.layout.layout_set_value) {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
                 viewModel.name.value = inputEditText.text.toString()
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.action_to_newCategory)
             } else {
                 setDefaultError()
             }

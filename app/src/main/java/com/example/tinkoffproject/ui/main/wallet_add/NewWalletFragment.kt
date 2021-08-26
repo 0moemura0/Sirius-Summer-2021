@@ -27,16 +27,6 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
 
         initViews()
 
-        nameLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newWallet_to_setWalletName)
-        }
-        currencyLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newWallet_to_setWalletCurrency)
-        }
-        limitLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_newWallet_to_setWalletLimit)
-        }
-
         setData()
         setupNextButton()
         setupToolbar()
@@ -48,6 +38,7 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         currencyLayout = requireView().findViewById(R.id.ll_currency_container)
         limitLayout = requireView().findViewById(R.id.ll_limit_container)
     }
+
 
     private fun setupNavigation() {
         nameLayout.setOnClickListener {
@@ -67,17 +58,18 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     }
 
     private fun setupNextButton() {
-        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (isNextAvailable()) {
-                viewModel.addWallet().observe(viewLifecycleOwner, {
-                    findNavController().popBackStack(R.id.walletsList, false
-                    )}
-                )
-
-            } else {
-                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
-                    .show()
+        requireView().findViewById<NextCustomButton>(R.id.btn).apply {
+            setOnClickListener {
+                if (isNextAvailable()) {
+                    viewModel.addWallet().observe(viewLifecycleOwner, {
+                        findNavController().popBackStack(R.id.walletsList, false)
+                    }
+                } else {
+                    Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
+            setTitle(if (viewModel.isChangeCase) R.string.wallet_update else R.string.wallet_create)
         }
     }
 
@@ -98,18 +90,14 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         currencyTitle.setText(R.string.currency)
         limitTitle.setText(R.string.limit)
 
-        viewModel.name.observe(viewLifecycleOwner, {
-            name.text = it
-        })
+        val strDefault = getString(R.string.dont_set)
 
-        currency.setText(R.string.dont_set)
-        viewModel.currency.observe(viewLifecycleOwner, {
-            currency.text = it.shortName
-        })
+        name.text = viewModel.name.value ?: strDefault
+        currency.text = viewModel.currency.value?.shortName ?: strDefault
 
-        limit.setText(R.string.dont_set)
-        viewModel.limit.observe(viewLifecycleOwner, {
-            limit.text = formatMoney(it.toDouble())
-        })
+        limit.text = strDefault
+        viewModel.limit.value?.let {
+            limit.text = formatMoney(it)
+        }
     }
 }

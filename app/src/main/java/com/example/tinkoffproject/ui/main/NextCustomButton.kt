@@ -52,8 +52,12 @@ class NextCustomButton @JvmOverloads constructor(
         setState()
     }
 
-    private fun setTitle() {
-        this.title.text = titleText
+    fun setTitle(titleStr: String = titleText) {
+        this.title.text = titleStr
+    }
+
+    fun setTitle(titleResId: Int) {
+        this.title.text = context.getString(titleResId)
     }
 
     private fun setState() {

@@ -1,8 +1,8 @@
 package com.example.tinkoffproject.data.dto.request
 
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateUser (
+data class CreateUser(
     val username: String?
 )

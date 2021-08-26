@@ -7,9 +7,9 @@ import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 class CustomColorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var listener: OnItemSelectListener
 
-    private val data = mutableListOf<Int>()
+    private val data = mutableListOf<COLOR>()
 
-    fun setData(_data: List<Int>) {
+    fun setData(_data: List<COLOR>) {
         data.clear()
         data.addAll(_data)
         notifyDataSetChanged()

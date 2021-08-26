@@ -1,6 +1,6 @@
 package com.example.tinkoffproject.data.dto.request
 
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 @Serializable
 class CreateWallet(

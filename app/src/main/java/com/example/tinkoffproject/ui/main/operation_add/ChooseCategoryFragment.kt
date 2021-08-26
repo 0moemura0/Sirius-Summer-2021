@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
@@ -23,6 +24,8 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     val viewModel: AddTransactionViewModel by activityViewModels()
     private val categoryAdapter: CategoryAdapter by lazy { CategoryAdapter() }
 
+    private val args: ChooseCategoryFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,7 +41,10 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     private fun setupCreateCategory() {
         val createTextView: TextView = requireView().findViewById(R.id.tv_create)
         createTextView.setOnClickListener {
-            val action = ChooseCategoryFragmentDirections.actionToChooseNewCategoryType(true, viewModel.type.value == CategoryType.INCOME)
+            val action = ChooseCategoryFragmentDirections.actionToChooseNewCategoryType(
+                true,
+                viewModel.type.value == CategoryType.INCOME
+            )
             findNavController().navigate(action)
         }
     }
@@ -46,7 +52,8 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
-                val action = ChooseCategoryFragmentDirections.actionChooseTransactionCategoryToNewOperation()
+                val action =
+                    if (args.isFromMain) R.id.action_to_newOperation else R.id.action_chooseTransactionCategory_to_newOperation
                 findNavController().navigate(action)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
@@ -65,11 +72,7 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
                 CategoryType.EXPENSE -> viewModel.selectableCategoriesExpenses
                 else -> viewModel.selectableCategoriesIncome
             }.observe(viewLifecycleOwner, { setData(it) })
-            setOnItemClickListener(object : OnItemSelectListener {
-                override fun onItemSelect(position: Int) {
-                    viewModel.setCategory(position)
-                }
-            })
+            setOnItemClickListener { position -> viewModel.setCategory(position) }
         }
 
         recycler.apply {

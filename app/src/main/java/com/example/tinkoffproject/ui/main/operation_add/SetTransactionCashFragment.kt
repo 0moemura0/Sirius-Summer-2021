@@ -24,6 +24,7 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     private lateinit var inputTextLayout: TextInputLayout
 
     private val args: SetTransactionCashFragmentArgs by navArgs()
+    private var isNewOperation = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,9 +38,14 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupData() {
+        if (args.isNewOperation && viewModel.isNewOperation) {
+            viewModel.isNewOperation = false
+            viewModel.init(args.transaction)
+        }
+        if (args.transaction != null) {
+            findNavController().navigate(R.id.action_setCash_to_changeTransaction)
+        }
         inputEditText.setText(viewModel.amount.value?.toString() ?: "")
-
-        if (args.isNewOperation) viewModel.init()
     }
 
 
@@ -71,7 +77,9 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
                 saveData()
-                findNavController().navigate(R.id.action_setCash_to_chooseType)
+                val action =
+                    if (args.isFromMain) R.id.action_to_newOperation else R.id.action_setCash_to_chooseType
+                findNavController().navigate(action)
             } else {
                 setDefaultError()
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
@@ -80,8 +88,11 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
         }
     }
 
-    private fun isNextAvailable() =
-        (inputEditText.text?.toString() ?: "-1").toInt() > 0
+    private fun isNextAvailable(): Boolean {
+        val str = inputEditText.text.toString()
+        return if (str.isBlank()) false
+        else str.toInt() > 0
+    }
 
     private fun saveData() {
         viewModel.amount.value = inputEditText.text.toString().toInt()

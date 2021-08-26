@@ -2,7 +2,6 @@ package com.example.tinkoffproject.ui.main.wallet_add
 
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -49,7 +48,7 @@ class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
                 saveData()
-                findNavController().navigate(R.id.action_setName_to_newWallet)
+                findNavController().navigate(R.id.action_to_newWallet)
             } else setDefaultError()
         }
     }
@@ -74,8 +73,10 @@ class SetWalletNameFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupData() {
-        Log.d("kek", "setupData - ${args.isNewOperation}")
-        if(args.isNewOperation) viewModel.init()
+        if (args.isNewOperation) viewModel.init(args.wallet)
+        if (args.wallet != null) {
+            findNavController().navigate(R.id.action_setName_to_changeWallet)
+        }
         inputEditText.setText(viewModel.name.value)
     }
 

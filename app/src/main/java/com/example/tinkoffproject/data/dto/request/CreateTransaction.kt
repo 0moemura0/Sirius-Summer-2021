@@ -1,9 +1,9 @@
 package com.example.tinkoffproject.data.dto.request
 
 import android.annotation.SuppressLint
-import java.util.*
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 import java.text.SimpleDateFormat
+import java.util.*
 
 @Serializable
 data class CreateTransaction(
@@ -13,10 +13,10 @@ data class CreateTransaction(
     val currencyShortStr: String?,
     val walletId: Int?,
     val categoryId: Int?
-){
+) {
     @SuppressLint("SimpleDateFormat")
     fun getDate(): Date? {
         val myFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        return if(ts != null) myFormat.parse(ts) else null
+        return if (ts != null) myFormat.parse(ts) else null
     }
 }

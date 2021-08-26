@@ -2,11 +2,11 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
     id 'kotlinx-serialization'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'io.gitlab.arturbosch.detekt' version '1.18.0'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -44,8 +44,10 @@ detekt {
     reports {
         html.enabled = true // observe findings in your browser with structure and code snippets
         xml.enabled = false // checkstyle like format mainly for integrations like Jenkins
-        txt.enabled = false // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.enabled = false // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+        txt.enabled = false
+        // similar to the console output, contains issue signature to manually edit baseline files
+        sarif.enabled = false
+        // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
     }
 }
 

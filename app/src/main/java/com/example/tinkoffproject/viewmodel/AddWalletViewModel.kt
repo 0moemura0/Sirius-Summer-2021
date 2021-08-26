@@ -21,22 +21,19 @@ class AddWalletViewModel @Inject constructor(val repository: WalletRepository) :
     var currency = MutableLiveData<Currency>()
     var limit = MutableLiveData<Int>()
 
-    val isNextAvailable: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isChangeCase: Boolean = false
 
-    init {
-        init()
-    }
+    fun init(wallet: Wallet? = null) {
+        isChangeCase = wallet != null
 
-    fun init() {
-        name = MutableLiveData()
-        currency = MutableLiveData()
-        limit = MutableLiveData()
-        isNextAvailable.value = false
+        name = MutableLiveData(wallet?.name)
+        currency = MutableLiveData(wallet?.currency)
+        limit = MutableLiveData(wallet?.limit)
     }
 
     fun getAllCurrency(): List<Currency> {
         return listOf(
-            CurrencyNetwork("RUS", "Российский рубль", "₽"),
+            CurrencyNetwork("RUB", "Российский рубль", "₽"),
             CurrencyNetwork("USD", "Доллар США", "$"),
             CurrencyNetwork("EUR", "Евро", "€"),
             CurrencyNetwork("CHF", "Швейцарские франки", "₣"),
@@ -68,4 +65,5 @@ class AddWalletViewModel @Inject constructor(val repository: WalletRepository) :
             )
         return resource
     }
+
 }

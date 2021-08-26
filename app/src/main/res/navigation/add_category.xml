@@ -36,28 +36,30 @@
         android:id="@+id/setCategoryName"
         android:name="com.example.tinkoffproject.ui.main.category_custom.CustomCategorySetNameFragment"
         android:label="SetCategoryName"
-        tools:layout="@layout/layout_set_value">
-        <action
-            android:id="@+id/action_setCategoryName_to_chooseNewCategoryType"
-            app:destination="@id/chooseNewCategoryType"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-    </fragment>
+        tools:layout="@layout/layout_set_value" />
 
     <fragment
         android:id="@+id/chooseNewCategoryType"
         android:name="com.example.tinkoffproject.ui.main.category_custom.CustomCategoryChooseTypeFragment"
         android:label="ChooseNewCategoryType"
-        tools:layout="@layout/operation_choose_type">
-        <action
-            android:id="@+id/action_chooseNewCategoryType_to_newCategory"
-            app:destination="@id/newTransactionCategory"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:popUpTo="@id/newTransactionCategory" />
-    </fragment>
+        tools:layout="@layout/operation_choose_type" />
+
+    <action
+        android:id="@+id/action_to_chooseTransactionCategory"
+        app:destination="@+id/chooseTransactionCategory"
+        app:enterAnim="@anim/from_bottom"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/chooseTransactionCategory"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_to_newCategory"
+        app:destination="@+id/newTransactionCategory"
+        app:enterAnim="@anim/from_left"
+        app:exitAnim="@anim/to_left"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/from_left"
+        app:popExitAnim="@anim/to_right"
+        app:popUpTo="@+id/newTransactionCategory"
+        app:popUpToInclusive="true" />
 </navigation>

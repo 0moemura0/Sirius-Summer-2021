@@ -43,6 +43,7 @@ class CurrencyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             listener.onItemSelect(currentSelected)
         }
     }
+
     fun isItemSelected(position: Int) = data[position].isChecked
 
     fun updateData(_data: List<Currency>) {

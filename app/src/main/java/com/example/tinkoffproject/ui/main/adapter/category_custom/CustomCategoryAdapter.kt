@@ -1,6 +1,5 @@
 package com.example.tinkoffproject.ui.main.adapter.category_custom
 
-import android.graphics.Color
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
@@ -8,13 +7,19 @@ import com.example.tinkoffproject.ui.main.data.OnItemSelectListener
 class CustomCategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var listener: OnItemSelectListener
 
-    private var currentColor = Color.parseColor("#5833EE")
+    private var currentColor = COLOR.BLUE_MAIN
 
-    private val data = mutableListOf<Int>()
+    val data = mutableListOf<SelectableIconCustomCategory>()
+    private var currentSelectedPosition: Int = DEFAULT_VALUE
+
+    companion object {
+        const val DEFAULT_VALUE = -1
+    }
 
     fun setData(_data: List<Int>) {
+
         data.clear()
-        data.addAll(_data)
+        data.addAll(_data.map { SelectableIconCustomCategory(it) })
         notifyDataSetChanged()
     }
 
@@ -28,8 +33,22 @@ class CustomCategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return holder
     }
 
-    private fun onItemSelect(position: Int) {
-        listener.onItemSelect(position)
+    fun onItemSelect(position: Int, doNotify: Boolean = true) {
+        if (currentSelectedPosition == position) {
+            data[currentSelectedPosition].isChecked = !data[currentSelectedPosition].isChecked
+            notifyItemChanged(currentSelectedPosition)
+        } else {
+            if (currentSelectedPosition != DEFAULT_VALUE) {
+                data[currentSelectedPosition].isChecked = false
+                notifyItemChanged(currentSelectedPosition)
+            }
+
+            currentSelectedPosition = position
+            data[currentSelectedPosition].isChecked = true
+            notifyItemChanged(currentSelectedPosition)
+        }
+        if (doNotify)
+            listener.onItemSelect(currentSelectedPosition)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -42,7 +61,7 @@ class CustomCategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         listener = _listener
     }
 
-    fun setCurrentColor(color: Int) {
+    fun setCurrentColor(color: COLOR) {
         currentColor = color
         notifyDataSetChanged()
     }

@@ -1,10 +1,11 @@
 package com.example.tinkoffproject.ui.main.category_custom
 
-import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -53,20 +54,27 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val typeValue: TextView = typeLayout.findViewById(R.id.tv_value)
         val colorValue: TextView = colorLayout.findViewById(R.id.tv_value)
 
-        if (args.isNewOperation)
+        if (args.isNewOperation && viewModel.isNewOperation) {
+            viewModel.isNewOperation = false
             viewModel.type.value = if (args.isIncome) CategoryType.INCOME else CategoryType.EXPENSE
+        }
 
-        nameValue.text = viewModel.name.value ?: getString(R.string.category_new)
+        nameValue.text = viewModel.name.value ?: getString(R.string.dont_set)
         typeValue.setText(viewModel.type.value?.nameResId ?: R.string.dont_set)
         colorValue.setText(R.string.choose_color)
 
-        dialog.setOnItemClickListener(object : OnItemSelectListener {
-            override fun onItemSelect(position: Int) {
-                colorValue.setTextColor(ColorStateList.valueOf(position))
-                customAdapter.setCurrentColor(position)
-                dialog.dismiss()
-            }
-        })
+
+        Log.d("kek", "color - ${viewModel.color.value}")
+        colorValue.setTextColor(ContextCompat.getColor(requireContext(), viewModel.color.value ?: COLOR.BLUE_MAIN.color))
+
+        dialog.setOnItemClickListener { color ->
+            val realColor = ContextCompat.getColor(requireContext(), color.color)
+            Log.d("kek", "color click - ${realColor}")
+            viewModel.color.value = realColor
+            colorValue.setTextColor(realColor)
+            customAdapter.setCurrentColor(color)
+            dialog.dismiss()
+        }
 
         colorLayout.setOnClickListener {
             if (!dialog.isAdded)
@@ -93,12 +101,17 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val manager = GridLayoutManager(context, COLUMNS_COUNT)
         recycler.adapter = customAdapter
         recycler.layoutManager = manager
+        Log.d("kek", "seticon - start")
 
-        customAdapter.setOnItemClickListener(object : OnItemSelectListener {
-            override fun onItemSelect(position: Int) {
-                viewModel.iconId.value = viewModel.icons[position]
-            }
-        })
+        customAdapter.setOnItemClickListener { position ->
+            Log.d("kek", "seticon - ${customAdapter.data[position].isChecked}")
+            viewModel.iconId.value =
+                if (customAdapter.data[position].isChecked) viewModel.icons[position] else null
+        }
+        viewModel.iconId.value?.let {
+            val pos = viewModel.icons.indexOf(it)
+            customAdapter.onItemSelect(pos, false)
+        }
     }
 
 
@@ -109,9 +122,14 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
+            Log.d("kek", "color - ${viewModel.color.value}")
+            Log.d("kek", "name - ${viewModel.name.value}")
+            Log.d("kek", "type - ${viewModel.type.value}")
+            Log.d("kek", "iconId - ${viewModel.iconId.value}")
+
             if (isNextAvailable()) {
                 viewModel.addCategory()
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.action_to_chooseTransactionCategory)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
@@ -119,7 +137,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         }
     }
 
-    private fun isNextAvailable() = viewModel.colorId.value != null
+    private fun isNextAvailable() = viewModel.color.value != null
             && viewModel.name.value != null
             && viewModel.type.value != null
             && viewModel.iconId.value != null

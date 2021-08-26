@@ -122,46 +122,6 @@ public abstract class MySwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     }
 
-
-    public class MyButton {
-        private int imageResId, color, pos;
-        private RectF clickRegion;
-        private MyButtonClickListener myButtonClickListener;
-        private Context context;
-        private Resources resources;
-
-        public MyButton(Context context, int imageResId, MyButtonClickListener myButtonClickListener) {
-            this.imageResId = imageResId;
-            this.myButtonClickListener = myButtonClickListener;
-            this.context = context;
-            resources = context.getResources();
-        }
-
-        public boolean onClick(float x, float y) {
-            if (clickRegion != null && clickRegion.contains(x, y)) {
-                myButtonClickListener.onClick(pos);
-                return true;
-            }
-            return false;
-        }
-
-        public void onDraw(Canvas c, RectF rectF, int pos) {
-            Paint p = new Paint();
-            p.setColor(Color.WHITE);
-            c.drawRect(rectF, p);
-
-            Drawable d = ContextCompat.getDrawable(context, imageResId);
-            Bitmap bitmap = drawableToBitmap(d);
-            c.drawBitmap(bitmap, (rectF.left + rectF.right) / 2, (rectF.top + rectF.bottom) / 2 - 64F, p);
-
-            clickRegion = rectF;
-            this.pos = pos;
-
-        }
-
-
-    }
-
     private Bitmap drawableToBitmap(Drawable d) {
 
         if (d instanceof BitmapDrawable)
@@ -248,6 +208,45 @@ public abstract class MySwipeHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     protected abstract void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer);
+
+    public class MyButton {
+        private int imageResId, color, pos;
+        private RectF clickRegion;
+        private MyButtonClickListener myButtonClickListener;
+        private Context context;
+        private Resources resources;
+
+        public MyButton(Context context, int imageResId, MyButtonClickListener myButtonClickListener) {
+            this.imageResId = imageResId;
+            this.myButtonClickListener = myButtonClickListener;
+            this.context = context;
+            resources = context.getResources();
+        }
+
+        public boolean onClick(float x, float y) {
+            if (clickRegion != null && clickRegion.contains(x, y)) {
+                myButtonClickListener.onClick(pos);
+                return true;
+            }
+            return false;
+        }
+
+        public void onDraw(Canvas c, RectF rectF, int pos) {
+            Paint p = new Paint();
+            p.setColor(Color.WHITE);
+            c.drawRect(rectF, p);
+
+            Drawable d = ContextCompat.getDrawable(context, imageResId);
+            Bitmap bitmap = drawableToBitmap(d);
+            c.drawBitmap(bitmap, (rectF.left + rectF.right) / 2, (rectF.top + rectF.bottom) / 2 - 64F, p);
+
+            clickRegion = rectF;
+            this.pos = pos;
+
+        }
+
+
+    }
 }
 
 

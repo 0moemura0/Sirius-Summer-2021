@@ -1,4 +1,4 @@
-package com.example.tinkoffproject.ui.main.carddetails
+package com.example.tinkoffproject.view.carddetails
 
 import android.os.Bundle
 import android.view.View
@@ -37,6 +37,10 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var walletLimit: TextView
 
     private var transactionAdapter: TransactionAdapter? = null
+
+    private val confirmDialog: ConfirmRemoveDialog by lazy {
+        ConfirmRemoveDialog(R.string.confirm_remove_transaction)
+    }
 
     private val args: CardDetailsFragmentArgs by navArgs()
 
@@ -188,38 +192,38 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 buffer.add(
                     MyButton(
                         context!!,
-                        R.drawable.ic_edit,
-                        object : MyButtonClickListener {
-                            override fun onClick(pos: Int) {
-                                Toast.makeText(
-                                    context!!,
-                                    "EDIT Clicked $pos",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        })
+                        R.drawable.ic_delete
+                    ) { pos -> onRemoveClicked(pos) }
                 )
 
                 buffer.add(
-                    MyButton(context!!,
-                        R.drawable.ic_delete,
-                        object : MyButtonClickListener {
-                            override fun onClick(pos: Int) {
-                                Toast.makeText(
-                                    context!!,
-                                    "DELETE Clicked $pos",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                            }
-
-                        }
-                    )
+                    MyButton(
+                        context!!,
+                        R.drawable.ic_edit
+                    ) { pos -> onChangeClicked(pos) }
                 )
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipe)
         itemTouchHelper.attachToRecyclerView(recycler)
+    }
 
+    private fun onRemoveClicked(pos: Int) {
+        if (!confirmDialog.isAdded)
+            confirmDialog.show(childFragmentManager, ChooseColorDialogFragment.TAG)
+
+        confirmDialog.setOnItemClickListener {
+            val text: String
+            if (it == 0) text = "cancel"
+            else text = "confirm"
+            Toast.makeText(requireContext(), "DELETE $text $pos", Toast.LENGTH_SHORT).show()
+            confirmDialog.dismiss()
+        }
+    }
+
+    private fun onChangeClicked(pos: Int) {
+        val transaction = transactionAdapter?.data?.getOrNull(pos)
+        val action = CardDetailsFragmentDirections.actionToChangeTransaction(transaction)
+        findNavController().navigate(action)
     }
 }

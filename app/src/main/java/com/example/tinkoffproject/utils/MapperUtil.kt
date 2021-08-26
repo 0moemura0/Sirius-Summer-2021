@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
+enum class IconEnum(val remoteIconId: Int, val localIconId: Int, val selectable: Boolean = true) {
     SHOP(0, R.drawable.ic_shop),
     PLAIN(1, R.drawable.ic_plain),
     DIAMOND(2, R.drawable.ic_diamond),
@@ -38,31 +38,50 @@ enum class CategoryEnum(val remoteIconId: Int, val localIconId: Int) {
     MEDICINE_BAG(22, R.drawable.ic_medicine_bag),
     EDUCATION(23, R.drawable.ic_education),
     TV(24, R.drawable.ic_tv),
-    ICON(25, R.drawable.ic_icon),
+    WALLET(25, R.drawable.ic_wallet),
     WEAR(26, R.drawable.ic_wear),
     MONEY(27, R.drawable.ic_wear),
     BALL0ON(28, R.drawable.ic_balloon),
-    DOTS(29, R.drawable.ic_dots);
+    DOTS(29, R.drawable.ic_dots),
+
+    //Не могуть быть кастомными
+    GASOLINE(30, R.drawable.ic_gasoline, false),
+    HOME(31, R.drawable.ic_home, false),
+    SALARY(32, R.drawable.ic_salary, false),
+    PERCENT(33, R.drawable.ic_percent, false);
 
     companion object {
-        val locals = values().map { it.localIconId }
-        private val mapLocal = values().associateBy(CategoryEnum::localIconId)
-        private val mapRemote = values().associateBy(CategoryEnum::remoteIconId)
-        fun fromLocalId(id: Int) = mapLocal[id] ?: DEFAULT_CATEGORY_ENUM
-        fun fromRemoteId(id: Int) = mapRemote[id] ?: DEFAULT_CATEGORY_ENUM
+        private val locals = values().map { it.localIconId }
+        val customLocalsId = values().filter { it.selectable }.map { it.localIconId }
+        private val mapLocal = values().associateBy(IconEnum::localIconId)
+        private val mapRemote = values().associateBy(IconEnum::remoteIconId)
+        fun fromLocalId(id: Int) = mapLocal[id] ?: DEFAULT_ICON_ENUM
+        fun fromRemoteId(id: Int) = mapRemote[id] ?: DEFAULT_ICON_ENUM
     }
 }
 
-val DEFAULT_CATEGORY_ENUM: CategoryEnum = CategoryEnum.DOTS
+enum class COLOR(val color: Int, val colorSelected: Int) {
+    PURPLE(R.color.purple, R.color.purple_selected),
+    BLUE(R.color.blue, R.color.blue_selected),
+    BROWN(R.color.brown, R.color.brown_selected),
+    PINK(R.color.pink, R.color.pink_selected),
+    GREEN(R.color.green, R.color.green_selected),
+    ORANGE(R.color.orange, R.color.orange_selected),
+    PURPLE_DARK(R.color.purple_dark, R.color.purple_dark_selected),
+    YELLOW(R.color.yellow, R.color.yellow_selected),
+    BLUE_MAIN(R.color.blue_main, R.color.blue_main_selected),
+    GREEN_MAIN(R.color.green_main, R.color.green_main_selected);
 
 
-const val DEFAULT_COLOR = "#2E0EAE"
+val DEFAULT_ICON_ENUM: IconEnum = IconEnum.DOTS
+
+const val DEFAULT_COLOR = "#5833EE"
 const val WALLET_COLOR = DEFAULT_COLOR
 
 val WALLET_AS_CATEGORY = Category(
     id = 0,
     name = "Кошелёк",
-    resIconId = R.drawable.ic_wallet,
+    resIconId = IconEnum.WALLET.localIconId,
     color = Color.parseColor(DEFAULT_COLOR),
     isIncome = false
 )
@@ -70,7 +89,7 @@ val WALLET_AS_CATEGORY = Category(
 val DEFAULT_CATEGORY = Category(
     id = 0,
     name = "Категория",
-    resIconId = DEFAULT_CATEGORY_ENUM.localIconId,
+    resIconId = DEFAULT_ICON_ENUM.localIconId,
     color = Color.parseColor(WALLET_COLOR),
     isIncome = false
 )
@@ -88,7 +107,7 @@ private fun randomCurrency() = Currency(
 
 fun Category.toNetwork() = CategoryNetwork(
     name = name,
-    iconId = CategoryEnum.fromLocalId(resIconId).remoteIconId,
+    iconId = IconEnum.fromLocalId(resIconId).remoteIconId,
     iconColor = colorToStr(color),
     isIncome = isIncome,
     id = 0
@@ -98,19 +117,19 @@ fun colorToStr(color: Int) = String.format("#%06X", 0xFFFFFF and color)
 
 fun CategoryNetwork.toCategory() = Category(
     name = name,
-    resIconId = CategoryEnum.fromRemoteId(iconId).localIconId,
+    resIconId = IconEnum.fromRemoteId(iconId).localIconId,
     color = Color.parseColor(iconColor),
     isIncome = isIncome,
     id = 0
 )
 
-fun TransactionNetwork.toTransaction(currency: CurrencyNetwork) = Transaction(
+fun TransactionNetwork.toTransaction(currency: Currency) = Transaction(
     id = id.toLong(),
     date = System.currentTimeMillis(), //TODO
     isIncome = isIncome,
-    category = category?.toCategory(),
+    category = category.toCategory(),
     amount = value.roundToInt(),
-    amountFormatted = formatMoney(value, currency)
+    amountFormatted = formatMoney(value.roundToInt(), currency)
 )
 
 

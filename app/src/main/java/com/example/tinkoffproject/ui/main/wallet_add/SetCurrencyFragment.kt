@@ -1,7 +1,6 @@
 package com.example.tinkoffproject.ui.main.wallet_add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -35,7 +34,7 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
     }
 
     private fun onCurrencySelect(currency: Currency, isSelected: Boolean = true) {
-        viewModel.currency.value = if(isSelected) currency else null
+        viewModel.currency.value = if (isSelected) currency else null
     }
 
     private fun isNextAvailable(): Boolean = viewModel.currency.value != null
@@ -44,7 +43,7 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
     private fun setupNextButton() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
-                findNavController().navigate(R.id.action_setWalletCurrency_to_newWallet)
+                findNavController().navigate(R.id.action_to_newWallet)
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
                     .show()
@@ -58,11 +57,12 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
         val recycler: RecyclerView = requireView().findViewById(R.id.rv_currency)
         val adapter = CurrencyAdapter()
         adapter.setData(data.subList(0, DEFAULT_COUNT))
-        adapter.setOnItemClickListener(object : OnItemSelectListener {
-            override fun onItemSelect(position: Int) {
-                onCurrencySelect(data[position], adapter.isItemSelected(position))
-            }
-        })
+        adapter.setOnItemClickListener { position ->
+            onCurrencySelect(
+                data[position],
+                adapter.isItemSelected(position)
+            )
+        }
         val manager = LinearLayoutManager(view?.context)
         recycler.adapter = adapter
         recycler.layoutManager = manager
@@ -86,9 +86,7 @@ class SetCurrencyFragment : Fragment(R.layout.fragment_set_currency) {
         }
 
         viewModel.currency.value?.let {
-            Log.d("kek", "viewModel.currency.value - ${viewModel.currency.value}")
             val i = data.indexOf(it)
-            Log.d("kek", "find - ${i}")
             if (i >= 0) {
                 adapter.onItemSelect(i)
             }

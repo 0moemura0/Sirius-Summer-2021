@@ -3,8 +3,8 @@ package com.example.tinkoffproject.utils
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import java.util.*
 
-fun formatMoney(amount: Double, currency: CurrencyNetwork): String {
-    val javaCurr = Currency.getInstance(currency.shortStr)
+fun formatMoney(amount: Int, currency: Currency): String {
+    val javaCurr = java.util.Currency.getInstance(currency.shortName)
     val currencySymbol =
         javaCurr.getSymbol(Locale.getDefault())
     //TODO рус не отображается, надо хранить где-то
@@ -12,7 +12,7 @@ fun formatMoney(amount: Double, currency: CurrencyNetwork): String {
 }
 
 private const val SPACE = ' '
-fun formatMoney(amount: Double): String {
+fun formatMoney(amount: Int): String {
     val putSpaceEveryNSymbols = 3
     val builder = StringBuilder()
     builder.append(amount)

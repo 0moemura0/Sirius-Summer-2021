@@ -32,6 +32,18 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
     )
     val wallets: LiveData<State<List<Wallet>>> = _wallets
 
+    /*val balance:LiveData<Int> = Transformations.map(_wallets) { w ->
+        if (w is State.DataState) {
+            w.data.sumOf {it.ba }
+        } else 0
+    }
+
+    val expensesAmount:LiveData<Int> = Transformations.map(_wallets) { w ->
+        if (w is State.DataState) {
+            w.data.sumOf { it. }
+        } else 0
+    }*/
+
     val currency: MutableLiveData<List<Currency>> = MutableLiveData()
 
     fun loadCurrencyInfo() {

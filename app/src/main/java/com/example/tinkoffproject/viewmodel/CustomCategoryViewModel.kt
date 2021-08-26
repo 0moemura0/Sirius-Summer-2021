@@ -18,16 +18,16 @@ import javax.inject.Inject
 class CustomCategoryViewModel @Inject constructor(val repository: CategoryRepository) :
     ViewModel() {
     var name = MutableLiveData<String>()
-    var colorId = MutableLiveData<Int>()
+    var color = MutableLiveData<Int>()
     var iconId = MutableLiveData<Int>()
     var type = MutableLiveData<CategoryType>()
 
-    val icons: List<Int> = CategoryEnum.locals
-
+    val icons: List<Int> = IconEnum.customLocalsId
+    var isNewOperation = true
 
     fun init() {
         name = MutableLiveData<String>()
-        colorId = MutableLiveData<Int>()
+        color = MutableLiveData<Int>()
         type = MutableLiveData<CategoryType>()
     }
 
@@ -36,7 +36,7 @@ class CustomCategoryViewModel @Inject constructor(val repository: CategoryReposi
         val name = name.value
         val type = type.value
         val iconId = iconId.value
-        val color = colorId.value
+        val color = color.value
         if (name != null && type != null && iconId != null && color != null) {
             val disp = repository.postCategory(
                 CreateCategory(
