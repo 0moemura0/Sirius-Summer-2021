@@ -8,13 +8,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
+import com.example.tinkoffproject.ui.main.adapter.notification.NotificationAdapter
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar {
+class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar,
+    UpdatableNotifications {
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.main_fragment_container)
     }
@@ -40,6 +45,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         findViewById<Toolbar>(R.id.toolbar)
     }
 
+    private val notification by lazy {
+        findViewById<RecyclerView>(R.id.rv_notification)
+    }
+
+    private val notificationAdapter by lazy {
+        NotificationAdapter()
+    }
+
     override fun onStart() {
         super.onStart()
         btnSetting.setOnClickListener {
@@ -51,6 +64,30 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         btnClose.setOnClickListener {
             navController?.popBackStack()
         }
+        setupNotificationRecycler()
+
+        showNotification(NotificationType.INTERNET_PROBLEM_ERROR)
+    }
+
+    private fun setupNotificationRecycler() {
+        val manager = LinearLayoutManager(this)
+
+        notification.adapter = notificationAdapter
+        notification.layoutManager = manager
+
+        val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                notificationAdapter.deleteItem(position)
+            }
+        })
+        helper.attachToRecyclerView(notification)
     }
 
     @SuppressLint("RestrictedApi")
@@ -93,4 +130,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UpdatableToolBar
         }
     }
 
+    override fun showNotification(type: NotificationType) {
+        notificationAdapter.addNotification(type)
+    }
 }
