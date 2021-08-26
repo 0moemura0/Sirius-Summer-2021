@@ -91,6 +91,8 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
                 viewModel.color.value ?: COLOR.BLUE_MAIN.color
             )
         )
+        if (viewModel.color.value == null)
+            viewModel.color.value = COLOR.BLUE_MAIN.color
 
         dialog.setOnItemClickListener { color ->
             val realColor = ContextCompat.getColor(requireContext(), color.color)
