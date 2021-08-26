@@ -30,6 +30,20 @@ class NextCustomButton @JvmOverloads constructor(
     private var state: State = State.DEFAULT
     private var titleText: String = ""
 
+    private val anim: RotateAnimation by lazy{
+        RotateAnimation(
+            360F,
+            0F,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        ).apply {
+            interpolator = LinearInterpolator()
+            repeatCount = Animation.INFINITE
+            duration = 400
+        }
+    }
     init {
         init(attrs)
     }
@@ -47,19 +61,16 @@ class NextCustomButton @JvmOverloads constructor(
             ta.recycle()
         }
 
-        val anim = RotateAnimation(
-            360F,
-            0F,
-            Animation.RELATIVE_TO_SELF,
-            0.5f,
-            Animation.RELATIVE_TO_SELF,
-            0.5f
-        )
-        anim.interpolator = LinearInterpolator()
-        anim.repeatCount = Animation.INFINITE
-        anim.duration = 400
+    }
+    private fun startAnimation(){
+
         progressNew.startAnimation(anim)
     }
+    private fun stopAnimation(){
+        anim.cancel()
+        anim.reset()
+    }
+
 
     /*Изменяет внешний вид по сотоянию*/
     fun changeState(_state: State = State.DEFAULT, _title: String?) {
@@ -86,7 +97,13 @@ class NextCustomButton @JvmOverloads constructor(
         setBackgroundResource(state.bgResource)
         isEnabled = state.isEnabled
         isClickable = state.isClickable
-        progressNew.visibility = if (state.isProgressVisible) View.VISIBLE else View.GONE
+        progressNew.visibility = if (state.isProgressVisible){
+            startAnimation()
+            View.VISIBLE
+        } else {
+            stopAnimation()
+            View.INVISIBLE
+        }
         title.visibility = if (state.isTitleVisible) View.VISIBLE else View.GONE
         TextViewCompat.setTextAppearance(title, state.titleStyle)
     }
@@ -110,7 +127,8 @@ class NextCustomButton @JvmOverloads constructor(
         ),
         LOADING(
             isProgressVisible = true,
-            isTitleVisible = false
+            isTitleVisible = false,
+            isClickable = false
         ),
         PRESTATE(
             R.drawable.rect_black_8dp,
