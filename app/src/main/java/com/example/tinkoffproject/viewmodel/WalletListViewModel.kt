@@ -74,18 +74,4 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
             })
         return resource
     }
-
-    fun getIncomeExpense(id: Int): LiveData<State<IncomeAndExpense>> {
-        val resource = MutableLiveData<State<IncomeAndExpense>>(State.LoadingState)
-        val disp = repository.getIncomeExpenses(id).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                resource.value = State.DataState(it)
-            }, {
-                resource.value = State.ErrorState(it)
-                Log.e("TAG", "getIncomeExpense: $it")
-            })
-
-        return resource
-    }
 }

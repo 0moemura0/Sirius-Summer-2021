@@ -112,9 +112,11 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
     private fun setupDataObservers() {
         viewModel.wallet = args.wallet
+
         viewModel.getTransactionList().observe(viewLifecycleOwner, ::updateTransaction)
         updateWalletInfo(args.wallet)
     }
+
 
     private fun setupExpensesIncomeLayout() {
         layoutIncome.apply {
@@ -151,14 +153,38 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         layoutExpensesCash.text = formatMoney(0, wallet.currency.symbol)
 
 
-        wallet.balance?.let {
-            updateLimitInfo(
-                wallet.limit,
-                it, wallet.currency
-            )
-
-
+        if (wallet.limit == null) {
+            walletLimit.visibility = View.INVISIBLE
+        } else {
+            updateLimitInfo(wallet.limit, false, wallet.currency)
         }
+
+        viewModel.getIncomeExpense(args.wallet.id).observe(viewLifecycleOwner, {
+            when (it) {
+                is State.LoadingState -> {
+                    btn.changeState(NextCustomButton.State.LOADING)
+                }
+                is State.ErrorState -> {
+                    onError(it.exception)
+                }
+                is State.DataState -> {
+                    btn.changeState(NextCustomButton.State.DEFAULT)
+                    layoutIncomeCash.text =
+                        formatMoney(it.data.income ?: 0, args.wallet.currency.symbol)
+                    layoutExpensesCash.text =
+                        formatMoney(it.data.expenses ?: 0, args.wallet.currency.symbol)
+
+
+                    if (wallet.limit != null && it.data.expenses != null) {
+                        updateLimitInfo(
+                            wallet.limit,
+                            wallet.limit > it.data.expenses,
+                            wallet.currency
+                        )
+                    }
+                }
+            }
+        })
     }
 
     private fun onTransactionClick(position: Int) {
@@ -168,7 +194,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         }
     }
 
-    private fun updateLimitInfo(limit: Int?, expenses: Int, currency: Currency) {
+    private fun updateLimitInfo(limit: Int?, isOver: Boolean, currency: Currency) {
         val colorId: Int
         val alpha: Float
         val text: String
@@ -178,7 +204,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             alpha = 1f
         } else {
             text = " / ${formatMoney(limit, currency.symbol)}"
-            if (limit > expenses) {
+            if (isOver) {
                 colorId = R.color.red_main
                 alpha = 1f
             } else {
@@ -195,6 +221,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private fun updateTransaction(state: State<List<TransactionNetwork>>) {
         when (state) {
             is State.LoadingState -> {
+                btn.changeState(NextCustomButton.State.LOADING)
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {

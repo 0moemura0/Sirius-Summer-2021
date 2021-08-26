@@ -5,16 +5,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.State
+import com.example.tinkoffproject.data.dto.response.IncomeAndExpense
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.data.repository.TransactionRepository
+import com.example.tinkoffproject.data.repository.WalletRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
-class TransactionListViewModel @Inject constructor(val repository: TransactionRepository) :
+class TransactionListViewModel @Inject constructor(
+    val repository: TransactionRepository,
+    private val walletRepository: WalletRepository
+) :
     ViewModel() {
 
     var wallet: Wallet? = null
@@ -48,6 +53,20 @@ class TransactionListViewModel @Inject constructor(val repository: TransactionRe
             }, {
                 resource.value = State.ErrorState(it)
             })
+        return resource
+    }
+
+    fun getIncomeExpense(id: Int): LiveData<State<IncomeAndExpense>> {
+        val resource = MutableLiveData<State<IncomeAndExpense>>(State.LoadingState)
+        val disp = walletRepository.getIncomeExpenses(id).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                resource.value = State.DataState(it)
+            }, {
+                resource.value = State.ErrorState(it)
+                Log.e("TAG", "getIncomeExpense: $it")
+            })
+
         return resource
     }
 }

@@ -98,6 +98,8 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         setupRecycler(hiddenWalletAdapter!!, walletsHiddenRecycler)
 
         setupCurrency()
+
+        //viewModel.
     }
 
     private fun setupShimmer() {
