@@ -2,7 +2,6 @@ package com.example.tinkoffproject.viewmodel
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import androidx.activity.result.ActivityResultCaller
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LiveData
@@ -63,6 +62,7 @@ class SignInViewModel @Inject constructor(
 
     private fun getFromServer(account: GoogleSignInAccount): LiveData<State<GoogleSignInAccount>> {
         val resource = MutableLiveData<State<GoogleSignInAccount>>(State.LoadingState)
+        _signInState.value = State.LoadingState
         val disp = repository.getUser(UserData.id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -77,6 +77,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun tryToPost(result: GoogleSignInAccount) {
+        _signInState.value = State.LoadingState
         val second =
             repository.postUser(result.email).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe({
