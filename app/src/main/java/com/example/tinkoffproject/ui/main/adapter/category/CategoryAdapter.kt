@@ -28,11 +28,11 @@ class CategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private fun onItemSelect(position: Int) {
         data[currentSelected].isChecked = false
-        notifyItemChanged(currentSelected)
+        notifyItemChanged(currentSelected, data[currentSelected])
 
         currentSelected = position
         data[currentSelected].isChecked = true
-        notifyItemChanged(currentSelected)
+        notifyItemChanged(currentSelected, data[currentSelected])
         listener.onItemSelect(currentSelected)
     }
 

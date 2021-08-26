@@ -38,16 +38,16 @@ class CustomCategoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun onItemSelect(position: Int, doNotify: Boolean = true) {
         if (currentSelectedPosition == position) {
             data[currentSelectedPosition].isChecked = !data[currentSelectedPosition].isChecked
-            notifyItemChanged(currentSelectedPosition)
+            notifyItemChanged(currentSelectedPosition, data[currentSelectedPosition].isChecked)
         } else {
             if (currentSelectedPosition != DEFAULT_VALUE) {
                 data[currentSelectedPosition].isChecked = false
-                notifyItemChanged(currentSelectedPosition)
+                notifyItemChanged(currentSelectedPosition, data[currentSelectedPosition].isChecked)
             }
 
             currentSelectedPosition = position
             data[currentSelectedPosition].isChecked = true
-            notifyItemChanged(currentSelectedPosition)
+            notifyItemChanged(currentSelectedPosition, data[currentSelectedPosition].isChecked)
         }
         if (doNotify)
             listener.onItemSelect(currentSelectedPosition)
