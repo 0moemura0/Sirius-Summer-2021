@@ -10,5 +10,6 @@ data class Wallet(
     val incomeAmount: Int,
     val expensesAmount: Int,
     val currency: Currency,
-    val limit: Int?
+    val limit: Int?,
+    val hidden: Boolean
 ) : Parcelable

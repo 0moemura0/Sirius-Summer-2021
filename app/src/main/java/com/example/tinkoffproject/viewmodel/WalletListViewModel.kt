@@ -2,13 +2,14 @@ package com.example.tinkoffproject.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.tinkoffproject.data.dto.to_view.Currency
-import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.request.CreateWallet
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
+import com.example.tinkoffproject.data.dto.to_view.Currency
+import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.data.repository.WalletRepository
 import com.example.tinkoffproject.utils.DEFAULT_CURRENCY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,13 +25,30 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
                 Wallet(
                     id = 0, name = "Кошелёк 1", incomeAmount = 10000964, expensesAmount = 10,
                     currency = DEFAULT_CURRENCY,
-                    limit = 11
+                    limit = 11,
+                    hidden = false
+                ),
+                Wallet(
+                    id = 0, name = "Кошелёк 2", incomeAmount = 10000964, expensesAmount = 10,
+                    currency = DEFAULT_CURRENCY,
+                    limit = 11,
+                    hidden = true
                 ),
             )
         )
     )
     val wallets: LiveData<State<List<Wallet>>> = _wallets
 
+
+    /*val hiddenWallet: LiveData<List<Wallet>> = Transformations.map(_wallets) {
+        if (it is State.DataState) it.data.filter { wallet -> wallet.hidden }
+        else emptyList()
+    }
+
+    val notHiddenWallet: LiveData<List<Wallet>> = Transformations.map(_wallets) {
+        if (it is State.DataState) it.data.filter { wallet -> !wallet.hidden }
+        else emptyList()
+    }*/
     /*val balance:LiveData<Int> = Transformations.map(_wallets) { w ->
         if (w is State.DataState) {
             w.data.sumOf {it.ba }

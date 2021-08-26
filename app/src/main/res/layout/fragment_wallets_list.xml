@@ -111,11 +111,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/view_dimen_normal"
-                app:layout_constraintBottom_toTopOf="@id/btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/l_currency"
-                app:layout_constraintVertical_bias="0" />
+                tools:itemCount="3"
+                tools:listitem="@layout/item_wallet" />
+
+            <include
+                android:id="@+id/l_show_hidden"
+                layout="@layout/element_show_more"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/view_dimen_normal"
+                app:layout_constraintEnd_toEndOf="@id/rv_wallets"
+                app:layout_constraintStart_toStartOf="@id/rv_wallets"
+                app:layout_constraintTop_toBottomOf="@id/rv_wallets" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_wallets_hidden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_dimen_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/l_show_hidden"
+                app:layout_constraintVertical_bias="0"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_wallet" />
 
             <com.example.tinkoffproject.ui.main.NextCustomButton
                 android:id="@+id/btn"

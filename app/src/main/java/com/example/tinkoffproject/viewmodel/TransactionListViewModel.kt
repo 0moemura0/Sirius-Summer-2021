@@ -98,7 +98,8 @@ class TransactionListViewModel @Inject constructor(val repository: TransactionRe
             Wallet(
                 id = 0, name = "Кошелёк 1", incomeAmount = 10000964, expensesAmount = 10,
                 currency = DEFAULT_CURRENCY,
-                limit = 11
+                limit = 11,
+                hidden = false
             )
         )
     )

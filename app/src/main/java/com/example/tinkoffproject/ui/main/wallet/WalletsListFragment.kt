@@ -14,10 +14,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
-import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
-import com.example.tinkoffproject.data.dto.to_view.Wallet
+import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
@@ -50,8 +49,23 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private val confirmDialog: ConfirmRemoveDialog by lazy {
         ConfirmRemoveDialog(R.string.confirm_remove_wallet)
     }
+    companion object{
+        const val IS_HIDDEN_VISIBLE = "IS_HIDDEN_VISIBLE"
+    }
 
-    private var transactionAdapter: TransactionAdapter? = null
+    private var walletAdapter: TransactionAdapter? = null
+    private var hiddenWalletAdapter: TransactionAdapter? = null
+    private var isHiddenVisible = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        isHiddenVisible = savedInstanceState?.getBoolean(IS_HIDDEN_VISIBLE) == true
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.getBoolean(IS_HIDDEN_VISIBLE, isHiddenVisible)
+        super.onSaveInstanceState(outState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,10 +79,12 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         setupToolbar()
         setupExpensesIncomeLayout()
         setupNavigation()
-        setupRecycler()
+
+        initRecyclerAdapters()
+        setupRecycler(walletAdapter!!)
+        setupRecycler(hiddenWalletAdapter!!)
+
         setupCurrency()
-
-
     }
 
     private fun setupShimmer() {
@@ -86,6 +102,26 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
         layoutExpenses.isClickable = false
         layoutExpenses.isFocusable = false
+
+        val showMore: View = requireView().findViewById(R.id.l_show_hidden)
+        val showMoreTitle: TextView = showMore.findViewById(R.id.tv_title)
+        val showMoreIcon: ImageView = showMore.findViewById(R.id.iv_arrow)
+        showMoreTitle.setText(R.string.show_more)
+        showMoreIcon.rotation = 0F
+
+        showMore.setOnClickListener {
+            if (isHiddenVisible) {
+                hiddenWalletAdapter?.setData(emptyList())
+                showMoreTitle.setText(R.string.show_hidden_wallets)
+                showMoreIcon.rotation = 0F
+            } else {
+                /*hiddenWalletAdapter?.setData(viewModel.hiddenWallet.value?.map { it.toTransaction() }
+                    ?: emptyList())*/
+                showMoreTitle.setText(R.string.hide)
+                showMoreIcon.rotation = 180F
+            }
+            isHiddenVisible = !isHiddenVisible
+        }
 
     }
 
@@ -107,9 +143,12 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         arrow.setImageResource(arrayResId)
     }
 
-    private fun setupRecycler() {
-        transactionAdapter = TransactionAdapter(::onWalletClick, false)
+    private fun initRecyclerAdapters(){
+        hiddenWalletAdapter = TransactionAdapter(::onHiddenWalletClick, false)
+        walletAdapter = TransactionAdapter(::onNotHiddenWalletClick, false)
+    }
 
+    private fun setupRecycler(transactionAdapter: TransactionAdapter) {
         transactionAdapter.apply {
             //setHasStableIds(true)
         }
@@ -155,13 +194,21 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         viewModel.getWalletsList().observe(viewLifecycleOwner, ::updateWallets)
     }
 
-    private fun onWalletClick(position: Int) {
-        val wallet = transactionAdapter?.data?.getOrNull(position)
+    private fun onNotHiddenWalletClick(position: Int) {
+        onWalletClick(position, walletAdapter)
+    }
+    private fun onHiddenWalletClick(position: Int) {
+        onWalletClick(position, hiddenWalletAdapter)
+    }
+
+    private fun onWalletClick(position: Int, adapter: TransactionAdapter?) {
+        val wallet = adapter?.data?.getOrNull(position)
         if (wallet != null) {
             val action = WalletsListFragmentDirections.actionToTransactions(wallet.id)
             findNavController().navigate(action)
         }
     }
+
 
     private fun updateWallets(state: State<List<WalletNetwork>>) {
         when (state) {
@@ -169,7 +216,10 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                transactionAdapter?.setData(state.data.map { it.toWallet().toTransaction() })
+                walletAdapter?.setData(state.data.map { it.toWallet() }.filter { !it.hidden }
+                    .map { it.toTransaction() })
+                hiddenWalletAdapter?.setData(state.data.map { it.toWallet() }.filter { it.hidden }
+                    .map { it.toTransaction() })
             }
         }
     }

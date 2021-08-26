@@ -129,7 +129,8 @@ fun WalletNetwork.toWallet() = Wallet(
         isUp = true,
         rate = 70.0
     ),
-    limit = this.limit
+    limit = this.limit,
+    hidden = false
 )
 
 
