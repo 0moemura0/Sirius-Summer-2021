@@ -167,6 +167,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                 viewHolder: RecyclerView.ViewHolder?,
                 buffer: MutableList<MyButton>
             ) {
+                if(viewHolder?.itemViewType == TransactionAdapter.TYPE_NO_TRANSACTION) return
                 buffer.apply {
                     add(
                         MyButton(context!!, R.drawable.ic_delete) { pos ->
