@@ -8,6 +8,7 @@ import com.example.tinkoffproject.data.dto.request.CreateCategory
 import com.example.tinkoffproject.data.dto.response.CategoryNetwork
 import com.example.tinkoffproject.data.repository.CategoryRepository
 import com.example.tinkoffproject.ui.main.data.CategoryType
+import com.example.tinkoffproject.utils.COLOR
 import com.example.tinkoffproject.utils.IconEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,8 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CustomCategoryViewModel @Inject constructor(val repository: CategoryRepository) :
     ViewModel() {
+
+    var _color = MutableLiveData<COLOR>()
+
     var name = MutableLiveData<String>()
-    var color = MutableLiveData<Int>()
+    var color = MutableLiveData<String>()
     var iconId = MutableLiveData<Int>()
     var type = MutableLiveData<CategoryType>()
 
@@ -26,8 +30,11 @@ class CustomCategoryViewModel @Inject constructor(val repository: CategoryReposi
 
     fun init() {
         name = MutableLiveData<String>()
-        color = MutableLiveData<Int>()
+        color = MutableLiveData<String>()
         type = MutableLiveData<CategoryType>()
+        iconId = MutableLiveData<Int>()
+
+        _color = MutableLiveData<COLOR>()
     }
 
     fun addCategory(): LiveData<State<CategoryNetwork>> {
@@ -42,7 +49,7 @@ class CustomCategoryViewModel @Inject constructor(val repository: CategoryReposi
                     name = name,
                     iconId = iconId,
                     isIncome = type == CategoryType.INCOME,
-                    iconColor = color.toString()
+                    iconColor = color
                 )
             ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

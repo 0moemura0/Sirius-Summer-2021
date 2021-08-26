@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.State
-import com.example.tinkoffproject.data.dto.response.IncomeAndExpense
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.data.repository.WalletRepository

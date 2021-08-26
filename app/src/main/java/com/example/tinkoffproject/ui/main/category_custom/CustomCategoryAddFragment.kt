@@ -24,11 +24,15 @@ import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.data.CategoryType
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.utils.COLOR
+import com.example.tinkoffproject.utils.colorToStr
 import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel
 
 class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     val viewModel: CustomCategoryViewModel by activityViewModels()
     private lateinit var btn: NextCustomButton
+
+    private lateinit var colorLayout: View
+    private lateinit var colorValue: TextView
 
     private val args: CustomCategoryAddFragmentArgs by navArgs()
     private val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
@@ -51,6 +55,8 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        colorLayout = view.findViewById(R.id.ll_icon_color_container)
+        colorValue = colorLayout.findViewById(R.id.tv_value)
         btn = view.findViewById(R.id.btn)
         setupData()
         setupNextButton()
@@ -85,20 +91,19 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         typeValue.setText(viewModel.type.value?.nameResId ?: R.string.dont_set)
         colorValue.setText(R.string.choose_color)
 
-        colorValue.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                viewModel.color.value ?: COLOR.BLUE_MAIN.color
-            )
-        )
-        if (viewModel.color.value == null)
-            viewModel.color.value = COLOR.BLUE_MAIN.color
+        if (viewModel._color.value == null) {
+            viewModel._color.value = COLOR.BLUE_MAIN
+        }
+
+        if (viewModel.color.value == null) {
+            viewModel.color.value = colorToStr(COLOR.BLUE_MAIN.color)
+        }
+        viewModel._color.value?.let {
+            updateColor(it)
+        }
 
         dialog.setOnItemClickListener { color ->
-            val realColor = ContextCompat.getColor(requireContext(), color.color)
-            viewModel.color.value = realColor
-            colorValue.setTextColor(realColor)
-            customAdapter.setCurrentColor(color)
+            updateColor(color)
             dialog.dismiss()
         }
 
@@ -114,6 +119,14 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         typeLayout.setOnClickListener {
             findNavController().navigate(R.id.action_newCategory_to_chooseNewCategoryType)
         }
+    }
+
+    private fun updateColor(color: COLOR) {
+        val realColor = ContextCompat.getColor(requireContext(), color.color)
+        viewModel.color.value = colorToStr(realColor)
+        viewModel._color.value = color
+        colorValue.setTextColor(realColor)
+        customAdapter.setCurrentColor(color)
     }
 
     private fun setupBtnObserver() {
@@ -136,7 +149,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     }
 
     private fun setupData() {
-        if (args.isNewOperation) viewModel.init()
+        if (args.isNewOperation && isNewOperation) viewModel.init()
     }
 
     private fun setupRecycler() {
