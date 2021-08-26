@@ -2,7 +2,9 @@ package com.example.tinkoffproject.view.category_custom
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -27,7 +29,21 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
     private val viewModel: CustomCategoryViewModel by activityViewModels()
 
     private val args: CustomCategoryAddFragmentArgs by navArgs()
-    val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
+    private val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
+    private var isNewOperation = true
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if(savedInstanceState != null) isNewOperation = savedInstanceState.getBoolean(IS_NEW_OPERATION)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(IS_NEW_OPERATION, isNewOperation)
+        super.onSaveInstanceState(outState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,8 +70,8 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         val typeValue: TextView = typeLayout.findViewById(R.id.tv_value)
         val colorValue: TextView = colorLayout.findViewById(R.id.tv_value)
 
-        if (args.isNewOperation && viewModel.isNewOperation) {
-            viewModel.isNewOperation = false
+        if (args.isNewOperation && isNewOperation) {
+            isNewOperation = false
             viewModel.type.value = if (args.isIncome) CategoryType.INCOME else CategoryType.EXPENSE
         }
 
@@ -134,6 +150,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
 
 
     companion object {
+        const val IS_NEW_OPERATION = "IS_NEW_OPERATION"
         private const val COLUMNS_COUNT = 6
     }
 }

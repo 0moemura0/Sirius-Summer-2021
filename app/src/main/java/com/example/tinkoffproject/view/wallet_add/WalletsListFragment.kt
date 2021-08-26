@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.data.dto.Currency
-import com.example.tinkoffproject.model.data.dto.Transaction
 import com.example.tinkoffproject.model.data.dto.Wallet
-import com.example.tinkoffproject.model.data.mapper.WALLET_AS_CATEGORY
+import com.example.tinkoffproject.model.data.mapper.toTransaction
 import com.example.tinkoffproject.model.utils.State
-import com.example.tinkoffproject.model.utils.formatMoney
 import com.example.tinkoffproject.view.NextCustomButton
 import com.example.tinkoffproject.view.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.view.adapter.transaction.TransactionItemDecorator
@@ -151,19 +149,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                transactionAdapter?.setData(state.data.map {
-                    Transaction(
-                        id = it.id,
-                        date = 0,
-                        isIncome = false,
-                        category = WALLET_AS_CATEGORY,
-                        amount = it.incomeAmount - it.expensesAmount,
-                        amountFormatted = formatMoney(
-                            it.incomeAmount - it.expensesAmount,
-                            it.currency
-                        )
-                    )
-                })
+                transactionAdapter?.setData(state.data.map { it.toTransaction() })
             }
         }
     }

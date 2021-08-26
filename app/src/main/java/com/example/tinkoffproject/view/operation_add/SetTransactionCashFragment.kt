@@ -1,7 +1,10 @@
 package com.example.tinkoffproject.view.operation_add
 
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
@@ -26,6 +29,19 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     private val args: SetTransactionCashFragmentArgs by navArgs()
     private var isNewOperation = true
 
+    companion object{
+        const val IS_NEW_OPERATION = "IS_NEW_OPERATION"
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if(savedInstanceState != null) isNewOperation = savedInstanceState.getBoolean(IS_NEW_OPERATION)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,14 +54,19 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupData() {
-        if (args.isNewOperation && viewModel.isNewOperation) {
-            viewModel.isNewOperation = false
+        if (args.isNewOperation && isNewOperation) {
+            isNewOperation = false
             viewModel.init(args.transaction)
         }
         if (args.transaction != null) {
             findNavController().navigate(R.id.action_setCash_to_changeTransaction)
         }
         inputEditText.setText(viewModel.amount.value?.toString() ?: "")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(IS_NEW_OPERATION, isNewOperation)
+        super.onSaveInstanceState(outState)
     }
 
 

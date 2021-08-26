@@ -5,6 +5,7 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.model.data.dto.Category
 import com.example.tinkoffproject.model.data.dto.Currency
 import com.example.tinkoffproject.model.data.dto.Transaction
+import com.example.tinkoffproject.model.data.dto.Wallet
 import com.example.tinkoffproject.model.data.network.dto.response.CategoryNetwork
 import com.example.tinkoffproject.model.data.network.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.model.data.network.dto.response.TransactionNetwork
@@ -102,6 +103,20 @@ val WALLET_AS_CATEGORY = Category(
     color = Color.parseColor(DEFAULT_COLOR),
     isIncome = false
 )
+
+fun Wallet.toTransaction() = Transaction(
+    id = id,
+    date = 0,
+    isIncome = false,
+    category = Category(
+        name = name, resIconId = IconEnum.WALLET.localIconId, color = Color.parseColor(
+            DEFAULT_COLOR
+        ), isIncome = false
+    ),
+    amount = incomeAmount - expensesAmount,
+    amountFormatted = formatMoney(incomeAmount - expensesAmount, currency)
+)
+
 
 val DEFAULT_CATEGORY = Category(
     name = "Категория",
