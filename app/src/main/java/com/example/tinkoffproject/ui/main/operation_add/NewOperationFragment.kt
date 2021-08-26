@@ -114,14 +114,14 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
                 onError(state.exception)
             }
             is State.DataState -> {
-                btn.changeState(NextCustomButton.State.DEFAULT)
+                updateButtonState()
                 findNavController().popBackStack(R.id.cardDetails, false)
             }
         }
     }
 
     private fun onError(e: Throwable?) {
-        btn.changeState(NextCustomButton.State.DEFAULT)
+        updateButtonState()
 
         val notType =
             if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR

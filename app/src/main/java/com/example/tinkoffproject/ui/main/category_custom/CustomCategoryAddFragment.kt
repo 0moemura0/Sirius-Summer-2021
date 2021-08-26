@@ -182,14 +182,14 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
                 viewModel.addCategory().observe(viewLifecycleOwner, {
                     when (it) {
                         is State.DataState -> {
-                            btn.changeState(NextCustomButton.State.DEFAULT)
+                            updateButtonState()
                             findNavController().navigate(R.id.action_to_chooseTransactionCategory)
                         }
                         is State.LoadingState -> {
                             btn.changeState(NextCustomButton.State.LOADING)
                         }
                         is State.ErrorState -> {
-                            btn.changeState(NextCustomButton.State.DEFAULT)
+                            updateButtonState()
 
                             val notType =
                                 if (it.exception is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR

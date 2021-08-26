@@ -48,7 +48,7 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
                     onError(it.exception)
                 }
                 is State.DataState -> {
-                    btn.changeState(NextCustomButton.State.DEFAULT)
+                    updateButtonState()
                     viewModel.categories().value = it.data
 
                     val i = viewModel.categories().value
@@ -71,7 +71,7 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
     }
 
     private fun onError(e: Throwable?) {
-        btn.changeState(NextCustomButton.State.DEFAULT)
+        updateButtonState()
 
         val notType =
             if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR

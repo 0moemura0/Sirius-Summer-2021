@@ -332,7 +332,6 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                                     onError(it.exception)
                                 }
                                 is State.DataState -> {
-                                    btn.changeState(NextCustomButton.State.DEFAULT)
                                     adapter.onItemRemoved(pos)
                                 }
                             }
