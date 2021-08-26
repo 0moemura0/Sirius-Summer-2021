@@ -1,126 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/l_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue_main"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/view_dimen_normal"
-            android:paddingTop="64dp"
-            app:layout_constraintBottom_toTopOf="@id/l_currency"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/view_dimen_not_so_small"
-                android:text="@string/balance_overall"
-                android:textAppearance="@style/ElementCash"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tw_sum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/view_dimen_not_so_small"
-                android:text="0"
-                android:textAppearance="@style/WalletMainCounter"
-                tools:text="120 000 ₽" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <include
-                    android:id="@+id/wallets_income"
-                    layout="@layout/element_cash_delta"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <include
-                    android:id="@+id/wallets_expenses"
-                    layout="@layout/element_cash_delta"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/l_currency"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/view_dimen_normal"
-            android:background="@drawable/rect_stab_8dp"
-            android:padding="@dimen/view_dimen_not_so_normal"
-            app:layout_constraintTop_toBottomOf="@id/l_header">
+            android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/l_currency_1"
-                layout="@layout/element_currency_delta"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/l_currency_2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <include
-                android:id="@+id/l_currency_2"
-                layout="@layout/element_currency_delta"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="@id/l_currency_1"
-                app:layout_constraintEnd_toStartOf="@id/l_currency_3"
-                app:layout_constraintStart_toEndOf="@id/l_currency_1"
-                app:layout_constraintTop_toTopOf="@id/l_currency_1" />
-
-            <include
-                android:id="@+id/l_currency_3"
-                layout="@layout/element_currency_delta"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="@id/l_currency_2"
+            <LinearLayout
+                android:id="@+id/l_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blue_main"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/view_dimen_normal"
+                android:paddingTop="64dp"
+                app:layout_constraintBottom_toTopOf="@id/l_currency"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/l_currency_2"
-                app:layout_constraintTop_toTopOf="@id/l_currency_2" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/view_dimen_not_so_small"
+                    android:text="@string/balance_overall"
+                    android:textAppearance="@style/ElementCash"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tw_sum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_dimen_not_so_small"
+                    android:text="0"
+                    android:textAppearance="@style/WalletMainCounter"
+                    tools:text="120 000 ₽" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include
+                        android:id="@+id/wallets_income"
+                        layout="@layout/element_cash_delta"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <include
+                        android:id="@+id/wallets_expenses"
+                        layout="@layout/element_cash_delta"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/l_currency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_dimen_normal"
+                android:background="@drawable/rect_stab_8dp"
+                android:padding="@dimen/view_dimen_not_so_normal"
+                app:layout_constraintTop_toBottomOf="@id/l_header">
+
+                <include
+                    android:id="@+id/l_currency_1"
+                    layout="@layout/element_currency_delta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/l_currency_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <include
+                    android:id="@+id/l_currency_2"
+                    layout="@layout/element_currency_delta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="@id/l_currency_1"
+                    app:layout_constraintEnd_toStartOf="@id/l_currency_3"
+                    app:layout_constraintStart_toEndOf="@id/l_currency_1"
+                    app:layout_constraintTop_toTopOf="@id/l_currency_1" />
+
+                <include
+                    android:id="@+id/l_currency_3"
+                    layout="@layout/element_currency_delta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="@id/l_currency_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/l_currency_2"
+                    app:layout_constraintTop_toTopOf="@id/l_currency_2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_wallets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/view_dimen_normal"
+                app:layout_constraintBottom_toTopOf="@id/btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/l_currency"
+                app:layout_constraintVertical_bias="0" />
+
+            <com.example.tinkoffproject.view.NextCustomButton
+                android:id="@+id/btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_dimen_normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:text="@string/wallet_create" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_wallets"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone">
+
+        <include
+            layout="@layout/shimmer_wallets_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/view_dimen_normal"
-            app:layout_constraintBottom_toTopOf="@id/btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/l_currency"
-            app:layout_constraintVertical_bias="0" />
-
-        <com.example.tinkoffproject.view.NextCustomButton
-            android:id="@+id/btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/view_dimen_normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:text="@string/wallet_create" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+            android:layout_height="match_parent" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</FrameLayout>
