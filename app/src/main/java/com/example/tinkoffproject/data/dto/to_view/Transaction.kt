@@ -5,10 +5,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Transaction(
-    val id: Long,
+    val id: Int,
     val date: Long,
     val isIncome: Boolean,
     val category: Category,
     val amount: Int,
     val amountFormatted: String,
-) : Parcelable
+    val currency: Currency,
+    val walletId: Int
+    ) : Parcelable

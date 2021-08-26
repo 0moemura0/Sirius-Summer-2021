@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
+import com.example.tinkoffproject.data.UserData
 import com.example.tinkoffproject.data.dto.response.CurrencyNetwork
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
@@ -32,7 +34,7 @@ import com.example.tinkoffproject.viewmodel.TransactionListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 
 class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
-    val viewModel: TransactionListViewModel by viewModels()
+    val viewModel: TransactionListViewModel by activityViewModels()
 
     private lateinit var walletAmount: TextView
     private lateinit var layoutIncome: View
@@ -90,9 +92,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     }
 
     private fun setupDataObservers() {
-        args.walletId
-        //viewModel.wallet.observe(viewLifecycleOwner, ::updateWalletInfo)
-        //viewModel.getTransactionList().observe(viewLifecycleOwner, ::updateTransaction)
+        viewModel.wallet = args.wallet
+        viewModel.getTransactionList().observe(viewLifecycleOwner, ::updateTransaction)
     }
 
     private fun setupExpensesIncomeLayout() {
@@ -108,7 +109,9 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
     private fun setupNavigation() {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(true)
+            val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(true,
+                viewModel.wallet
+            )
             findNavController().navigate(action)
         }
     }
@@ -128,15 +131,17 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 val wallet = state.data
                 walletName.text = wallet.name
                 walletAmount.text =
-                    wallet.balance?.let { formatMoney(it.toInt(), wallet.currency.toLocal()) }
+                    wallet.balance?.let { formatMoney(it.toInt(), wallet.currency.symbol) }
 
-                layoutIncomeCash.text = formatMoney(0, wallet.currency.toLocal())
-                layoutExpensesCash.text = formatMoney(0, wallet.currency.toLocal())
+                layoutIncomeCash.text = formatMoney(0, wallet.currency.symbol)
+                layoutExpensesCash.text = formatMoney(0, wallet.currency.symbol)
 
 
                 wallet.balance?.let {
-                    updateLimitInfo(wallet.limit.toDouble(),
-                        it, wallet.currency)
+                    updateLimitInfo(
+                        wallet.limit,
+                        it, wallet.currency
+                    )
                 }
             }
         }
@@ -149,7 +154,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         }
     }
 
-    private fun updateLimitInfo(limit: Double?, expenses: Double, currency: CurrencyNetwork) {
+    private fun updateLimitInfo(limit: Int?, expenses: Int, currency: CurrencyNetwork) {
         val colorId: Int
         val alpha: Float
         val text: String
@@ -158,7 +163,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             colorId = R.color.white
             alpha = 1f
         } else {
-            text = " / ${formatMoney(limit.toInt(), currency.toLocal())}"
+            text = " / ${formatMoney(limit, currency.symbol)}"
             if (limit > expenses) {
                 colorId = R.color.red_main
                 alpha = 1f
@@ -179,7 +184,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             }
             is State.ErrorState -> onError(state.exception)
             is State.DataState -> {
-                //transactionAdapter?.setData(state.dat)
+                transactionAdapter?.setData(state.data.map {it.toLocal()})
             }
         }
     }
@@ -244,7 +249,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
     private fun onChangeClicked(pos: Int) {
         val transaction = transactionAdapter?.data?.getOrNull(pos)
-        val action = CardDetailsFragmentDirections.actionToChangeTransaction(transaction)
+        val action = CardDetailsFragmentDirections.actionToChangeTransaction(transaction, viewModel.wallet)
         findNavController().navigate(action)
     }
 }

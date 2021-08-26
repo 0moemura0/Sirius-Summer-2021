@@ -19,9 +19,9 @@ import kotlinx.serialization.Transient
 data class TransactionNetwork(
     @PrimaryKey
     var id: Int,
-    var value: Double,
+    var value: Int,
     var isIncome: Boolean,//"True если эта транзакция является доходом, false если расходом"
-    var ts: String, // "Дата совершения транзакции", "format": "date-time"
+    var ts: Long, // "Дата совершения транзакции", "format": "date-time"
     @Embedded
     var currency: CurrencyNetwork,
     @Ignore
@@ -33,9 +33,9 @@ data class TransactionNetwork(
 ) {
     constructor() : this(
         0,
-        0.0,
+        0,
         false,
-        "",
+        0L,
         CurrencyNetwork("", "", ""),
         CategoryNetwork(0, false, 0, "", ""),
         0, 0

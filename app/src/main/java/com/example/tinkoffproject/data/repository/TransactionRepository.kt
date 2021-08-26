@@ -1,5 +1,6 @@
 package com.example.tinkoffproject.data.repository
 
+import android.util.Log
 import com.example.tinkoffproject.App
 import com.example.tinkoffproject.data.local.dao.TransactionDao
 import com.example.tinkoffproject.data.network.ApiService
@@ -27,12 +28,10 @@ class TransactionRepositoryImpl @Inject constructor(
 ) : TransactionRepository {
     override fun getTransactionList(walletId: Int): Observable<List<TransactionNetwork>> {
         return Observable.concat(
-            dao.getAll(walletId).toObservable()
-                .subscribeOn(Schedulers.io()),
+            dao.getAll(walletId).toObservable(),
             Observable.defer {
                 if (App.isNetworkAvailable())
                     apiService.getWalletsTransactions(walletId)
-                        .subscribeOn(Schedulers.io())
                         .flatMap {
                             dao.removeAll(walletId)
                                 .andThen(Completable.fromCallable { dao.addAll(it) }
@@ -47,7 +46,9 @@ class TransactionRepositoryImpl @Inject constructor(
     override fun postTransaction(createTransaction: CreateTransaction): Observable<TransactionNetwork> {
         return Observable.defer {
             if (App.isNetworkAvailable())
-                apiService.postTransactions(createTransaction).subscribeOn(Schedulers.io())
+                apiService.postTransactions(createTransaction).doOnEach {
+                    Log.d("TAG", "postTransaction: " + it.value?.categoryId)
+                }
                     .flatMap {
                         Completable.fromCallable { dao.add(it) }.andThen(Observable.just(it))
                     }
@@ -62,7 +63,7 @@ class TransactionRepositoryImpl @Inject constructor(
     ): Observable<TransactionNetwork> {
         return Observable.defer {
             if (App.isNetworkAvailable())
-                apiService.putTransaction(id, createTransaction).subscribeOn(Schedulers.io())
+                apiService.putTransaction(id, createTransaction)
                     .flatMap {
                         Completable.fromCallable { dao.update(it) }.andThen(Observable.just(it))
                     }
@@ -74,7 +75,7 @@ class TransactionRepositoryImpl @Inject constructor(
     override fun deleteTransaction(id: Int): Completable {
         return Completable.defer {
             if (App.isNetworkAvailable())
-                apiService.deleteTransaction(id).subscribeOn(Schedulers.io())
+                apiService.deleteTransaction(id)
                     .andThen(dao.deleteById(id))
             else
                 Completable.error(IllegalAccessError("You are offline"))
