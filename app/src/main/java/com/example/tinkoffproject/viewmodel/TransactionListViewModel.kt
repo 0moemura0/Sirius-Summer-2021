@@ -23,6 +23,8 @@ class TransactionListViewModel @Inject constructor(
     ViewModel() {
 
     var wallet: Wallet? = null
+    val income = MutableLiveData<Int>()
+    val expenses = MutableLiveData<Int>()
 
     fun getTransactionList(): LiveData<State<List<TransactionNetwork>>> {
         val resource = MutableLiveData<State<List<TransactionNetwork>>>(State.LoadingState)

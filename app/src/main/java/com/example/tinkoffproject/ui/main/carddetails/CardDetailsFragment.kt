@@ -7,7 +7,6 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -115,7 +114,25 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
     private fun setupDataObservers() {
         viewModel.wallet = args.wallet
+        viewModel.income.observe(viewLifecycleOwner, {
+            layoutIncomeCash.text =
+                formatMoney(it ?: 0, args.wallet.currency.symbol)
 
+            walletAmount.text = formatMoney(
+                ((it ?: 0) - (viewModel.expenses.value ?: 0)),
+                args.wallet.currency.symbol
+            )
+
+        })
+        viewModel.expenses.observe(viewLifecycleOwner, {
+            layoutExpensesCash.text =
+                formatMoney(it ?: 0, args.wallet.currency.symbol)
+
+            walletAmount.text = formatMoney(
+                ((viewModel.income.value ?: 0) - (it ?: 0)),
+                args.wallet.currency.symbol
+            )
+        })
         viewModel.getTransactionList().observe(viewLifecycleOwner, ::updateTransaction)
         updateWalletInfo(args.wallet)
     }
@@ -177,8 +194,10 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                         formatMoney(it.data.income ?: 0, args.wallet.currency.symbol)
                     layoutExpensesCash.text =
                         formatMoney(it.data.expenses ?: 0, args.wallet.currency.symbol)
-
-
+                    walletAmount.text = formatMoney(
+                        ((it.data.income ?: 0) - (it.data.expenses ?: 0)),
+                        args.wallet.currency.symbol
+                    )
                     if (wallet.limit != null && it.data.expenses != null) {
                         updateLimitInfo(
                             wallet.limit,
@@ -320,14 +339,36 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         if (!confirmDialog.isAdded)
             confirmDialog.show(childFragmentManager, ChooseColorDialogFragment.TAG)
 
-        confirmDialog.setOnItemClickListener {
-            val text: String
-            if (it == 0) text = "cancel"
-            else text = "confirm"
-            Toast.makeText(requireContext(), "DELETE $text $pos", Toast.LENGTH_SHORT).show()
+        confirmDialog.setOnItemClickListener { isConfirmed ->
+            if (isConfirmed != 0 && transactionAdapter != null) {
+                val transaction = transactionAdapter!!.data[pos]
+                transaction.let { transaction ->
+                    viewModel.deleteTransaction(transaction.id)
+                        .observe(viewLifecycleOwner,
+                            {
+                                when (it) {
+                                    is State.LoadingState -> {
+                                        btn.changeState(NextCustomButton.State.LOADING)
+                                    }
+                                    is State.ErrorState -> {
+                                        onError(it.exception)
+                                    }
+                                    is State.DataState -> {
+                                        if (transaction.isIncome)
+                                            viewModel.income.value?.minus(transaction.value)
+                                        else
+                                            viewModel.expenses.value?.minus(transaction.value)
+                                        transactionAdapter!!.onItemRemoved(pos)
+
+                                    }
+                                }
+                            })
+                }
+            }
             confirmDialog.dismiss()
         }
     }
+
 
     private fun onChangeClicked(pos: Int) {
         val transaction = transactionAdapter?.data?.getOrNull(pos)
