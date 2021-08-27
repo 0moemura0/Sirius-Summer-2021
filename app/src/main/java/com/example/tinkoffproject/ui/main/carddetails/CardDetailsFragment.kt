@@ -180,6 +180,10 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             updateLimitInfo(wallet.limit, false, wallet.currency)
         }
 
+        updateIncomeExpenses(wallet)
+    }
+
+    private fun updateIncomeExpenses(wallet: Wallet) {
         viewModel.getIncomeExpense(args.wallet.id).observe(viewLifecycleOwner, {
             when (it) {
                 is State.LoadingState -> {
@@ -342,8 +346,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         confirmDialog.setOnItemClickListener { isConfirmed ->
             if (isConfirmed != 0 && transactionAdapter != null) {
                 val transaction = transactionAdapter!!.data[pos]
-                transaction.let { transaction ->
-                    viewModel.deleteTransaction(transaction.id)
+                transaction.let { t ->
+                    viewModel.deleteTransaction(t.id)
                         .observe(viewLifecycleOwner,
                             {
                                 when (it) {
@@ -354,12 +358,13 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                                         onError(it.exception)
                                     }
                                     is State.DataState -> {
-                                        if (transaction.isIncome)
-                                            viewModel.income.value?.minus(transaction.value)
+                                        btn.changeState(NextCustomButton.State.LOADING)
+                                        if (t.isIncome)
+                                            viewModel.income.value?.minus(t.value)
                                         else
-                                            viewModel.expenses.value?.minus(transaction.value)
+                                            viewModel.expenses.value?.minus(t.value)
                                         transactionAdapter!!.onItemRemoved(pos)
-
+                                        updateIncomeExpenses(args.wallet)
                                     }
                                 }
                             })
@@ -368,7 +373,6 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             confirmDialog.dismiss()
         }
     }
-
 
     private fun onChangeClicked(pos: Int) {
         val transaction = transactionAdapter?.data?.getOrNull(pos)
