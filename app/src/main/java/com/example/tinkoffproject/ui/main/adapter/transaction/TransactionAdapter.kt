@@ -9,7 +9,7 @@ import com.example.tinkoffproject.ui.main.adapter.wallet.WalletViewHolder
 class TransactionAdapter(
     private val onClick: (Int) -> Unit,
     private val isTransaction: Boolean = true,
-    private val isHiddenWallet: Boolean = false
+    val isHiddenWallet: Boolean = false
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val data = mutableListOf<Transaction>()
 

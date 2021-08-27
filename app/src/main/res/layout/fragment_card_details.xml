@@ -69,11 +69,11 @@
             </LinearLayout>
 
             <TextView
-                android:layout_marginTop="@dimen/view_dimen_small"
-                android:id="@+id/tv_limit_description"
+                android:id="@+id/tv_limit_over_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/red_main_background"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:background="@drawable/rect_red_background_8dp"
                 android:padding="@dimen/view_dimen_normal"
                 android:text="@string/limit_is_over"
                 android:textAlignment="center"

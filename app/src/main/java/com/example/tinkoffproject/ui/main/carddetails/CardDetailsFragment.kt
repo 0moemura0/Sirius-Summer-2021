@@ -46,7 +46,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var walletName: TextView
     private lateinit var walletLimit: TextView
     private lateinit var btn: NextCustomButton
-    private lateinit var limitDescription: TextView
+    private lateinit var limitOverDescription: TextView
 
     private lateinit var mShimmerViewContainer: ShimmerFrameLayout
     private lateinit var container: View
@@ -110,7 +110,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         container = requireView().findViewById(R.id.container)
         btn = requireView().findViewById(R.id.btn)
 
-        limitDescription = requireView().findViewById(R.id.tv_limit_description)
+        limitOverDescription = requireView().findViewById(R.id.tv_limit_over_description)
     }
 
     private fun setupDataObservers() {
@@ -158,7 +158,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
         if (wallet.limit == null) {
             walletLimit.visibility = View.INVISIBLE
-            limitDescription.visibility = View.GONE
+            limitOverDescription.visibility = View.GONE
         } else {
             updateLimitInfo(wallet.limit, false, wallet.currency)
         }
@@ -182,7 +182,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                     if (wallet.limit != null && it.data.expenses != null) {
                         updateLimitInfo(
                             wallet.limit,
-                            wallet.limit > it.data.expenses,
+                            it.data.expenses > wallet.limit,
                             wallet.currency
                         )
                     }
@@ -202,26 +202,31 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         val colorId: Int
         val alpha: Float
         val text: String
-        val limitDescriptionVisibility: Int
+        val limitOverDescriptionVisibility: Int
+        val limitVisibility: Int
+
         if (limit == null) {
-            limitDescriptionVisibility = View.GONE
+            limitVisibility = View.GONE
+            limitOverDescriptionVisibility = View.GONE
             text = ""
             colorId = R.color.white
             alpha = 1f
         } else {
+            limitVisibility = View.VISIBLE
             text = " / ${formatMoney(limit, currency.symbol)}"
             if (isOver) {
-                limitDescriptionVisibility = View.VISIBLE
+                limitOverDescriptionVisibility = View.VISIBLE
                 colorId = R.color.red_main
                 alpha = 1f
             } else {
-                limitDescriptionVisibility = View.GONE
+                limitOverDescriptionVisibility = View.GONE
                 colorId = R.color.white
                 alpha = 0.6f
             }
         }
 
-        limitDescription.visibility = limitDescriptionVisibility
+        limitOverDescription.visibility = limitOverDescriptionVisibility
+        walletLimit.visibility = limitVisibility
         walletLimit.alpha = alpha
         walletLimit.text = text
         walletLimit.setTextColor(ContextCompat.getColor(walletLimit.context, colorId))
