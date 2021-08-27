@@ -1,5 +1,8 @@
 package com.example.tinkoffproject.utils
 
+import android.text.Editable
+import android.widget.EditText
+
 fun formatMoney(amount: Int, symbol: String): String {
     return "${formatMoney(amount)} $symbol"
 }
@@ -16,5 +19,10 @@ fun formatMoney(amount: Int): String {
             numberCount = 1
         } else numberCount++
     }
-    return builder.toString()
+    return builder.toString().trim()
+}
+
+fun formatMoney(s: Editable): String {
+    val money = s.toString().replace(" ", "").toInt()
+    return formatMoney(money)
 }

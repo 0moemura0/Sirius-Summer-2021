@@ -5,7 +5,6 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -116,23 +115,30 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         val showMore: View = requireView().findViewById(R.id.l_show_hidden)
         val showMoreTitle: TextView = showMore.findViewById(R.id.tv_title)
         val showMoreIcon: ImageView = showMore.findViewById(R.id.iv_arrow)
+
         showMoreTitle.setText(R.string.show_more)
         showMoreIcon.rotation = 0F
 
         showMore.setOnClickListener {
-            if (isHiddenVisible) {
-                hiddenWalletAdapter?.setData(emptyList())
-                showMoreTitle.setText(R.string.show_hidden_wallets)
-                showMoreIcon.rotation = 0F
-            } else {
-                /*hiddenWalletAdapter?.setData(viewModel.hiddenWallet.value?.map { it.toTransaction() }
-                    ?: emptyList())*/
-                showMoreTitle.setText(R.string.hide)
-                showMoreIcon.rotation = 180F
-            }
-            isHiddenVisible = !isHiddenVisible
+            onClickMore(showMore)
         }
+    }
 
+    private fun onClickMore(showMore: View) {
+        val showMoreTitle: TextView = showMore.findViewById(R.id.tv_title)
+        val showMoreIcon: ImageView = showMore.findViewById(R.id.iv_arrow)
+        if (isHiddenVisible) {
+            hiddenWalletAdapter?.hideData()
+            showMoreTitle.setText(R.string.show_hidden_wallets)
+            showMoreIcon.rotation = 0F
+        } else {
+            hiddenWalletAdapter?.showData()
+            /*hiddenWalletAdapter?.setData(viewModel.hiddenWallet.value?.map { it.toTransaction() }
+                ?: emptyList())*/
+            showMoreTitle.setText(R.string.hide)
+            showMoreIcon.rotation = 180F
+        }
+        isHiddenVisible = !isHiddenVisible
     }
 
     private fun setupCurrency() {
@@ -187,9 +193,15 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                             onChangeClicked(pos, transactionAdapter)
                         }
                     )
+                    val hideIcon =
+                        if (transactionAdapter.isHiddenWallet) R.drawable.ic_show else R.drawable.ic_hide
                     add(
-                        MyButton(context!!, R.drawable.ic_hide) { pos ->
-                            onHideClicked(pos, transactionAdapter)
+                        MyButton(context!!, hideIcon) { pos ->
+                            onHideClicked(
+                                pos,
+                                transactionAdapter,
+                                transactionAdapter.isHiddenWallet
+                            )
                         }
                     )
                 }
@@ -251,10 +263,11 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     }
 
 
-    private fun updateWallets(state: State<List<WalletNetwork>>) {
+    private fun updateWallets(state: State<List<WalletNetwork>>, withLoading: Boolean = true) {
         when (state) {
             is State.LoadingState -> {
-                onLoading()
+                if (withLoading)
+                    onLoading()
             }
             is State.ErrorState -> {
                 stopLoading()
@@ -270,6 +283,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                     .map { it.toLocal() }
                     .filter { it.hidden }
                     .map { it.asTransaction() })
+                onClickMore(requireView().findViewById(R.id.l_show_hidden))
             }
         }
     }
@@ -350,16 +364,52 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     }
 
     private fun onChangeClicked(pos: Int, transactionAdapter: TransactionAdapter) {
-        val wallet  = transactionAdapter.data[pos].asWallet()
+        val wallet = transactionAdapter.data[pos].asWallet()
         val action = WalletsListFragmentDirections.actionToChangeWallet(wallet)
         findNavController().navigate(action)
     }
 
-    private fun onHideClicked(pos: Int, transactionAdapter: TransactionAdapter) {
-        viewModel.wallet = transactionAdapter.data[pos].asWallet()
-        viewModel.editWallet(true).observe(viewLifecycleOwner, {
-
+    private fun onHideClicked(pos: Int, transactionAdapter: TransactionAdapter, isHide: Boolean) {
+        viewModel.getWalletsList().observe(viewLifecycleOwner, { it ->
+            if (it is State.DataState) {
+                val wallet =
+                    it.data.find { w -> w.id == transactionAdapter.data[pos].id }?.toLocal()
+                if (wallet != null) {
+                    viewModel.wallet = wallet
+                    viewModel.editWallet(!isHide).observe(viewLifecycleOwner, {
+                        when (it) {
+                            is State.LoadingState -> {
+                                btn.changeState(NextCustomButton.State.LOADING)
+                            }
+                            is State.ErrorState -> {
+                                onError(it.exception)
+                            }
+                            is State.DataState -> {
+                                btn.changeState(NextCustomButton.State.DEFAULT)
+                                if (!isHide) {
+                                    walletAdapter?.onItemRemoved(pos)
+                                    hiddenWalletAdapter?.onItemInserted(
+                                        hiddenWalletAdapter?.data?.size ?: 0,
+                                        it.data.toLocal().asTransaction(),
+                                        !isHiddenVisible
+                                    )
+                                } else {
+                                    hiddenWalletAdapter?.onItemRemoved(pos)
+                                    walletAdapter?.onItemInserted(
+                                        walletAdapter?.data?.size ?: 0,
+                                        it.data.toLocal().asTransaction(),
+                                        !isHiddenVisible
+                                    )
+                                }
+                                /*viewModel.getWalletsList()
+                                    .observe(viewLifecycleOwner, { w ->
+                                        updateWallets(w, false)
+                                    })*/
+                            }
+                        }
+                    })
+                }
+            }
         })
-
     }
 }

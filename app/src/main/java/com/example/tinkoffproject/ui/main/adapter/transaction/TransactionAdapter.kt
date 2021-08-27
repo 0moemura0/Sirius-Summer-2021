@@ -12,6 +12,7 @@ class TransactionAdapter(
     val isHiddenWallet: Boolean = false
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val data = mutableListOf<Transaction>()
+    var _data = mutableListOf<Transaction>()
 
     companion object {
         const val TYPE_TRANSACTION = 0
@@ -28,6 +29,19 @@ class TransactionAdapter(
         notifyItemRangeInserted(0, new.size)
     }
 
+    fun hideData() {
+        _data = mutableListOf()
+        _data.addAll(data)
+        setData(emptyList())
+    }
+
+    fun showData() {
+        if(_data.isNotEmpty()) {
+            val newObj = mutableListOf<Transaction>()
+            newObj.addAll(_data)
+            setData(newObj)
+        }
+    }
 
     override fun getItemId(position: Int): Long {
         return (data.getOrNull(position)?.id ?: -1).toLong()
@@ -64,6 +78,15 @@ class TransactionAdapter(
         data.removeAt(pos)
         notifyItemRemoved(pos)
     }
+    fun onItemInserted(pos: Int, transaction: Transaction, isHidden: Boolean) {
+        if(!isHidden) {
+            data.add(transaction)
+            notifyItemInserted(pos)
+        } else {
+            _data.add(transaction)
+        }
+    }
+
 
     override fun getItemCount() = if (data.size == 0) if (isHiddenWallet) 0 else 1 else data.size
 }

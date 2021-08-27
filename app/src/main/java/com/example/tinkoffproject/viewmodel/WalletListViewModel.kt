@@ -86,7 +86,7 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
             val currencyShortName = wallet!!.currency.shortName
             val disp = repository.editWallet(
                 wallet!!.id,
-                CreateWallet(limit, name, currency.value?.toString(), hidden)
+                CreateWallet(limit, name, currencyShortName, hidden)
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

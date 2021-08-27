@@ -1,6 +1,8 @@
 package com.example.tinkoffproject.ui.main.operation_add
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +18,7 @@ import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 import com.google.android.material.textfield.TextInputLayout
 
@@ -70,9 +73,23 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
         super.onSaveInstanceState(outState)
     }
 
-
     private fun setupInputText() {
         updateButtonState()
+        inputEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                if(p0 != null && !p0.isNullOrBlank()) {
+                    inputEditText.removeTextChangedListener(this)
+                    inputEditText.setText(formatMoney(p0))
+                    inputEditText.setSelection(inputEditText.length())
+                    inputEditText.addTextChangedListener(this)
+                }
+            }
+
+        })
         inputEditText.doAfterTextChanged {
             updateButtonState()
             if (!it.isNullOrBlank()) {
@@ -120,7 +137,7 @@ class SetTransactionCashFragment : Fragment(R.layout.layout_set_value) {
 
     private fun isNextAvailable(): Boolean {
         val str = inputEditText.text?.toString()
-        return if (str.isNullOrBlank()) false else str.toInt() > 0
+        return if (str.isNullOrBlank()) false else str.replace(" ", "").toInt() > 0
     }
 
     private fun saveData() {

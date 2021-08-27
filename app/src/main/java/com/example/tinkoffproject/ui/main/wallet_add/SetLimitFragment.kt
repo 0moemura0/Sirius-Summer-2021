@@ -1,6 +1,8 @@
 package com.example.tinkoffproject.ui.main.wallet_add
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -11,6 +13,7 @@ import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -67,6 +70,21 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
 
     private fun setupInputText() {
         updateButtonState()
+        inputEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                if(p0 != null && !p0.isNullOrBlank()) {
+                    inputEditText.removeTextChangedListener(this)
+                    inputEditText.setText(formatMoney(p0))
+                    inputEditText.setSelection(inputEditText.length())
+                    inputEditText.addTextChangedListener(this)
+                }
+            }
+
+        })
         inputEditText.doAfterTextChanged {
             updateButtonState()
             if (!it.isNullOrBlank()) {
@@ -77,17 +95,17 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
 
     private fun isNextAvailable(): Boolean {
         val str = inputEditText.text?.toString()
-        return !str.isNullOrBlank() && str.toInt() != 0
+        return !str.isNullOrBlank() && str.replace(" ", "").toInt() != 0
     }
 
     private fun saveData() {
         val str = inputEditText.text.toString()
-        viewModel.limit.value = str.toInt()
+        viewModel.limit.value = str.replace(" ", "").toInt()
     }
 
     private fun setupData() {
         viewModel.limit.value?.let {
-            inputEditText.setText(it)
+            inputEditText.setText(it.toString())
         }
     }
 
