@@ -18,6 +18,7 @@ interface WalletRepository {
     fun editWallet(id: Int, createWallet: CreateWallet): Observable<WalletNetwork>
     fun deleteWallet(id: Int): Completable
     fun getIncomeExpenses(id: Int): Observable<IncomeAndExpense>
+    fun getWallet(id: Int): Observable<WalletNetwork>
 }
 
 class WalletRepositoryImpl @Inject constructor(
@@ -79,5 +80,9 @@ class WalletRepositoryImpl @Inject constructor(
 
     override fun getIncomeExpenses(id: Int): Observable<IncomeAndExpense> {
         return apiService.getIncomeExpenses(id).subscribeOn(Schedulers.io())
+    }
+
+    override fun getWallet(id: Int): Observable<WalletNetwork> {
+        return apiService.getWallet(id).subscribeOn(Schedulers.io())
     }
 }

@@ -17,6 +17,7 @@ import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
+import kotlin.math.log
 
 class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     private lateinit var nameLayout: View
@@ -59,6 +60,20 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (viewModel.name.value == "" || viewModel.limit.value == 0)
+            viewModel.getWallet().observe(viewLifecycleOwner, {
+                if (it is State.DataState) {
+                    viewModel.limit.value = it.data.limit
+                    viewModel.name.value = it.data.name
+                }
+                else if (it is State.ErrorState) {
+
+                }
+            })
+
+    }
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)
         update.updateToolbar(getString(R.string.wallet_new), ToolbarType.ADD_OPERATION)
@@ -136,7 +151,6 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         limitTitle.setText(R.string.limit)
 
         val strDefault = getString(R.string.dont_set)
-
         name.text = viewModel.name.value ?: strDefault
         currency.text = viewModel.currency.value?.shortName ?: strDefault
 
@@ -144,5 +158,19 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         viewModel.limit.value?.let {
             limit.text = formatMoney(it)
         }
+
+        viewModel.name.observe(viewLifecycleOwner, {
+            name.text = if(it == "") strDefault else it
+        })
+        viewModel.currency.observe(viewLifecycleOwner, {
+            currency.text = it?.shortName ?: strDefault
+        })
+
+        viewModel.limit.observe(viewLifecycleOwner, {
+            limit.text = strDefault
+            it?.let {
+                limit.text = formatMoney(it)
+            }
+        })
     }
 }

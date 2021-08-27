@@ -88,4 +88,16 @@ class AddWalletViewModel @Inject constructor(val repository: WalletRepository) :
         return resource
     }
 
+    fun getWallet(): LiveData<State<WalletNetwork>> {
+        val resource = MutableLiveData<State<WalletNetwork>>(State.LoadingState)
+        val disp = repository.getWallet(id).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                resource.value = State.DataState(it)
+            }, {
+                resource.value = State.ErrorState(it)
+            })
+        return resource
+    }
+
 }
