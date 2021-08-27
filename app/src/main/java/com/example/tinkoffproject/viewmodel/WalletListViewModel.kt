@@ -6,9 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.request.CreateWallet
+import com.example.tinkoffproject.data.dto.response.IncomeAndExpense
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
 import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.data.dto.to_view.Wallet
+import com.example.tinkoffproject.data.repository.TransactionRepository
 import com.example.tinkoffproject.data.repository.WalletRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -99,6 +101,19 @@ class WalletListViewModel @Inject constructor(val repository: WalletRepository) 
                     }
                 )
         } else resource.value = State.ErrorState(IllegalArgumentException("id == null"))
+        return resource
+    }
+    fun getIncomeExpense(id: Int): LiveData<State<IncomeAndExpense>> {
+        val resource = MutableLiveData<State<IncomeAndExpense>>(State.LoadingState)
+        val disp = repository.getIncomeExpenses(id).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                resource.value = State.DataState(it)
+            }, {
+                resource.value = State.ErrorState(it)
+                Log.e("TAG", "getIncomeExpense: $it")
+            })
+
         return resource
     }
 }

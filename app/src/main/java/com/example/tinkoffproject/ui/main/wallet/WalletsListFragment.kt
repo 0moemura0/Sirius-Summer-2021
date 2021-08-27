@@ -29,6 +29,7 @@ import com.example.tinkoffproject.utils.*
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.DecimalFormat
+import kotlin.math.roundToInt
 
 
 class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
@@ -38,6 +39,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     private lateinit var layoutIncomeCash: TextView
     private lateinit var layoutExpenses: View
     private lateinit var layoutExpensesCash: TextView
+    private lateinit var layoutSum: TextView
 
     private lateinit var currencyContainer1: View
     private lateinit var currencyContainer2: View
@@ -275,6 +277,20 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
             }
             is State.DataState -> {
                 stopLoading()
+                var expenses = 0.0
+                var income = 0.0
+
+                state.data.forEach {
+                    viewModel.getIncomeExpense(it.id).observe(viewLifecycleOwner, { pack ->
+                        if(pack is State.DataState){
+                            expenses += pack.data.expenses ?: 0.0
+                            income += pack.data.income ?: .0
+                            layoutExpensesCash.text = formatMoney(expenses.roundToInt(), it.currency.symbol)
+                            layoutIncomeCash.text = formatMoney(income.roundToInt(), it.currency.symbol)
+                            layoutSum.text = formatMoney((income - expenses).roundToInt(), it.currency.symbol)
+                        }
+                    })
+                }
                 walletAdapter?.setData(state.data
                     .map { it.toLocal() }
                     .filter { !it.hidden }
@@ -311,6 +327,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
         walletsRecycler = requireView().findViewById(R.id.rv_wallets)
         walletsHiddenRecycler = requireView().findViewById(R.id.rv_wallets_hidden)
+        layoutSum = requireView().findViewById(R.id.tw_sum)
     }
 
     private fun setupExpensesIncomeLayout() {
