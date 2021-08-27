@@ -17,7 +17,6 @@ import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
-import kotlin.math.log
 
 class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
     private lateinit var nameLayout: View
@@ -67,13 +66,13 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
                 if (it is State.DataState) {
                     viewModel.limit.value = it.data.limit
                     viewModel.name.value = it.data.name
-                }
-                else if (it is State.ErrorState) {
+                } else if (it is State.ErrorState) {
 
                 }
             })
 
     }
+
     private fun setupToolbar() {
         val update: UpdatableToolBar = (activity as MainActivity)
         update.updateToolbar(getString(R.string.wallet_new), ToolbarType.ADD_OPERATION)
@@ -160,7 +159,7 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         }
 
         viewModel.name.observe(viewLifecycleOwner, {
-            name.text = if(it == "") strDefault else it
+            name.text = if (it == "") strDefault else it
         })
         viewModel.currency.observe(viewLifecycleOwner, {
             currency.text = it?.shortName ?: strDefault

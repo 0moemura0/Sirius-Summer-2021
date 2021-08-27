@@ -351,7 +351,7 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
     private fun onChangeClicked(pos: Int, transactionAdapter: TransactionAdapter) {
         Toast.makeText(requireContext(), "EDIT Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
-        val wallet  = transactionAdapter.data[pos].asWallet()
+        val wallet = transactionAdapter.data[pos].asWallet()
         val action = WalletsListFragmentDirections.actionToChangeWallet(wallet)
         findNavController().navigate(action)
     }
