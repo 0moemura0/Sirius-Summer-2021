@@ -195,11 +195,11 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
                 is State.DataState -> {
                     btn.changeState(NextCustomButton.State.DEFAULT)
                     layoutIncomeCash.text =
-                        formatMoney(it.data.income ?: 0, args.wallet.currency.symbol)
+                        formatMoney((it.data.income ?: 0).toInt(), args.wallet.currency.symbol)
                     layoutExpensesCash.text =
-                        formatMoney(it.data.expenses ?: 0, args.wallet.currency.symbol)
+                        formatMoney((it.data.expenses ?: 0).toInt(), args.wallet.currency.symbol)
                     walletAmount.text = formatMoney(
-                        ((it.data.income ?: 0) - (it.data.expenses ?: 0)),
+                        ((it.data.income ?: 0).toInt() - (it.data.expenses ?: 0).toInt()),
                         args.wallet.currency.symbol
                     )
                     if (wallet.limit != null && it.data.expenses != null) {
