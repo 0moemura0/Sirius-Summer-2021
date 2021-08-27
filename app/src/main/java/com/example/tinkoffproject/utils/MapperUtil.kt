@@ -132,10 +132,10 @@ fun Wallet.asTransaction() = Transaction(
             DEFAULT_COLOR
         ), isIncome = false, id = 0
     ),
-    value = incomeAmount - expensesAmount,
+    value = (balance ?:0 ).toInt(),
     currency = currency,
     walletId = id,
-    amountFormatted = formatMoney(incomeAmount - expensesAmount, currency.symbol),//TODO
+    amountFormatted = formatMoney((balance ?:0 ).toInt(), currency.symbol),//TODO
     categoryId = id
 )
 
