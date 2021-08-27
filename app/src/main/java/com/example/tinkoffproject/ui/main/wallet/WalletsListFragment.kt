@@ -184,12 +184,12 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
                     )
                     add(
                         MyButton(context!!, R.drawable.ic_edit) { pos ->
-                            onChangeClicked(pos)
+                            onChangeClicked(pos, transactionAdapter)
                         }
                     )
                     add(
                         MyButton(context!!, R.drawable.ic_hide) { pos ->
-                            onHideClicked(pos)
+                            onHideClicked(pos, transactionAdapter)
                         }
                     )
                 }
@@ -342,18 +342,14 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
         }
     }
 
-    private fun onChangeClicked(pos: Int) {
+    private fun onChangeClicked(pos: Int, transactionAdapter: TransactionAdapter) {
         Toast.makeText(requireContext(), "EDIT Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
-//        viewModel.wallets.value?.let {
-//            if (it is State.DataState) {
-//                val wallet = it.data.getOrNull(pos)
-//                val action = WalletsListFragmentDirections.actionToChangeWallet(wallet)
-//                findNavController().navigate(action)
-//            }
-//        }
+        val wallet  = transactionAdapter.data[pos].asWallet()
+        val action = WalletsListFragmentDirections.actionToChangeWallet(wallet)
+        findNavController().navigate(action)
     }
 
-    private fun onHideClicked(pos: Int) {
+    private fun onHideClicked(pos: Int, transactionAdapter: TransactionAdapter) {
         Toast.makeText(requireContext(), "HIDE Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
     }
 }
