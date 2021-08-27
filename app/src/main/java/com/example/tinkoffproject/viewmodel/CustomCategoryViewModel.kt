@@ -10,6 +10,7 @@ import com.example.tinkoffproject.data.repository.CategoryRepository
 import com.example.tinkoffproject.ui.main.data.CategoryType
 import com.example.tinkoffproject.utils.COLOR
 import com.example.tinkoffproject.utils.IconEnum
+import com.example.tinkoffproject.utils.IconEnum.Companion.fromLocalId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -41,7 +42,7 @@ class CustomCategoryViewModel @Inject constructor(val repository: CategoryReposi
         val resource = MutableLiveData<State<CategoryNetwork>>(State.LoadingState)
         val name = name.value
         val type = type.value
-        val iconId = iconId.value
+        val iconId = iconId.value?.let { fromLocalId(it).remoteIconId }
         val color = color.value
         if (name != null && type != null && iconId != null && color != null) {
             val disp = repository.postCategory(
