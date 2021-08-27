@@ -1,6 +1,7 @@
 package com.example.tinkoffproject.ui.main.wallet_add
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -73,12 +74,15 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
                 hideError()
             }
         }
-        inputEditText.setText(viewModel.limit.value.toString())
     }
 
     private fun isNextAvailable(): Boolean {
+        Log.d("kek", "input - ${inputEditText.text}")
+        Log.d("kek", "input - ${inputEditText.text.toString().isNullOrEmpty()}")
+        Log.d("kek", "input - ${inputEditText.text?.toString().isNullOrEmpty()}")
+
         val str = inputEditText.text?.toString()
-        return !str.isNullOrEmpty() && str.toInt() != 0
+        return !str.isNullOrBlank() && str.toInt() != 0
     }
 
     private fun saveData() {
@@ -87,7 +91,9 @@ class SetLimitFragment : Fragment(R.layout.layout_set_value) {
     }
 
     private fun setupData() {
-        inputEditText.setText(viewModel.limit.value?.toString() ?: "")
+        viewModel.limit.value?.let{
+            inputEditText.setText(it)
+        }
     }
 
     private fun setupViews() {

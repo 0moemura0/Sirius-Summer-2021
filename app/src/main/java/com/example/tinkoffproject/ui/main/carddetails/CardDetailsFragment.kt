@@ -46,6 +46,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var walletName: TextView
     private lateinit var walletLimit: TextView
     private lateinit var btn: NextCustomButton
+    private lateinit var limitDescription: TextView
 
     private lateinit var mShimmerViewContainer: ShimmerFrameLayout
     private lateinit var container: View
@@ -108,6 +109,8 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         mShimmerViewContainer = requireView().findViewById(R.id.shimmer_container)
         container = requireView().findViewById(R.id.container)
         btn = requireView().findViewById(R.id.btn)
+
+        limitDescription = requireView().findViewById(R.id.tv_limit_description)
     }
 
     private fun setupDataObservers() {
@@ -155,6 +158,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
 
         if (wallet.limit == null) {
             walletLimit.visibility = View.INVISIBLE
+            limitDescription.visibility = View.GONE
         } else {
             updateLimitInfo(wallet.limit, false, wallet.currency)
         }
@@ -198,21 +202,26 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         val colorId: Int
         val alpha: Float
         val text: String
+        val limitDescriptionVisibility: Int
         if (limit == null) {
+            limitDescriptionVisibility = View.GONE
             text = ""
             colorId = R.color.white
             alpha = 1f
         } else {
             text = " / ${formatMoney(limit, currency.symbol)}"
             if (isOver) {
+                limitDescriptionVisibility = View.VISIBLE
                 colorId = R.color.red_main
                 alpha = 1f
             } else {
+                limitDescriptionVisibility = View.GONE
                 colorId = R.color.white
                 alpha = 0.6f
             }
         }
 
+        limitDescription.visibility = limitDescriptionVisibility
         walletLimit.alpha = alpha
         walletLimit.text = text
         walletLimit.setTextColor(ContextCompat.getColor(walletLimit.context, colorId))

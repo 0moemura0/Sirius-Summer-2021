@@ -71,7 +71,7 @@
 
     <string name="error_smth_went_wrong">Что-то пошло не так</string>
     <string name="error_internet_off">Нет соединения с интернетом</string>
-
+    <string name="limit_is_over">Вы превысили лимит на траты</string>
     <string name="confirm_remove_transaction">Уверены что хотите удалить запись?</string>
     <string name="confirm_remove_wallet">Уверены что хотите удалить кошелёк?</string>
     <string name="cancel">Отменить</string>
