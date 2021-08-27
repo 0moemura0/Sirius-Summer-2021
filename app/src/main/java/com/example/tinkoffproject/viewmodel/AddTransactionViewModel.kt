@@ -18,8 +18,10 @@ import com.example.tinkoffproject.ui.main.data.CategoryType
 import com.example.tinkoffproject.ui.main.data.SelectableCategory
 import com.example.tinkoffproject.utils.toLocal
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.internal.aggregatedroot.codegen._com_example_tinkoffproject_App
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.lang.IllegalStateException
 import java.util.*
 import javax.inject.Inject
 
@@ -31,11 +33,18 @@ class AddTransactionViewModel @Inject constructor(
     var wallet: Wallet? = null
     var transaction: Transaction? = null
 
-    var id: Int = transaction?.id ?: 0
+    var id: Int = 0
     var type = MutableLiveData<CategoryType>()
     var category = MutableLiveData<Category>()
     var amount = MutableLiveData<Int>()
     var date = MutableLiveData(Date())
+    var isChange = false
+    fun init(_wallet: Wallet? = null, _transaction: Transaction? = null) {
+        wallet = _wallet
+        transaction = _transaction
+        isChange = wallet != null
+        id = transaction?.id ?: 0
+    }
 
 
     private val categoriesIncome: MutableLiveData<List<CategoryNetwork>> = MutableLiveData()
@@ -82,18 +91,28 @@ class AddTransactionViewModel @Inject constructor(
         id: Int
     ): LiveData<State<TransactionNetwork>> {
         val resource = MutableLiveData<State<TransactionNetwork>>(State.LoadingState)
-        //TODO logic
-//        val disp = repository.editTransaction(id, CreateTransaction())
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                {
-//                    resource.value = State.DataState(it)
-//                },
-//                {
-//                    resource.value = State.ErrorState(it)
-//                }
-//            )
+        if (category.value != null && date.value != null && wallet != null && category.value != null) {
+            val disp = repository.editTransaction(
+                id, CreateTransaction(
+                    value = amount.value,
+                    isIncome = category.value!!.isIncome,
+                    ts = date.value!!.time,
+                    currencyShortStr = wallet!!.currency.shortName,
+                    walletId = wallet!!.id,
+                    categoryId = category.value!!.id
+                )
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        resource.value = State.DataState(it)
+                    },
+                    {
+                        resource.value = State.ErrorState(it)
+                    }
+                )
+        } else resource.value = State.ErrorState(IllegalArgumentException("Что-то null"))
         return resource
     }
 

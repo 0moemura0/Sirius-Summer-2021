@@ -101,6 +101,16 @@
         android:name="com.example.tinkoffproject.ui.main.operation_add.NewOperationFragment"
         android:label="NewOperation"
         tools:layout="@layout/operation_new_operation">
+
+        <argument android:name="transaction"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
+            app:nullable="true"/>
+        <argument
+            android:name="wallet"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
+            app:nullable="true" />
         <action
             android:id="@+id/action_newOperation_to_setCash"
             app:destination="@id/setTransactionCash"

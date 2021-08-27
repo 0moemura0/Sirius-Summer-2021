@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
@@ -17,6 +18,7 @@ import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.dialog.ChooseDatePickerFragment
+import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 
 class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
@@ -30,8 +32,10 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
 
     private val dialog by lazy { ChooseDatePickerFragment() }
 
+    private val args: NewOperationFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         initViews()
         initDialog()
@@ -73,9 +77,9 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         categoryTitle.setText(R.string.category)
         dateTitle.setText(R.string.date)
 
-        // TODO replace on formatMoney(viewModel._sum.value, currency)
+
         viewModel.amount.observe(viewLifecycleOwner, {
-            sum.text = "$it ₽"
+            sum.text = viewModel.wallet?.currency?.let { it1 -> formatMoney(it, it1.symbol) }
         })
         viewModel.type.observe(viewLifecycleOwner, {
             type.text = requireContext().getString(it.nameResId)
@@ -92,11 +96,13 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
             if (isNextAvailable()) {
                 val transaction = viewModel.transaction
-                if (transaction == null) {
+                if (!viewModel.isChange) {
                     viewModel.addTransaction().observe(viewLifecycleOwner, ::onUpdate)
                 } else {
-                    viewModel.editTransaction(transaction.id)
-                        .observe(viewLifecycleOwner, ::onUpdate)
+                    transaction?.id?.let { it1 ->
+                        viewModel.editTransaction(it1)
+                            .observe(viewLifecycleOwner, ::onUpdate)
+                    }
                 }
             } else {
                 Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)

@@ -350,13 +350,12 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     }
 
     private fun onChangeClicked(pos: Int, transactionAdapter: TransactionAdapter) {
-        Toast.makeText(requireContext(), "EDIT Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
-        val wallet = transactionAdapter.data[pos].asWallet()
+        val wallet  = transactionAdapter.data[pos].asWallet()
         val action = WalletsListFragmentDirections.actionToChangeWallet(wallet)
         findNavController().navigate(action)
     }
 
     private fun onHideClicked(pos: Int, transactionAdapter: TransactionAdapter) {
-        Toast.makeText(requireContext(), "HIDE Clicked $pos \uFDFC", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "В разработке", Toast.LENGTH_SHORT).show()
     }
 }
