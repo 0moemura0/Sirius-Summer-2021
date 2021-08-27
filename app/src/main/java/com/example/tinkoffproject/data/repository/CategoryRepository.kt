@@ -30,9 +30,8 @@ class CategoryRepositoryImpl @Inject constructor(
                     apiService.getCategories()
                         .subscribeOn(Schedulers.io())
                         .flatMap {
-                            dao.removeAll()
-                                .andThen(Completable.fromCallable { dao.addAll(it) }
-                                    .andThen(Observable.just(it)))
+                            Completable.fromCallable { dao.addAll(it) }
+                                    .andThen(Observable.just(it))
                         }
                 else
                     Observable.empty()
@@ -52,9 +51,8 @@ class CategoryRepositoryImpl @Inject constructor(
                         .map { list -> list.filter { it.isIncome == isIncome } }
                         .subscribeOn(Schedulers.io())
                         .flatMap {
-                            dao.removeAllByType(isIncome)
-                                .andThen(Completable.fromCallable { dao.addAll(it) }
-                                    .andThen(Observable.just(it)))
+                            Completable.fromCallable { dao.addAll(it) }
+                                    .andThen(Observable.just(it))
                         }
                 else
                     Observable.empty()

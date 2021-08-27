@@ -33,9 +33,8 @@ class TransactionRepositoryImpl @Inject constructor(
                 if (App.isNetworkAvailable())
                     apiService.getWalletsTransactions(walletId)
                         .flatMap {
-                            dao.removeAll(walletId)
-                                .andThen(Completable.fromCallable { dao.addAll(it) }
-                                    .andThen(Observable.just(it)))
+                            Completable.fromCallable { dao.addAll(it) }
+                                    .andThen(Observable.just(it))
                         }
                 else
                     Observable.empty()

@@ -35,8 +35,7 @@ class WalletRepositoryImpl @Inject constructor(
                     apiService.getWallets().doOnEach {
                         Log.d("TAG", "getUserWalletList: " + it.value?.size)
                     }.flatMap {
-                        dao.removeAll().andThen(Completable.fromCallable { dao.addAll(it) }
-                            .andThen(Observable.just(it)))
+                        Completable.fromCallable { dao.addAll(it) }.andThen(Observable.just(it))
                     }
                 else
                     Observable.empty()
