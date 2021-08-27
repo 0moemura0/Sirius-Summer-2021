@@ -7,4 +7,5 @@ class CreateWallet(
     val limit: Int?,
     val name: String?,
     val currencyShortStr: String?,
+    val hidden: Boolean = false
 )

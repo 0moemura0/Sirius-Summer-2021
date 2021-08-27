@@ -356,6 +356,10 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
     }
 
     private fun onHideClicked(pos: Int, transactionAdapter: TransactionAdapter) {
-        Toast.makeText(requireContext(), "В разработке", Toast.LENGTH_SHORT).show()
+        viewModel.wallet = transactionAdapter.data[pos].asWallet()
+        viewModel.editWallet(true).observe(viewLifecycleOwner, {
+
+        })
+
     }
 }
