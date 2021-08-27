@@ -26,10 +26,7 @@ import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
-import com.example.tinkoffproject.utils.SHIMMER_MIN_TIME_MS
-import com.example.tinkoffproject.utils.START_SHIMMER_TIME_ARG
-import com.example.tinkoffproject.utils.asTransaction
-import com.example.tinkoffproject.utils.toLocal
+import com.example.tinkoffproject.utils.*
 import com.example.tinkoffproject.viewmodel.WalletListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import java.text.DecimalFormat
