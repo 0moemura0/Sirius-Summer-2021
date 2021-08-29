@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_transaction"
+    app:startDestination="@id/setTransactionCash">
+    <include app:graph="@navigation/add_category" />
+    <fragment
+        android:id="@+id/setTransactionCash"
+        android:name="com.example.tinkoffproject.ui.main.operation_add.SetTransactionCashFragment"
+        android:label="SetCash"
+        tools:layout="@layout/layout_set_value">
+        <argument
+            android:name="isNewOperation"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isFromMain"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="transaction"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
+            app:nullable="true" />
+        <argument
+            android:name="wallet"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_setCash_to_chooseType"
+            app:destination="@id/chooseTransactionType"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_setCash_to_changeTransaction"
+            app:destination="@id/newOperation"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/setTransactionCash"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseTransactionType"
+        android:name="com.example.tinkoffproject.ui.main.operation_add.ChooseTypeFragment"
+        android:label="ChooseType"
+        tools:layout="@layout/operation_choose_category">
+        <argument
+            android:name="isFromMain"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_chooseType_to_chooseCategory"
+            app:destination="@id/chooseTransactionCategory"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseTransactionCategory"
+        android:name="com.example.tinkoffproject.ui.main.operation_add.ChooseCategoryFragment"
+        android:label="ChooseCategory"
+        tools:layout="@layout/operation_choose_type">
+        <action
+            android:id="@+id/action_to_chooseNewCategoryType"
+            app:destination="@+id/add_category"
+            app:enterAnim="@anim/from_bottom"
+            app:exitAnim="@anim/to_top"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_top"
+            app:popExitAnim="@anim/to_bottom">
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="false"
+                app:argType="boolean" />
+            <argument
+                android:name="isIncome"
+                app:argType="boolean" />
+        </action>
+        <argument
+            android:name="isFromMain"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_chooseTransactionCategory_to_newOperation"
+            app:destination="@id/newOperation"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newOperation"
+        android:name="com.example.tinkoffproject.ui.main.operation_add.NewOperationFragment"
+        android:label="NewOperation"
+        tools:layout="@layout/operation_new_operation">
+
+        <argument android:name="transaction"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
+            app:nullable="true"/>
+        <argument
+            android:name="wallet"
+            android:defaultValue="@null"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_newOperation_to_setCash"
+            app:destination="@id/setTransactionCash"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_newOperation_to_chooseType"
+            app:destination="@id/chooseTransactionType"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_newOperation_to_chooseCategory"
+            app:destination="@id/chooseTransactionCategory"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <action
+        android:id="@+id/action_to_newOperation"
+        app:destination="@+id/newOperation"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/newOperation"
+        app:popUpToInclusive="true" />
+</navigation>

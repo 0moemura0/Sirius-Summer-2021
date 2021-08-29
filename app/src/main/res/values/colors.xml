@@ -12,6 +12,35 @@
     <color name="gray">#333333</color>
     <color name="gray_light">#9299A2</color>
     <color name="blue_main">#5833EE</color>
+    <color name="blue_dark">#2E0EAE</color>
     <color name="red_main">#F52222</color>
+    <color name="red_main_background">#17F52222</color>
     <color name="green_main">#00B92D</color>
+    <color name="black_alpha">#1F000000</color>
+    <color name="black_alpha_light">#99000000</color>
+    <color name="stab">#299C9C9C</color>
+    <color name="white_clicked">#EFEFEF</color>
+
+    <color name="purple">#7765C0</color>
+    <color name="blue">#339FEE</color>
+    <color name="brown">#994747</color>
+    <color name="pink">#EE33BA</color>
+    <color name="green">#16DC71</color>
+    <color name="orange">#EEA333</color>
+    <color name="purple_dark">#91397D</color>
+    <color name="yellow">#EEDB33</color>
+
+    //same but dark
+    <color name="purple_selected">#534786</color>
+    <color name="blue_selected">#246FA7</color>
+    <color name="brown_selected">#6B3232</color>
+    <color name="pink_selected">#A72482</color>
+    <color name="green_selected">#0F9A4F</color>
+    <color name="orange_selected">#A77224</color>
+    <color name="purple_dark_selected">#662858</color>
+    <color name="yellow_selected">#A79924</color>
+    <color name="blue_main_selected">#3E24A7</color>
+    <color name="green_main_selected">#008220</color>
+
+    <color name="light_blue">#428BF9</color>
 </resources>

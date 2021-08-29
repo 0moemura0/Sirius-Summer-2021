@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transactions"
+    app:startDestination="@id/cardDetails">
+
+    <fragment
+        android:id="@+id/cardDetails"
+        android:name="com.example.tinkoffproject.ui.main.carddetails.CardDetailsFragment"
+        android:label="fragment_card_details"
+        tools:layout="@layout/fragment_card_details">
+        <argument
+            android:name="wallet"
+            app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet" />
+        <action
+            android:id="@+id/action_cardDetails_to_addTransaction"
+            app:destination="@+id/add_transaction"
+            app:enterAnim="@anim/from_bottom"
+            app:exitAnim="@anim/to_top"
+            app:popEnterAnim="@anim/from_top"
+            app:popExitAnim="@anim/to_bottom">
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="false"
+                app:argType="boolean" />
+            <argument
+                android:name="wallet"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
+                app:nullable="true" />
+        </action>
+        <action
+            android:id="@+id/action_to_change_transaction"
+            app:destination="@+id/add_transaction">
+            <argument
+                android:name="transaction"
+                android:defaultValue="@null"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
+                app:nullable="true" />
+            <argument
+                android:name="wallet"
+                android:defaultValue="@null"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
+                app:nullable="true" />
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="true"
+                app:argType="boolean" />
+            <argument
+                android:name="isFromMain"
+                android:defaultValue="true"
+                app:argType="boolean" />
+        </action>
+    </fragment>
+
+    <include app:graph="@navigation/add_transaction" />
+</navigation>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.main.category_custom.CustomCategoryAddFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/section_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside">
+
+
+            <include
+                android:id="@+id/ll_name_container"
+                layout="@layout/element_text_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/view_dimen_normal" />
+
+            <include
+                android:id="@+id/ll_type_container"
+                layout="@layout/element_text_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/view_dimen_normal" />
+
+
+            <include
+                android:id="@+id/ll_icon_color_container"
+                layout="@layout/element_text_blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/view_dimen_normal" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_icons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_dimen_normal"
+            app:layout_constraintBottom_toTopOf="@id/btn"
+            app:layout_constraintEnd_toEndOf="@id/section_type"
+            app:layout_constraintStart_toStartOf="@id/section_type"
+            app:layout_constraintTop_toBottomOf="@id/section_type"
+            app:layout_constraintVertical_bias="0" />
+
+        <com.example.tinkoffproject.ui.main.NextCustomButton
+            android:id="@+id/btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_dimen_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/section_type"
+            app:text="@string/category_create" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

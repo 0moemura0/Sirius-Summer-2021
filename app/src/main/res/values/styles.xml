@@ -11,32 +11,87 @@
     </style>
 
     <style name="LoginButton" parent="@style/Widget.AppCompat.Button">
-        <item name="android:background">@drawable/rect_gray_rounded_8dp</item>
+        <item name="android:background">@drawable/rect_gray_8dp</item>
         <item name="android:textSize">@dimen/view_text_normal</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="ElementCashType">
-        <item name="android:textSize">12sp</item>
+    <style name="NextButtonText">
+        <item name="android:textSize">@dimen/view_text_normal</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="NextButtonText.Disable">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="ElementCash">
+        <item name="android:textSize">@dimen/view_text_like_small</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ElementCashType" parent="ElementCash">
+        <item name="android:alpha">0.6</item>
+    </style>
+
+    <style name="ElementCashAmount" parent="ElementCash">
+        <item name="android:textSize">@dimen/view_dimen_normal</item>
+    </style>
+
+    <style name="ElementCashLimit" parent="ElementCashType">
+        <item name="android:textSize">@dimen/view_text_extra_small</item>
+    </style>
+
     <style name="EmptyView">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/view_text_like_small</item>
         <item name="android:textColor">@color/gray_light</item>
     </style>
 
     <style name="MainDescription">
         <item name="android:textSize">12sp</item>
-        <item name="android:letterSpacing">0.02</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="Element">
+        <item name="android:textSize">@dimen/view_text_normal</item>
         <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="MainCounter">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">@dimen/view_text_extra_big</item>
         <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="WalletMainCounter">
+        <item name="android:textSize">@dimen/view_text_extra_big</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ItemOperationTextMain">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="lineHeight">@dimen/text_line_height_normal</item>
+        <item name="android:textSize">@dimen/view_text_normal</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ItemOperationTextAddition">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="lineHeight">@dimen/text_line_height_small</item>
+        <item name="android:textSize">@dimen/view_text_small</item>
+        <item name="android:textColor">@color/gray_light</item>
+    </style>
+
+    <style name="AlertDialogButton">
+        <item name="android:textSize">@dimen/view_text_like_small</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="AlertDialogTitle">
+        <item name="android:textSize">@dimen/toolbar_text_size</item>
     </style>
 
 </resources>

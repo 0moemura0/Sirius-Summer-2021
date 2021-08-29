@@ -48,15 +48,14 @@
                 android:textAppearance="@style/TextAppearance.Description" />
         </LinearLayout>
 
-        <TextView
+        <com.example.tinkoffproject.ui.main.NextCustomButton
             android:id="@+id/btn_login"
-            style="@style/LoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/view_dimen_normal"
-            android:text="@string/sign_in_google"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/section_welcome"
-            app:layout_constraintVertical_bias="1" />
+            app:layout_constraintVertical_bias="1"
+            app:text="@string/sign_in_google" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

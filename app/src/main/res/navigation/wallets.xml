@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wallets"
+    app:startDestination="@id/walletsList">
+
+    <fragment
+        android:id="@+id/walletsList"
+        android:name="com.example.tinkoffproject.ui.main.wallet.WalletsListFragment"
+        android:label="WalletsList"
+        tools:layout="@layout/fragment_wallets_list">
+        <action
+            android:id="@+id/action_to_addWallet"
+            app:destination="@+id/add_wallet"
+            app:enterAnim="@anim/from_bottom"
+            app:exitAnim="@anim/to_top"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_top"
+            app:popExitAnim="@anim/to_bottom">
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="false"
+                app:argType="boolean" />
+        </action>
+        <action
+            android:id="@+id/action_to_transactions"
+            app:destination="@+id/transactions"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right">
+            <argument
+                android:name="wallet"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet" />
+        </action>
+        <action
+            android:id="@+id/action_to_change_wallet"
+            app:destination="@+id/add_wallet">
+            <argument
+                android:name="wallet"
+                app:argType="com.example.tinkoffproject.data.dto.to_view.Wallet"
+                app:nullable="true" />
+            <argument
+                android:name="isNewOperation"
+                android:defaultValue="true"
+                app:argType="boolean" />
+        </action>
+    </fragment>
+
+    <include app:graph="@navigation/add_wallet" />
+</navigation>
