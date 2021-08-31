@@ -102,10 +102,11 @@
         android:label="NewOperation"
         tools:layout="@layout/operation_new_operation">
 
-        <argument android:name="transaction"
+        <argument
+            android:name="transaction"
             android:defaultValue="@null"
             app:argType="com.example.tinkoffproject.data.dto.to_view.Transaction"
-            app:nullable="true"/>
+            app:nullable="true" />
         <argument
             android:name="wallet"
             android:defaultValue="@null"

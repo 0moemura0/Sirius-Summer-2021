@@ -38,6 +38,13 @@ class CustomCategoryViewModel @Inject constructor(val repository: CategoryReposi
         _color = MutableLiveData<COLOR>()
     }
 
+    fun isNameOk(): Boolean = name.value != null && !name.value.isNullOrBlank()
+    fun isColorOk(): Boolean = color.value != null
+    fun isIconOk(): Boolean = iconId.value ?: -1 >= 0
+    fun isTypeOk(): Boolean = type.value != null
+
+    fun isAllOk(): Boolean = isColorOk() && isNameOk() && isIconOk() && isTypeOk()
+
     fun addCategory(): LiveData<State<CategoryNetwork>> {
         val resource = MutableLiveData<State<CategoryNetwork>>(State.LoadingState)
         val name = name.value

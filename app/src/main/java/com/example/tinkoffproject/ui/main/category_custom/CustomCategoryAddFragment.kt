@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +19,8 @@ import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.adapter.category_custom.CustomCategoryAdapter
+import com.example.tinkoffproject.ui.main.base_fragment.BaseFragment
+import com.example.tinkoffproject.ui.main.base_fragment.WithNextButton
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
 import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.data.CategoryType
@@ -27,16 +29,17 @@ import com.example.tinkoffproject.utils.COLOR
 import com.example.tinkoffproject.utils.colorToStr
 import com.example.tinkoffproject.viewmodel.CustomCategoryViewModel
 
-class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
+class CustomCategoryAddFragment : BaseFragment(R.layout.fragment_categoty_add, R.string.category_new, ToolbarType.ADD_OPERATION), WithNextButton {
     val viewModel: CustomCategoryViewModel by activityViewModels()
-    private lateinit var btn: NextCustomButton
 
     private lateinit var colorLayout: View
     private lateinit var colorValue: TextView
 
     private val args: CustomCategoryAddFragmentArgs by navArgs()
     private val customAdapter: CustomCategoryAdapter by lazy { CustomCategoryAdapter() }
+
     private var isNewOperation = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,8 +62,6 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         colorValue = colorLayout.findViewById(R.id.tv_value)
         btn = view.findViewById(R.id.btn)
         setupData()
-        setupNextButton()
-        setupToolbar()
         setupRecycler()
         setupBtnObserver()
 
@@ -144,10 +145,6 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         })
     }
 
-    private fun updateButtonState() {
-        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
-    }
-
     private fun setupData() {
         if (args.isNewOperation && isNewOperation) viewModel.init()
     }
@@ -170,15 +167,10 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
         }
     }
 
-
-    private fun setupToolbar() {
-        val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar(getString(R.string.category_new), ToolbarType.ADD_OPERATION)
-    }
-
-    private fun setupNextButton() {
-        btn.setOnClickListener {
-            if (isNextAvailable()) {
+    override fun setupNextButtonImpl() {
+        setupNextButton(
+            context = context,
+            onSuccess = {
                 viewModel.addCategory().observe(viewLifecycleOwner, {
                     when (it) {
                         is State.DataState -> {
@@ -186,7 +178,7 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
                             findNavController().navigate(R.id.action_to_chooseTransactionCategory)
                         }
                         is State.LoadingState -> {
-                            btn.changeState(NextCustomButton.State.LOADING)
+                            onLoading()
                         }
                         is State.ErrorState -> {
                             updateButtonState()
@@ -197,19 +189,11 @@ class CustomCategoryAddFragment : Fragment(R.layout.fragment_categoty_add) {
                         }
                     }
                 })
-
-            } else {
-                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
-                    .show()
             }
-        }
+        )
     }
 
-    private fun isNextAvailable() = viewModel.color.value != null
-            && viewModel.name.value != null
-            && viewModel.type.value != null
-            && viewModel.iconId.value != null
-
+    override fun isNextAvailable() = viewModel.isAllOk()
 
     companion object {
         const val IS_NEW_OPERATION = "IS_NEW_OPERATION"

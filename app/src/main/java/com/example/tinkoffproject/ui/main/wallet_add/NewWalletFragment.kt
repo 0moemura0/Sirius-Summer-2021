@@ -3,26 +3,22 @@ package com.example.tinkoffproject.ui.main.wallet_add
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.WalletNetwork
-import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.NotificationType
+import com.example.tinkoffproject.ui.main.base_fragment.BaseFragment
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
-import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.viewmodel.AddWalletViewModel
 
-class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
+class NewWalletFragment :
+    BaseFragment(R.layout.fragment_new_wallet, R.string.wallet_new, ToolbarType.ADD_OPERATION) {
     private lateinit var nameLayout: View
     private lateinit var currencyLayout: View
     private lateinit var limitLayout: View
-    private lateinit var btn: NextCustomButton
 
     private val viewModel: AddWalletViewModel by activityViewModels()
 
@@ -32,18 +28,25 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         initViews()
 
         setData()
-        setupNextButton()
-        setupToolbar()
         setupNavigation()
         setupBtnObserver()
+        setupData()
     }
 
-    private fun initViews() {
+    private fun setupData() {
+        if (viewModel.name.value == "" || viewModel.limit.value == 0)
+            viewModel.getWallet().observe(viewLifecycleOwner, {
+                if (it is State.DataState) {
+                    viewModel.limit.value = it.data.limit
+                    viewModel.name.value = it.data.name
+                }
+            })
+    }
+
+    override fun initViews() {
         nameLayout = requireView().findViewById(R.id.ll_name_container)
         currencyLayout = requireView().findViewById(R.id.ll_currency_container)
         limitLayout = requireView().findViewById(R.id.ll_limit_container)
-
-        btn = requireView().findViewById(R.id.btn)
     }
 
 
@@ -59,41 +62,17 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (viewModel.name.value == "" || viewModel.limit.value == 0)
-            viewModel.getWallet().observe(viewLifecycleOwner, {
-                if (it is State.DataState) {
-                    viewModel.limit.value = it.data.limit
-                    viewModel.name.value = it.data.name
-                } else if (it is State.ErrorState) {
-
+    override fun setupNextButtonImpl() {
+        setupNextButton(
+            context = context,
+            onSuccess = {
+                if (viewModel.isChangeCase) {
+                    viewModel.editWallet().observe(viewLifecycleOwner, ::onUpdate)
+                } else {
+                    viewModel.addWallet().observe(viewLifecycleOwner, ::onUpdate)
                 }
             })
-
-    }
-
-    private fun setupToolbar() {
-        val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar(getString(R.string.wallet_new), ToolbarType.ADD_OPERATION)
-    }
-
-    private fun setupNextButton() {
-        requireView().findViewById<NextCustomButton>(R.id.btn).apply {
-            setOnClickListener {
-                if (isNextAvailable()) {
-                    if (viewModel.isChangeCase) {
-                        viewModel.editWallet().observe(viewLifecycleOwner, ::onUpdate)
-                    } else {
-                        viewModel.addWallet().observe(viewLifecycleOwner, ::onUpdate)
-                    }
-                } else {
-                    Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-            setTitle(if (viewModel.isChangeCase) R.string.wallet_update else R.string.wallet_create)
-        }
+        btn.setTitle(if (viewModel.isChangeCase) R.string.wallet_update else R.string.wallet_create)
     }
 
     private fun onUpdate(state: State<WalletNetwork>) {
@@ -102,7 +81,7 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
                 btn.changeState(NextCustomButton.State.LOADING)
             }
             is State.ErrorState -> {
-                onError(state.exception)
+                onInternetError(state.exception)
             }
             is State.DataState -> {
                 updateButtonState()
@@ -112,15 +91,8 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         }
     }
 
-    private fun onError(e: Throwable?) {
-        updateButtonState()
 
-        val notType =
-            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
-        (requireActivity() as MainActivity).showNotification(notType)
-    }
-
-    private fun isNextAvailable() =
+    override fun isNextAvailable() =
         viewModel.currency.value != null && viewModel.name.value != null
 
     private fun setupBtnObserver() {
@@ -130,10 +102,6 @@ class NewWalletFragment : Fragment(R.layout.fragment_new_wallet) {
         viewModel.name.observe(viewLifecycleOwner, {
             updateButtonState()
         })
-    }
-
-    private fun updateButtonState() {
-        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
     }
 
     private fun setData() {

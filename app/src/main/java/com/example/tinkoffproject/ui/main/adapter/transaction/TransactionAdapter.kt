@@ -36,7 +36,7 @@ class TransactionAdapter(
     }
 
     fun showData() {
-        if(_data.isNotEmpty()) {
+        if (_data.isNotEmpty()) {
             val newObj = mutableListOf<Transaction>()
             newObj.addAll(_data)
             setData(newObj)
@@ -78,8 +78,9 @@ class TransactionAdapter(
         data.removeAt(pos)
         notifyItemRemoved(pos)
     }
+
     fun onItemInserted(pos: Int, transaction: Transaction, isHidden: Boolean) {
-        if(!isHidden) {
+        if (!isHidden) {
             data.add(transaction)
             notifyItemInserted(pos)
         } else {

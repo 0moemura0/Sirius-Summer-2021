@@ -3,8 +3,6 @@ package com.example.tinkoffproject.ui.main.operation_add
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,23 +10,24 @@ import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
 import com.example.tinkoffproject.data.dto.response.TransactionNetwork
 import com.example.tinkoffproject.formatDate
-import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.NotificationType
+import com.example.tinkoffproject.ui.main.base_fragment.BaseFragment
 import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
-import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
 import com.example.tinkoffproject.ui.main.dialog.ChooseDatePickerFragment
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 
-class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
+class NewOperationFragment : BaseFragment(
+    R.layout.operation_new_operation,
+    R.string.operation_new,
+    ToolbarType.ADD_OPERATION
+) {
     val viewModel: AddTransactionViewModel by activityViewModels()
 
     private lateinit var sumLayout: View
     private lateinit var typeLayout: View
     private lateinit var categoryLayout: View
     private lateinit var dateLayout: View
-    private lateinit var btn: NextCustomButton
 
     private val dialog by lazy { ChooseDatePickerFragment() }
 
@@ -40,11 +39,10 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         initViews()
         initDialog()
         setData()
-        setupNextButton()
-        setupToolbar()
         setupNavigation()
         setupBtnObserver()
     }
+
 
     private fun initDialog() {
         dialog.setOnItemClickListener { calendar ->
@@ -53,7 +51,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         }
     }
 
-    private fun initViews() {
+    override fun initViews() {
         sumLayout = requireView().findViewById(R.id.ll_sum_container)
         typeLayout = requireView().findViewById(R.id.ll_type_container)
         categoryLayout = requireView().findViewById(R.id.ll_category_container)
@@ -92,9 +90,10 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         })
     }
 
-    private fun setupNextButton() {
-        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (isNextAvailable()) {
+    override fun setupNextButtonImpl() {
+        setupNextButton(
+            context = context,
+            onSuccess = {
                 val transaction = viewModel.transaction
                 if (!viewModel.isChange) {
                     viewModel.addTransaction().observe(viewLifecycleOwner, ::onUpdate)
@@ -104,11 +103,8 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
                             .observe(viewLifecycleOwner, ::onUpdate)
                     }
                 }
-            } else {
-                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
-                    .show()
             }
-        }
+        )
     }
 
     private fun onUpdate(state: State<TransactionNetwork>) {
@@ -117,7 +113,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
                 btn.changeState(NextCustomButton.State.LOADING)
             }
             is State.ErrorState -> {
-                onError(state.exception)
+                onInternetError(state.exception)
             }
             is State.DataState -> {
                 updateButtonState()
@@ -126,15 +122,7 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         }
     }
 
-    private fun onError(e: Throwable?) {
-        updateButtonState()
-
-        val notType =
-            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
-        (requireActivity() as MainActivity).showNotification(notType)
-    }
-
-    private fun isNextAvailable() = viewModel.amount.value != null
+    override fun isNextAvailable() = viewModel.amount.value != null
             && viewModel.category.value != null
             && viewModel.date.value != null
             && viewModel.type.value != null
@@ -152,10 +140,6 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
         viewModel.type.observe(viewLifecycleOwner, {
             updateButtonState()
         })
-    }
-
-    private fun updateButtonState() {
-        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
     }
 
     private fun setupNavigation() {
@@ -182,10 +166,5 @@ class NewOperationFragment : Fragment(R.layout.operation_new_operation) {
                 dialog.show(childFragmentManager, ChooseDatePickerFragment.TAG)
             }
         }
-    }
-
-    private fun setupToolbar() {
-        val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar(getString(R.string.operation_new), ToolbarType.ADD_OPERATION)
     }
 }

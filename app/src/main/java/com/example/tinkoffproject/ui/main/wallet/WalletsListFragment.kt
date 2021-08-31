@@ -282,12 +282,15 @@ class WalletsListFragment : Fragment(R.layout.fragment_wallets_list) {
 
                 state.data.forEach {
                     viewModel.getIncomeExpense(it.id).observe(viewLifecycleOwner, { pack ->
-                        if(pack is State.DataState){
+                        if (pack is State.DataState) {
                             expenses += pack.data.expenses ?: 0.0
                             income += pack.data.income ?: .0
-                            layoutExpensesCash.text = formatMoney(expenses.roundToInt(), it.currency.symbol)
-                            layoutIncomeCash.text = formatMoney(income.roundToInt(), it.currency.symbol)
-                            layoutSum.text = formatMoney((income - expenses).roundToInt(), it.currency.symbol)
+                            layoutExpensesCash.text =
+                                formatMoney(expenses.roundToInt(), it.currency.symbol)
+                            layoutIncomeCash.text =
+                                formatMoney(income.roundToInt(), it.currency.symbol)
+                            layoutSum.text =
+                                formatMoney((income - expenses).roundToInt(), it.currency.symbol)
                         }
                     })
                 }

@@ -76,4 +76,5 @@
     <string name="confirm_remove_wallet">Уверены что хотите удалить кошелёк?</string>
     <string name="cancel">Отменить</string>
     <string name="remove">Удалить</string>
+    <string name="empty" />
 </resources>

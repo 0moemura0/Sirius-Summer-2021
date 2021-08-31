@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -25,6 +26,7 @@ import com.example.tinkoffproject.ui.main.NextCustomButton
 import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
+import com.example.tinkoffproject.ui.main.base_fragment.WithNextButton
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
 import com.example.tinkoffproject.utils.SHIMMER_MIN_TIME_MS
@@ -34,7 +36,7 @@ import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.viewmodel.TransactionListViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 
-class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
+class CardDetailsFragment : Fragment(R.layout.fragment_card_details), WithNextButton {
     val viewModel: TransactionListViewModel by activityViewModels()
 
     private lateinit var walletAmount: TextView
@@ -44,11 +46,13 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
     private lateinit var layoutExpensesCash: TextView
     private lateinit var walletName: TextView
     private lateinit var walletLimit: TextView
-    private lateinit var btn: NextCustomButton
     private lateinit var limitOverDescription: TextView
 
     private lateinit var mShimmerViewContainer: ShimmerFrameLayout
     private lateinit var container: View
+
+    override lateinit var btn: NextCustomButton
+    override lateinit var navController: NavController
 
     private var transactionAdapter: TransactionAdapter? = null
 
@@ -80,7 +84,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         setupShimmer()
 
         setupExpensesIncomeLayout()
-        setupNavigation()
+        setupNextButtonImpl()
         setupToolbar()
         setupDataObservers()
 
@@ -108,7 +112,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         mShimmerViewContainer = requireView().findViewById(R.id.shimmer_container)
         container = requireView().findViewById(R.id.container)
         btn = requireView().findViewById(R.id.btn)
-
+        navController = findNavController()
         limitOverDescription = requireView().findViewById(R.id.tv_limit_over_description)
     }
 
@@ -149,14 +153,12 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
         }
     }
 
-    private fun setupNavigation() {
-        btn.setOnClickListener {
-            val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(
-                true,
-                viewModel.wallet
-            )
-            findNavController().navigate(action)
-        }
+    private fun setupNextButtonImpl() {
+        val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(
+            true,
+            viewModel.wallet
+        )
+        setupNextButton(action = action, context = context)
     }
 
     private fun setupToolbar() {
@@ -380,4 +382,6 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details) {
             CardDetailsFragmentDirections.actionToChangeTransaction(transaction, viewModel.wallet)
         findNavController().navigate(action)
     }
+
+
 }

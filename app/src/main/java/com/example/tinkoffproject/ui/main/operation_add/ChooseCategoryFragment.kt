@@ -3,8 +3,6 @@ package com.example.tinkoffproject.ui.main.operation_add
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,52 +10,34 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffproject.R
 import com.example.tinkoffproject.State
-import com.example.tinkoffproject.ui.main.MainActivity
-import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.NotificationType
+import com.example.tinkoffproject.data.dto.response.CategoryNetwork
+import com.example.tinkoffproject.data.dto.to_view.Category
 import com.example.tinkoffproject.ui.main.adapter.category.CategoryAdapter
-import com.example.tinkoffproject.ui.main.carddetails.ToolbarType
-import com.example.tinkoffproject.ui.main.carddetails.UpdatableToolBar
+import com.example.tinkoffproject.ui.main.base_fragment.edit.EditFragment
 import com.example.tinkoffproject.ui.main.data.CategoryType
 import com.example.tinkoffproject.viewmodel.AddTransactionViewModel
 
-class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
+class ChooseCategoryFragment
+    : EditFragment(R.layout.operation_choose_category, R.string.choose_category) {
     val viewModel: AddTransactionViewModel by activityViewModels()
     private val categoryAdapter: CategoryAdapter by lazy { CategoryAdapter() }
-    private lateinit var btn: NextCustomButton
 
     private val args: ChooseCategoryFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn = requireView().findViewById(R.id.btn)
-
         setupRecyclerView()
-        setupCreateCategory()
+        setupCreateCategoryBtn()
         setupNextButton()
-        setupToolbar()
         setupBtnObserver()
 
-        viewModel.getCategories().observe(viewLifecycleOwner, {
-            when (it) {
-                is State.LoadingState -> {
-                    btn.changeState(NextCustomButton.State.LOADING)
-                }
-                is State.ErrorState -> {
-                    onError(it.exception)
-                }
-                is State.DataState -> {
-                    updateButtonState()
-                    viewModel.categories().value = it.data
+        setupData()
+    }
 
-                    val i = viewModel.categories().value
-                        ?.indexOfFirst { c -> c.id == viewModel.category.value?.id }
-                        ?: -1
-                    if (i >= 0) categoryAdapter.currentSelected = i
-                }
-            }
-        })
+    private fun setupData() {
+        viewModel.getCategories().observe(viewLifecycleOwner, ::onCategoriesUpdate)
+
         val isIncome = viewModel.type.value == CategoryType.INCOME
         if (isIncome) {
             viewModel.selectableCategoriesIncome.observe(viewLifecycleOwner, {
@@ -70,16 +50,28 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
         }
     }
 
-    private fun onError(e: Throwable?) {
-        updateButtonState()
+    private fun onCategoriesUpdate(state: State<List<CategoryNetwork>>) {
+        when (state) {
+            is State.LoadingState -> {
+                onLoading()
+            }
+            is State.ErrorState -> {
+                onInternetError(state.exception)
+            }
+            is State.DataState -> {
+                viewModel.categories().value = state.data
+                updateButtonState()
 
-        val notType =
-            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
-        (requireActivity() as MainActivity).showNotification(notType)
+                val indexSelected = viewModel.categories().value
+                    ?.indexOfFirst { it.id == getValue()?.id }
+                    ?: -1
+                if (indexSelected >= 0) categoryAdapter.currentSelected = indexSelected
+            }
+        }
     }
 
 
-    private fun setupCreateCategory() {
+    private fun setupCreateCategoryBtn() {
         val createTextView: TextView = requireView().findViewById(R.id.tv_create)
         createTextView.setOnClickListener {
             val action = ChooseCategoryFragmentDirections.actionToChooseNewCategoryType(
@@ -90,20 +82,19 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
         }
     }
 
-    private fun setupNextButton() {
-        requireView().findViewById<NextCustomButton>(R.id.btn).setOnClickListener {
-            if (isNextAvailable()) {
-                val action =
-                    if (args.isFromMain) R.id.action_to_newOperation else R.id.action_chooseTransactionCategory_to_newOperation
-                findNavController().navigate(action)
-            } else {
-                Toast.makeText(context, getString(R.string.enter_value), Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
+    override fun setupNextButtonImpl() {
+        val action =
+            if (args.isFromMain) R.id.action_to_newOperation else R.id.action_chooseTransactionCategory_to_newOperation
+
+        setupNextButton(
+            resId = action,
+            context = context
+        )
     }
 
-    private fun isNextAvailable() = viewModel.category.value != null
+    override fun getValue(): Category? = viewModel.category.value
+
+    override fun isNextAvailable() = getValue() != null
 
     private fun setupBtnObserver() {
         viewModel.category.observe(viewLifecycleOwner, {
@@ -111,9 +102,6 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
         })
     }
 
-    private fun updateButtonState() {
-        btn.changeState(if (isNextAvailable()) NextCustomButton.State.DEFAULT else NextCustomButton.State.DISABLED)
-    }
 
     private fun setupRecyclerView() {
         val recycler: RecyclerView = requireView().findViewById(R.id.rv_category)
@@ -131,10 +119,4 @@ class ChooseCategoryFragment : Fragment(R.layout.operation_choose_category) {
             adapter = categoryAdapter
         }
     }
-
-    private fun setupToolbar() {
-        val update: UpdatableToolBar = (activity as MainActivity)
-        update.updateToolbar(getString(R.string.choose_category), ToolbarType.ADD_OPERATION)
-    }
-
 }
