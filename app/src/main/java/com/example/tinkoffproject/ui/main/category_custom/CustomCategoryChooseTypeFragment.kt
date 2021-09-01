@@ -28,7 +28,7 @@ class CustomCategoryChooseTypeFragment
         setupNextButton(
             resId = R.id.action_to_newCategory,
             onSuccess = ::saveData,
-            context = context
+            isDefaultErrorMessage = true
         )
     }
 

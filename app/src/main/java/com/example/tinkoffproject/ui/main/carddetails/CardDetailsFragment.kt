@@ -1,16 +1,11 @@
 package com.example.tinkoffproject.ui.main.carddetails
 
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -23,20 +18,18 @@ import com.example.tinkoffproject.data.dto.to_view.Currency
 import com.example.tinkoffproject.data.dto.to_view.Wallet
 import com.example.tinkoffproject.ui.main.MainActivity
 import com.example.tinkoffproject.ui.main.NextCustomButton
-import com.example.tinkoffproject.ui.main.NotificationType
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionAdapter
 import com.example.tinkoffproject.ui.main.adapter.transaction.TransactionItemDecorator
 import com.example.tinkoffproject.ui.main.base_fragment.WithNextButton
+import com.example.tinkoffproject.ui.main.base_fragment.main.MainFragment
 import com.example.tinkoffproject.ui.main.dialog.ChooseColorDialogFragment
 import com.example.tinkoffproject.ui.main.dialog.ConfirmRemoveDialog
-import com.example.tinkoffproject.utils.SHIMMER_MIN_TIME_MS
-import com.example.tinkoffproject.utils.START_SHIMMER_TIME_ARG
+import com.example.tinkoffproject.utils.formatLimit
 import com.example.tinkoffproject.utils.formatMoney
 import com.example.tinkoffproject.utils.toLocal
 import com.example.tinkoffproject.viewmodel.TransactionListViewModel
-import com.facebook.shimmer.ShimmerFrameLayout
 
-class CardDetailsFragment : Fragment(R.layout.fragment_card_details), WithNextButton {
+class CardDetailsFragment : MainFragment(R.layout.fragment_card_details), WithNextButton {
     val viewModel: TransactionListViewModel by activityViewModels()
 
     private lateinit var walletAmount: TextView
@@ -48,59 +41,27 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details), WithNextBu
     private lateinit var walletLimit: TextView
     private lateinit var limitOverDescription: TextView
 
-    private lateinit var mShimmerViewContainer: ShimmerFrameLayout
-    private lateinit var container: View
-
-    override lateinit var btn: NextCustomButton
-    override lateinit var navController: NavController
-
     private var transactionAdapter: TransactionAdapter? = null
 
     private val confirmDialog: ConfirmRemoveDialog by lazy {
         ConfirmRemoveDialog(R.string.confirm_remove_transaction)
     }
 
-    private var startShimmerTime = 0L
-
     private val args: CardDetailsFragmentArgs by navArgs()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            startShimmerTime = savedInstanceState.getLong(START_SHIMMER_TIME_ARG, 0L)
-        }
-
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putLong(START_SHIMMER_TIME_ARG, startShimmerTime)
-        super.onSaveInstanceState(outState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
-        setupShimmer()
 
         setupExpensesIncomeLayout()
         setupNextButtonImpl()
-        setupToolbar()
         setupDataObservers()
 
-        setupRecyclerView(view)
+        setupRecyclerView()
     }
 
-    private fun setupShimmer() {
-        container.visibility = View.INVISIBLE
-        Handler(Looper.getMainLooper()).postDelayed({
-            container.visibility = View.VISIBLE
-            mShimmerViewContainer.stopShimmer()
-            mShimmerViewContainer.visibility = View.GONE
-        }, 2000)
-    }
-
-    private fun initViews() {
+    override fun initViews() {
         walletAmount = requireView().findViewById(R.id.tv_cash_sum)
         layoutIncome = requireView().findViewById(R.id.income)
         layoutIncomeCash = layoutIncome.findViewById(R.id.tv_cash)
@@ -109,10 +70,6 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details), WithNextBu
         walletName = requireView().findViewById(R.id.tv_cash_name)
         walletLimit = layoutExpenses.findViewById(R.id.tv_cash_limit)
 
-        mShimmerViewContainer = requireView().findViewById(R.id.shimmer_container)
-        container = requireView().findViewById(R.id.container)
-        btn = requireView().findViewById(R.id.btn)
-        navController = findNavController()
         limitOverDescription = requireView().findViewById(R.id.tv_limit_over_description)
     }
 
@@ -153,17 +110,12 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details), WithNextBu
         }
     }
 
-    private fun setupNextButtonImpl() {
+    override fun setupNextButtonImpl() {
         val action = CardDetailsFragmentDirections.actionCardDetailsToAddTransaction(
             true,
             viewModel.wallet
         )
-        setupNextButton(action = action, context = context)
-    }
-
-    private fun setupToolbar() {
-        val updateActivity = activity as MainActivity
-        updateActivity.updateToolbar("")
+        setupNextButton(action = action, isDefaultErrorMessage = true)
     }
 
     private fun updateWalletInfo(wallet: Wallet) {
@@ -189,13 +141,13 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details), WithNextBu
         viewModel.getIncomeExpense(args.wallet.id).observe(viewLifecycleOwner, {
             when (it) {
                 is State.LoadingState -> {
-                    btn.changeState(NextCustomButton.State.LOADING)
+                    onLoading()
                 }
                 is State.ErrorState -> {
-                    onError(it.exception)
+                    onInternetError(it.exception)
                 }
                 is State.DataState -> {
-                    btn.changeState(NextCustomButton.State.DEFAULT)
+                    updateButtonState()
                     layoutIncomeCash.text =
                         formatMoney((it.data.income ?: 0).toInt(), args.wallet.currency.symbol)
                     layoutExpensesCash.text =
@@ -224,90 +176,44 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details), WithNextBu
     }
 
     private fun updateLimitInfo(limit: Int?, isOver: Boolean, currency: Currency) {
-        val colorId: Int
-        val alpha: Float
         val text: String
-        val limitOverDescriptionVisibility: Int
-        val limitVisibility: Int
 
+        val limitStatus: LimitStatus
         if (limit == null) {
-            limitVisibility = View.GONE
-            limitOverDescriptionVisibility = View.GONE
+            limitStatus = LimitStatus.HIDE
             text = ""
-            colorId = R.color.white
-            alpha = 1f
         } else {
-            limitVisibility = View.VISIBLE
-            text = " / ${formatMoney(limit, currency.symbol)}"
-            if (isOver) {
-                limitOverDescriptionVisibility = View.VISIBLE
-                colorId = R.color.red_main
-                alpha = 1f
-            } else {
-                limitOverDescriptionVisibility = View.GONE
-                colorId = R.color.white
-                alpha = 0.6f
-            }
+            text = formatLimit(limit, currency.symbol)
+            limitStatus = if (isOver) LimitStatus.OVER else LimitStatus.NORMAL
         }
 
-        limitOverDescription.visibility = limitOverDescriptionVisibility
-        walletLimit.visibility = limitVisibility
-        walletLimit.alpha = alpha
+        limitOverDescription.visibility = limitStatus.descriptionVisibility
+        walletLimit.visibility = limitStatus.visibility
+        walletLimit.alpha = limitStatus.alpha
         walletLimit.text = text
-        walletLimit.setTextColor(ContextCompat.getColor(walletLimit.context, colorId))
+        walletLimit.setTextColor(ContextCompat.getColor(walletLimit.context, limitStatus.color))
     }
 
     private fun updateTransaction(state: State<List<TransactionNetwork>>) {
         when (state) {
             is State.LoadingState -> {
-                btn.changeState(NextCustomButton.State.LOADING)
+                onShimmerLoading()
             }
-            is State.ErrorState -> onError(state.exception)
+            is State.ErrorState -> onInternetError(state.exception, true)
             is State.DataState -> {
+                stopShimmerLoading()
                 transactionAdapter?.setData(state.data.map { it.toLocal() })
             }
         }
     }
 
-    private fun onLoading() {
-        startShimmerTime = System.currentTimeMillis()
-        container.visibility = View.INVISIBLE
-        mShimmerViewContainer.startShimmer()
-        mShimmerViewContainer.visibility = View.VISIBLE
-    }
-
-    private fun stopLoading() {
-        val differ = System.currentTimeMillis() - startShimmerTime
-        val doAfter =
-            if (differ > SHIMMER_MIN_TIME_MS) 0 else SHIMMER_MIN_TIME_MS - differ
-        object : CountDownTimer(doAfter, doAfter) {
-            override fun onFinish() {
-                container.visibility = View.VISIBLE
-                mShimmerViewContainer.stopShimmer()
-                mShimmerViewContainer.visibility = View.GONE
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-            }
-        }.start()
-    }
-
-    private fun onError(e: Throwable?) {
-        btn.changeState(NextCustomButton.State.DEFAULT)
-
-        val notType =
-            if (e is IllegalAccessError) NotificationType.INTERNET_PROBLEM_ERROR else NotificationType.UNKNOWN_ERROR
-        (requireActivity() as MainActivity).showNotification(notType)
-    }
-
-
-    private fun setupRecyclerView(view: View) {
+    private fun setupRecyclerView() {
         transactionAdapter = TransactionAdapter(::onTransactionClick)
 
         transactionAdapter.apply {
             //setHasStableIds(true)
         }
-        val recycler: RecyclerView = view.findViewById(R.id.rcv_transaction)
+        val recycler: RecyclerView = requireView().findViewById(R.id.rcv_transaction)
 
         val offsetNormal = resources.getDimension(R.dimen.view_dimen_normal).toInt()
         val decorator = TransactionItemDecorator(offsetNormal)
@@ -357,7 +263,7 @@ class CardDetailsFragment : Fragment(R.layout.fragment_card_details), WithNextBu
                                         btn.changeState(NextCustomButton.State.LOADING)
                                     }
                                     is State.ErrorState -> {
-                                        onError(it.exception)
+                                        onInternetError(it.exception)
                                     }
                                     is State.DataState -> {
                                         btn.changeState(NextCustomButton.State.LOADING)

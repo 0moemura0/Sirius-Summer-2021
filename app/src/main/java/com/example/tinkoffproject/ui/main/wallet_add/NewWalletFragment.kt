@@ -64,7 +64,7 @@ class NewWalletFragment :
 
     override fun setupNextButtonImpl() {
         setupNextButton(
-            context = context,
+            isDefaultErrorMessage = true,
             onSuccess = {
                 if (viewModel.isChangeCase) {
                     viewModel.editWallet().observe(viewLifecycleOwner, ::onUpdate)

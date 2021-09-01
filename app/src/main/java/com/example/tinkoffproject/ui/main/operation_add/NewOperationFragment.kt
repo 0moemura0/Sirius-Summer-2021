@@ -92,7 +92,7 @@ class NewOperationFragment : BaseFragment(
 
     override fun setupNextButtonImpl() {
         setupNextButton(
-            context = context,
+            isDefaultErrorMessage = true,
             onSuccess = {
                 val transaction = viewModel.transaction
                 if (!viewModel.isChange) {

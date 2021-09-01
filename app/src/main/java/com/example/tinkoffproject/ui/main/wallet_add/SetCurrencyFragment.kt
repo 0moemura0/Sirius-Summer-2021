@@ -44,7 +44,7 @@ class SetCurrencyFragment :
 
     override fun setupNextButtonImpl() {
         setupNextButton(
-            context = context,
+            isDefaultErrorMessage = true,
             resId = R.id.action_to_newWallet
         )
     }

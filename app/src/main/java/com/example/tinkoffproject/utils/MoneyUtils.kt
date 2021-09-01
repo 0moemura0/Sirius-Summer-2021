@@ -2,12 +2,18 @@ package com.example.tinkoffproject.utils
 
 import android.text.Editable
 import android.widget.EditText
+import java.text.DecimalFormat
 
 fun formatMoney(amount: Int, symbol: String): String {
     return "${formatMoney(amount)} $symbol"
 }
 
-private const val SPACE = ' '
+fun formatLimit(limit: Int, symbol: String) = " / ${formatMoney(limit, symbol)}"
+
+val currencyFormat = DecimalFormat("#.##")
+fun formatCurrency(rate: Double) = currencyFormat.format(rate)
+
+    private const val SPACE = ' '
 fun formatMoney(amount: Int): String {
     val putSpaceEveryNSymbols = 3
     val builder = StringBuilder()

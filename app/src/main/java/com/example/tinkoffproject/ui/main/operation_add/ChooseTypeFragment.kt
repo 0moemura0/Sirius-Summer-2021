@@ -30,7 +30,7 @@ class ChooseTypeFragment : EditTypeFragment(R.layout.operation_choose_type) {
             if (args.isFromMain) R.id.action_to_newOperation else R.id.action_chooseType_to_chooseCategory
         setupNextButton(
             resId = action,
-            context = context,
+            isDefaultErrorMessage = true,
             onSuccess = ::saveData
         )
     }

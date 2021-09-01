@@ -88,7 +88,7 @@ class ChooseCategoryFragment
 
         setupNextButton(
             resId = action,
-            context = context
+            isDefaultErrorMessage = true
         )
     }
 

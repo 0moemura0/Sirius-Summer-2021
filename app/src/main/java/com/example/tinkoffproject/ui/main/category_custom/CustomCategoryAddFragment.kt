@@ -169,7 +169,7 @@ class CustomCategoryAddFragment : BaseFragment(R.layout.fragment_categoty_add, R
 
     override fun setupNextButtonImpl() {
         setupNextButton(
-            context = context,
+            isDefaultErrorMessage = true,
             onSuccess = {
                 viewModel.addCategory().observe(viewLifecycleOwner, {
                     when (it) {
