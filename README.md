@@ -4,6 +4,7 @@
 - Room
 - JavaRX
 - Jetpack Navigation
+- Hilt
 
 ### Example
 https://user-images.githubusercontent.com/48965524/132022328-b3df595f-d81c-4c3a-8abb-4e432e338fd7.mp4
