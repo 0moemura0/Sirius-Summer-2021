@@ -1,7 +1,7 @@
 # Sirius-Summer-2021
 - Clean Architecture
 - MVVM
-- Room
+- Room, Retrofit
 - JavaRX
 - Jetpack Navigation
 - Hilt
